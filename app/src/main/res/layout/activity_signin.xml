@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="545dp"
+        android:layout_height="802dp"
+        android:contentDescription="@string/bg_portrait"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bg_portrait"
+        tools:layout_editor_absoluteX="-65dp" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="338dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="@+id/login_button_password"
+        app:layout_constraintTop_toBottomOf="@+id/login_button_password" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/login_button_google"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="44dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintStart_toStartOf="@+id/login_button_facebook"
+        app:layout_constraintTop_toBottomOf="@+id/login_button_facebook" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button_twitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="@+id/login_button_google"
+        app:layout_constraintTop_toBottomOf="@+id/login_button_google" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
