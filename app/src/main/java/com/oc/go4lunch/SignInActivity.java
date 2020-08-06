@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
+import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -69,14 +70,14 @@ public class SignInActivity extends AppCompatActivity /*implements View.OnClickL
                 new AuthUI.IdpConfig.TwitterBuilder().build());
 
 
-//            AuthMethodPickerLayout customLayout = new AuthMethodPickerLayout
-//                    .Builder(R.layout.activity_signin)
-//                    .setFacebookButtonId(R.id.login_button_facebook)
-//                    .setEmailButtonId(R.id.password)
-//                    .setTwitterButtonId(R.id.login_button_twitter)
-//                    .setGoogleButtonId(R.id.login_button_google)
-//                    //.setTosAndPrivacyPolicyId(R.id.baz)
-//                    .build();
+            AuthMethodPickerLayout customLayout = new AuthMethodPickerLayout
+                    .Builder(R.layout.activity_signin)
+                    .setFacebookButtonId(R.id.login_button_facebook)
+                    .setEmailButtonId(R.id.password)
+                    .setTwitterButtonId(R.id.login_button_twitter)
+                    .setGoogleButtonId(R.id.login_button_google)
+                    //.setTosAndPrivacyPolicyId(R.id.baz)
+                    .build();
 
 
         // Create and launch sign-in intent
@@ -87,7 +88,7 @@ public class SignInActivity extends AppCompatActivity /*implements View.OnClickL
                         .setLogo(R.drawable.logo_g4l)
                         .setAlwaysShowSignInMethodScreen(true)
                         .setTheme(R.style.AppTheme_SignIn)
-//                            .setAuthMethodPickerLayout(customLayout)
+                            .setAuthMethodPickerLayout(customLayout)
                         .build(),
                 RC_SIGN_IN);
     }
