@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+
+<!-- The background image for Splash Screen -->
+    <item android:drawable="@drawable/bg_portrait"/>
+
+<!-- App logo -->
+<item>
+    <bitmap
+        android:src="@drawable/logo_g4l"
+        android:gravity="center">
+    </bitmap>
+</item>
+
+</layer-list>
