@@ -86,7 +86,7 @@
             android:textColor="@color/tw__solid_white"
             android:textSize="70sp"
             android:textStyle="bold"
-            android:shadowColor="@color/black"
+            android:shadowColor="@color/colorTextShadow"
             android:shadowRadius="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -103,7 +103,7 @@
             android:textColor="@color/tw__solid_white"
             android:textSize="12sp"
             android:textStyle="bold|italic"
-            android:shadowColor="@color/black"
+            android:shadowColor="@color/colorTextShadow"
             android:shadowRadius="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

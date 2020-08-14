@@ -19,4 +19,9 @@
     <string name="logoTextDescription">Logo</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="your_lunch">YOUR LUNCH</string>
+    <string name="settings">SETTINGS</string>
+    <string name="logout">LOGOUT</string>
+    <string name="account_name">Account_Name</string>
+    <string name="account_mail">Account Mail</string>
 </resources>
