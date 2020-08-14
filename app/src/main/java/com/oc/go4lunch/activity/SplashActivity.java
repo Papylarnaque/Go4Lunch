@@ -60,7 +60,7 @@ public class SplashActivity extends BaseActivity {
         protected void onPostExecute(Object result) {
             Intent intent;
 
-            if (!isCurrentUserLogged()) {
+            if (isCurrentUserLogged()) {
                 intent = new Intent(SplashActivity.this, MainActivity.class);
             } else {
                 intent = new Intent(SplashActivity.this, SignInActivity.class);
