@@ -24,4 +24,5 @@
     <string name="logout">LOGOUT</string>
     <string name="account_name">Account_Name</string>
     <string name="account_mail">Account Mail</string>
+    <string name="gmaps_app_id">223977236fd33b3d</string>
 </resources>

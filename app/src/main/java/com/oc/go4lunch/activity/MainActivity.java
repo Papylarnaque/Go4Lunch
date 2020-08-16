@@ -1,5 +1,6 @@
 package com.oc.go4lunch.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -9,10 +10,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.oc.go4lunch.R;
+import com.oc.go4lunch.activity.auth.SignInActivity;
+import com.oc.go4lunch.activity.fragment.MapFragment;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,9 +44,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.navigation_mapview:
                         mToolbar.setTitle(R.string.title_mapview);
+                        fragment = new MapFragment();
+                        loadFragment(fragment);
                         break;
                     case R.id.navigation_listview:
                         mToolbar.setTitle(R.string.title_listview);
@@ -73,6 +82,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return true;
             // "LOGOUT"
             case R.id.activity_main_drawer_logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 break;
@@ -110,5 +122,35 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
+
+    /**
+     * This methods loads the specified fragment
+     * @param fragment is the fragment to load
+     */
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    // Request localisation
+
+//    private void getLocationPermission() {
+//        /*
+//         * Request location permission, so that we can get the location of the
+//         * device. The result of the permission request is handled by a callback,
+//         * onRequestPermissionsResult.
+//         */
+//        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+//                android.Manifest.permission.ACCESS_FINE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            mLocationPermissionGranted = true;
+//        } else {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+//                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+//        }
+//    }
 
 }

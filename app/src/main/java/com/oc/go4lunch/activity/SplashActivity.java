@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.oc.go4lunch.R;
+import com.oc.go4lunch.activity.auth.SignInActivity;
 
 public class SplashActivity extends BaseActivity {
 
@@ -24,7 +26,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setTheme(R.style.AppTheme_Splash);
+        setTheme(R.style.AppTheme_Splash);
         super.onCreate(savedInstanceState);
         new BackgroundSplashTask().execute();
 
