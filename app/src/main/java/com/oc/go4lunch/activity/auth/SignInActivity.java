@@ -37,9 +37,9 @@ import com.oc.go4lunch.activity.MainActivity;
 
 public class SignInActivity extends BaseActivity {
 
-
-    //FOR DATA
-    // 1 - Identifier for Sign-In Activity
+    // --------------------
+    // FOR DATA
+    // --------------------
     private static final int RC_SIGN_IN = 123;
     private String TAG = "SIGN";
     private FirebaseAuth mAuth;
@@ -48,7 +48,6 @@ public class SignInActivity extends BaseActivity {
     OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
 
     // TODO : Fix Token issues for login
-
 
     /**
      * onCreate
@@ -66,12 +65,13 @@ public class SignInActivity extends BaseActivity {
 
         mCallbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = findViewById(R.id.login_button_facebook);
-        loginButton.setPermissions("email", "public_profile"); //, "user_photos"
+        loginButton.setPermissions("email", "public_profile", "user_photos");
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         Log.d(TAG, "facebook:onSuccess:" + loginResult);
                         handleFacebookAccessToken(loginResult.getAccessToken());
+                        //loginResult OK wen debugging
                     }
 
                     @Override
@@ -87,15 +87,6 @@ public class SignInActivity extends BaseActivity {
                     }
                 }
         );
-
-
-//        FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                authLogin();
-//            }
-//        };
-
 
         LoginManager.getInstance().retrieveLoginStatus(this, new LoginStatusCallback() {
             @Override
@@ -140,6 +131,16 @@ public class SignInActivity extends BaseActivity {
 
     }
 
+    FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            authLogin();
+        }
+    };
+
+    // --------------------
+    // TWITTER SIGN IN
+    // --------------------
     private void twitterSignIn() {
         mAuth
                 .startActivityForSignInWithProvider(/* activity= */ this, provider.build())
@@ -199,7 +200,6 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
-
     // --------------------
     // ACTIONS
     // --------------------
@@ -226,16 +226,19 @@ public class SignInActivity extends BaseActivity {
 
     // 2 - Launch Sign-In Activity
 
-
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        getCurrentUser();
-        authLogin();
-
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
 
     // --------------------
     // ACTIVITY RESULT
@@ -246,8 +249,11 @@ public class SignInActivity extends BaseActivity {
 
         // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        authLogin();
+//        authLogin();
 
+        // --------------------
+        // GOOGLE AUTH
+        // --------------------
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -279,21 +285,20 @@ public class SignInActivity extends BaseActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = getCurrentUser();
 //                            updateUI(user);
-                            authLogin();
+//                            authLogin();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 //                            updateUI(null);
-                            authLogin();
+//                            authLogin();
                         }
 
                         // ...
                     }
                 });
     }
-
 
     // --------------------
     // GOOGLE AUTH
@@ -322,10 +327,6 @@ public class SignInActivity extends BaseActivity {
                 });
     }
 
-
-
-
-
 //    private void updateUI(FirebaseUser user) {
 //        if (user != null) {
 //            Toast.makeText(SignInActivity.this, "User ID: " + user.getUid(),
@@ -343,8 +344,8 @@ public class SignInActivity extends BaseActivity {
             startActivity(intent);
         }
         // TEST
-        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//        startActivity(intent);
     }
 
 

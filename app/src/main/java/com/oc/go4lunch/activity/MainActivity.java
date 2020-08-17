@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.oc.go4lunch.R;
 import com.oc.go4lunch.activity.auth.SignInActivity;
 import com.oc.go4lunch.activity.fragment.MapFragment;
@@ -26,21 +25,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        showFragment(new MapFragment());
         configureToolbar();
         configureDrawerLayout();
         configureNavigationMenu();
+
+        getCurrentUser();
     }
 
     /**
      * This method configures the bottom navigation bar
      */
     void configureNavigationMenu() {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navbar);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navbar);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -49,7 +51,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     case R.id.navigation_mapview:
                         mToolbar.setTitle(R.string.title_mapview);
                         fragment = new MapFragment();
-                        loadFragment(fragment);
+                        showFragment(fragment);
                         break;
                     case R.id.navigation_listview:
                         mToolbar.setTitle(R.string.title_listview);
@@ -82,9 +84,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return true;
             // "LOGOUT"
             case R.id.activity_main_drawer_logout:
-                FirebaseAuth.getInstance().signOut();
+                UserManagementActivity mUserManagementActivity = new UserManagementActivity();
+                mUserManagementActivity.signOutUserFromFirebase();
+//                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.activity_main_drawer_logo:
+                // test something like secret options ?
+                setTheme(R.style.ThemeOverlay_AppCompat_Dark);
                 return true;
             default:
                 break;
@@ -92,6 +100,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     /**
      * This method overrides the onBackPressed method to change the behavior of the Back button
@@ -127,7 +137,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * This methods loads the specified fragment
      * @param fragment is the fragment to load
      */
-    private void loadFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.addToBackStack(null);
@@ -152,5 +162,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 //        }
 //    }
+
+
+
+
+
 
 }

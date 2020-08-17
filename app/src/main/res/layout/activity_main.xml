@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
     tools:context=".activity.MainActivity"
-    >
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"/>
-
-
+        <include layout="@layout/toolbar" />
 
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toTopOf="@id/navbar"
-            >
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager"
@@ -39,26 +34,26 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/activity_main_nav_view"
+        android:id="@+id/activity_main_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         android:background="@color/colorPrimary"
-        app:itemTextColor="@color/colorText"
-        app:itemIconTint="@color/colorText"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/activity_principal_nav_drawer"
-        app:menu="@menu/nav_drawer" >
+        app:itemIconTint="@color/colorText"
+        app:itemTextColor="@color/colorText"
+        app:menu="@menu/nav_drawer">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id='@+id/activity_main_drawer_logo'
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo_g4l"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/logo_g4l" />
 
     </com.google.android.material.navigation.NavigationView>
-
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
