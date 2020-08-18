@@ -7,26 +7,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class UserManagementActivity extends BaseActivity {
 
-
-    //FOR DATA
-    // 2 - Identify each Http Request
+    //FOR DATA - Identify each Http Request
     private static final int SIGN_OUT_TASK = 10;
     private static final int DELETE_USER_TASK = 20;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-
     // --------------------
     // REST REQUESTS
     // --------------------
 
     // Create http requests (SignOut & Delete)
-
     public void signOutUserFromFirebase(){
         AuthUI.getInstance()
                 .signOut(this)
@@ -40,7 +34,6 @@ public class UserManagementActivity extends BaseActivity {
                     .addOnSuccessListener(this, this.updateUIAfterRESTRequestsCompleted(DELETE_USER_TASK));
         }
     }
-
 
     // --------------------
     // UI

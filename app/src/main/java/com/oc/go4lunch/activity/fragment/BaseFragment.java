@@ -18,9 +18,7 @@ import java.util.List;
 
 public abstract class BaseFragment extends Fragment {
 
-    abstract void displayPlacesIdList();
-    abstract void getStandardDisplay();
-//    abstract void displayPlace(Restaurant restaurant);
+    //    abstract void displayPlace(Restaurant restaurant);
 
     private static final String TAG = "BaseFragment - ";
 

@@ -22,7 +22,7 @@ public class SplashActivity extends BaseActivity {
     private static final String TAG = "SPLASH";
 
     private FirebaseUser currentUser;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +51,6 @@ public class SplashActivity extends BaseActivity {
 
             return null;
 
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override

@@ -5,14 +5,14 @@
     <string name="title_workmates">Workmates</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
-    <string name="facebook_application_id" translatable="false">987476838383860</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb987476838383860</string>
     <string name="facebook_app_id">987476838383860</string>
     <string name="fb_login_protocol_scheme">fb987476838383860</string>
 
     <!-- Twitter consumer key and secret -->
-    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>
-    <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>
+    <string name="twitter_consumer_key" translatable="false">LNdtUDzlobzjM9VwXT2Bxv3xD</string>
+    <string name="twitter_consumer_secret" translatable="false">nIGAEjdNkkbuM6o3pGrGHOXOtEernbSgXKvHuWyGjI0VSFsRWF</string>
+
+
     <string name="bg_portrait">Background_image</string>
     <string name="appName">Go4Lunch</string>
     <string name="appSentence">Find a nice restaurant and invite your co-workers for lunch!</string>
@@ -27,4 +27,5 @@
     <string name="gmaps_app_id">223977236fd33b3d</string>
     <string name="info_no_email_found">info_no_email_found</string>
     <string name="info_no_username_found">info_no_username_found</string>
+    <string name="twitter">twitter.com</string>
 </resources>

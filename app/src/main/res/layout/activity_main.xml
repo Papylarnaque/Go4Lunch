@@ -9,11 +9,13 @@
     tools:context=".activity.MainActivity"
     tools:openDrawer="start">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/toolbar" />
+
 
         <FrameLayout
             android:id="@+id/container"
@@ -52,8 +54,8 @@
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="20dp"
             android:src="@drawable/logo_g4l" />
-
     </com.google.android.material.navigation.NavigationView>
+
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

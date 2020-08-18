@@ -67,6 +67,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
     /**
+     * This method configures the drawer layout needed for the drawer menu
+     */
+    private void configureDrawerLayout() {
+        mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        //Use Navigation Callback listener as follows
+        NavigationView navigationView = (NavigationView) findViewById(R.id.activity_main_drawer);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+//        // Passing each menu ID as a set of Ids because each
+//        // menu should be considered as top level destinations.
+//        mAppBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.activity_main_drawer_lunch, R.id.activity_main_drawer_settings, R.id.activity_main_drawer_logout)
+//                .setOpenableLayout(mDrawerLayout)
+//                .build();
+
+    }
+
+    /**
      * This method manages the action when an item from the navigation drawer menu is clicked
      *
      * @param item is the item clicked
@@ -74,6 +98,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
         switch (id) {
             // "YOUR LUNCH"
@@ -84,11 +109,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return true;
             // "LOGOUT"
             case R.id.activity_main_drawer_logout:
+
                 UserManagementActivity mUserManagementActivity = new UserManagementActivity();
                 mUserManagementActivity.signOutUserFromFirebase();
 //                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                 startActivity(intent);
+
+
                 return true;
             case R.id.activity_main_drawer_logo:
                 // test something like secret options ?
@@ -100,7 +128,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
     /**
@@ -122,19 +149,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setSupportActionBar(mToolbar);
     }
 
-    /**
-     * This method configures the drawer layout needed for the drawer menu
-     */
-    private void configureDrawerLayout() {
-        mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }
 
     /**
      * This methods loads the specified fragment
+     *
      * @param fragment is the fragment to load
      */
     private void showFragment(Fragment fragment) {
@@ -143,6 +161,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
     // Request localisation
 
@@ -162,10 +181,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 //        }
 //    }
-
-
-
-
 
 
 }

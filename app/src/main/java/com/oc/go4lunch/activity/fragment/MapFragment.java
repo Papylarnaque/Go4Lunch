@@ -30,7 +30,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private static final String TAG = "Map Fragment";
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
-    private boolean mLocationPermissionGranted;
 
 
     // TODO : Add location of the user
@@ -44,16 +43,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     public static MapFragment newInstance() {
         return new MapFragment();
-    }
-
-    @Override
-    void displayPlacesIdList() {
-
-    }
-
-    @Override
-    void getStandardDisplay() {
-
     }
 
     @Override
@@ -81,11 +70,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     /**
@@ -126,7 +110,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
                 ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
+            boolean mLocationPermissionGranted = true;
             mMap.setMyLocationEnabled(true);
         } else {
             ActivityCompat.requestPermissions(getActivity(),

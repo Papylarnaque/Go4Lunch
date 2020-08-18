@@ -35,18 +35,6 @@
 
 
 
-
-<!--        <activity-->
-<!--            android:name=".activity.auth.SignInActivity2"-->
-<!--            android:label="@string/app_name"-->
-<!--            android:theme="@style/AppTheme_SignIn">-->
-<!--            &lt;!&ndash;                     android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"   &ndash;&gt;-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--&lt;!&ndash;                <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-        <!--            android:name=".MainActivity-->
         <activity
         android:name=".activity.MainActivity"
             android:label="@string/app_name"
