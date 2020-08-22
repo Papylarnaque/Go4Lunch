@@ -1,7 +1,6 @@
 package com.oc.go4lunch.activity.auth;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -95,9 +94,9 @@ public class SignInActivity extends BaseActivity {
             }
         });
 
-//        getTwitterPendingAuthResult();
-//
-//        twitterSignIn();
+        getTwitterPendingAuthResult();
+
+        twitterSignIn();
 
 
         mCallbackManager = CallbackManager.Factory.create();
@@ -149,23 +148,25 @@ public class SignInActivity extends BaseActivity {
 
         });
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+//            // Name, email address, and profile photo Url
+//            String name = user.getDisplayName();
+//            String email = user.getEmail();
+//            Uri photoUrl = user.getPhotoUrl();
+//
+//            // Check if user's email is verified
+//            boolean emailVerified = user.isEmailVerified();
+//
+//            // The user's ID, unique to the Firebase project. Do NOT use this value to
+//            // authenticate with your backend server, if you have one. Use
+//            // FirebaseUser.getIdToken() instead.
+//            String uid = user.getUid();
+//        }
 
-            // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
+//region Facebooklogin
 
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
-        }
-
-
+        //endregion
 
 
     }
@@ -189,7 +190,7 @@ public class SignInActivity extends BaseActivity {
                             public void onSuccess(AuthResult authResult) {
                                 // User is signed in.
                                 // IdP data available in
-                                 Objects.requireNonNull(authResult.getAdditionalUserInfo()).getProfile();
+                                Objects.requireNonNull(authResult.getAdditionalUserInfo()).getProfile();
                                 // The OAuth access token can also be retrieved:
                                 // authResult.getCredential().getAccessToken();
                                 // The OAuth secret can be retrieved by calling:
@@ -203,7 +204,7 @@ public class SignInActivity extends BaseActivity {
                                 // Handle failure.
                             }
                         });
-    }
+    }/**/
 
     // --------------------
     // TWITTER AUTH
@@ -267,13 +268,9 @@ public class SignInActivity extends BaseActivity {
     }
 
 
-
-
     // --------------------
     // ACTIONS
     // --------------------
-
-
 
 
     // --------------------
@@ -295,8 +292,6 @@ public class SignInActivity extends BaseActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
-
 
 
     // --------------------
@@ -367,7 +362,7 @@ public class SignInActivity extends BaseActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = getCurrentUser();
 //                            updateUI(user);
-//                            authLogin();
+                            authLogin();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

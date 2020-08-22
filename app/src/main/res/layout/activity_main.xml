@@ -14,7 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar" />
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <!--        <fragment-->
+        <!--            android:id="@+id/autocomplete_fragment"-->
+        <!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/container" />-->
 
 
         <FrameLayout
@@ -23,15 +32,17 @@
             android:layout_height="0dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toTopOf="@id/navbar"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </FrameLayout>
 
-        <include layout="@layout/navbar" />
+
+        <include
+            android:id="@+id/navbar"
+            layout="@layout/navbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

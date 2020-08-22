@@ -21,24 +21,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/BaseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/BaseActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/UserManagementActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/UserManagementActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/UserManagementActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/UserManagementActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/BaseFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/BaseFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +115,7 @@
     <property name="DEBUGGABLE_PROCESS" value="com.oc.go4lunch" />
     <property name="DEBUGGER_ID" value="Auto" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-18T20:26:47.547Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-21T19:00:00.328Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
@@ -281,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597704654063</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="logout implementation + twitter login">
+      <created>1597791803664</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1597791803664</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -291,7 +294,8 @@
     <MESSAGE value="fix SignInActivity currentUser checks" />
     <MESSAGE value="googleMap implementation" />
     <MESSAGE value="fixed Facebook login" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed Facebook login" />
+    <MESSAGE value="logout implementation + twitter login" />
+    <option name="LAST_COMMIT_MESSAGE" value="logout implementation + twitter login" />
   </component>
   <component name="WindowStateProjectService">
     <state x="17" y="192" key="#PSD" timestamp="1597695254995">
@@ -334,10 +338,10 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="424" y="279" key="AndroidProcessChooserDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1597703980016" />
-    <state x="259" y="104" width="1014" height="851" key="CommitChangelistDialog2" timestamp="1597704652498">
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2" timestamp="1597791801989">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="259" y="104" width="1014" height="851" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1597704652498" />
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1597791801989" />
     <state x="92" y="92" width="1496" height="836" key="DiffContextDialog" timestamp="1597701184132">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -346,46 +350,46 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="267" y="244" width="638" height="490" key="FileChooserDialogImpl/0.0.1680.1020@0.0.1680.1020" timestamp="1597556479700" />
-    <state width="1637" height="1" key="GridCell.Tab.0.bottom" timestamp="1597790918109">
+    <state width="1133" height="191" key="GridCell.Tab.0.bottom" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="1" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1597790918109" />
-    <state width="1637" height="1" key="GridCell.Tab.0.center" timestamp="1597790918109">
+    <state width="1133" height="191" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
+    <state width="1133" height="191" key="GridCell.Tab.0.center" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="1" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1597790918109" />
-    <state width="1637" height="1" key="GridCell.Tab.0.left" timestamp="1597790918109">
+    <state width="1133" height="191" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
+    <state width="1133" height="191" key="GridCell.Tab.0.left" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="1" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1597790918109" />
-    <state width="1637" height="1" key="GridCell.Tab.0.right" timestamp="1597790918109">
+    <state width="1133" height="191" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
+    <state width="1133" height="191" key="GridCell.Tab.0.right" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="1" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1597790918109" />
-    <state width="1637" height="163" key="GridCell.Tab.1.bottom" timestamp="1597788151181">
+    <state width="1133" height="191" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
+    <state width="1133" height="191" key="GridCell.Tab.1.bottom" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="163" key="GridCell.Tab.1.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1597788151181" />
-    <state width="1637" height="163" key="GridCell.Tab.1.center" timestamp="1597788151181">
+    <state width="1133" height="191" key="GridCell.Tab.1.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
+    <state width="1133" height="191" key="GridCell.Tab.1.center" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="163" key="GridCell.Tab.1.center/0.0.1680.1020@0.0.1680.1020" timestamp="1597788151181" />
-    <state width="1637" height="163" key="GridCell.Tab.1.left" timestamp="1597788151181">
+    <state width="1133" height="191" key="GridCell.Tab.1.center/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
+    <state width="1133" height="191" key="GridCell.Tab.1.left" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="163" key="GridCell.Tab.1.left/0.0.1680.1020@0.0.1680.1020" timestamp="1597788151181" />
-    <state width="1637" height="163" key="GridCell.Tab.1.right" timestamp="1597788151181">
+    <state width="1133" height="191" key="GridCell.Tab.1.left/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
+    <state width="1133" height="191" key="GridCell.Tab.1.right" timestamp="1598082624263">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="163" key="GridCell.Tab.1.right/0.0.1680.1020@0.0.1680.1020" timestamp="1597788151181" />
+    <state width="1133" height="191" key="GridCell.Tab.1.right/0.0.1680.1020@0.0.1680.1020" timestamp="1598082624263" />
     <state x="341" y="152" key="SettingsEditor" timestamp="1597605146145">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="341" y="152" key="SettingsEditor/0.0.1680.1020@0.0.1680.1020" timestamp="1597605146145" />
-    <state x="432" y="243" key="Vcs.Push.Dialog.v2" timestamp="1597704657349">
+    <state x="432" y="243" key="Vcs.Push.Dialog.v2" timestamp="1597791805987">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="432" y="243" key="Vcs.Push.Dialog.v2/0.0.1680.1020@0.0.1680.1020" timestamp="1597704657349" />
+    <state x="432" y="243" key="Vcs.Push.Dialog.v2/0.0.1680.1020@0.0.1680.1020" timestamp="1597791805987" />
     <state width="848" height="518" key="XDebugger.FullValuePopup" timestamp="1597696818218">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -442,16 +446,6 @@
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/UserManagementActivity.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
-          <line>423</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java</url>
           <line>59</line>
           <option name="timeStamp" value="33" />
@@ -461,12 +455,28 @@
           <line>61</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
+          <line>151</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
+          <line>364</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
         <watch expression="getCurrentUser()" />
         <watch expression="task" />
+        <watch expression="isCurrentUserLogged" language="JAVA" />
       </configuration>
       <configuration name="Remote">
         <watch expression="credential" />

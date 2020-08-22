@@ -13,8 +13,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.oc.go4lunch.R;
 import com.oc.go4lunch.activity.auth.SignInActivity;
 import com.oc.go4lunch.activity.fragment.MapFragment;
@@ -65,7 +67,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
     }
 
-
     /**
      * This method configures the drawer layout needed for the drawer menu
      */
@@ -110,13 +111,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // "LOGOUT"
             case R.id.activity_main_drawer_logout:
 
-                UserManagementActivity mUserManagementActivity = new UserManagementActivity();
-                mUserManagementActivity.signOutUserFromFirebase();
-//                FirebaseAuth.getInstance().signOut();
+//                UserManagementActivity mUserManagementActivity = new UserManagementActivity();
+//                mUserManagementActivity.signOutUserFromFirebase();
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                 startActivity(intent);
-
-
+                
                 return true;
             case R.id.activity_main_drawer_logo:
                 // test something like secret options ?
@@ -140,7 +141,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-
     /**
      * This method configures the toolbar
      */
@@ -163,8 +163,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-    // Request localisation
-
+//    // Request localisation
 //    private void getLocationPermission() {
 //        /*
 //         * Request location permission, so that we can get the location of the
@@ -182,5 +181,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        }
 //    }
 
+
+//    // Initialize the AutocompleteSupportFragment.
+//    AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+//            getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//
+//    // Specify the types of place data to return.
+//    autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+//
+//    // Set up a PlaceSelectionListener to handle the response.
+//    autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//        @Override
+//        public void onPlaceSelected(@NotNull Place place) {
+//            // TODO: Get info about the selected place.
+//            Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+//        }
+//
+//
+//        @Override
+//        public void onError(@NotNull Status status) {
+//            // TODO: Handle the error.
+//            Log.i(TAG, "An error occurred: " + status);
+//        }
+//    });
 
 }
