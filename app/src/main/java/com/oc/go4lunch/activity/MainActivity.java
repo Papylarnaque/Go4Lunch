@@ -57,6 +57,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         break;
                     case R.id.navigation_listview:
                         mToolbar.setTitle(R.string.title_listview);
+//                        fragment = new RestaurantFragment();
+//                        showFragment(fragment);
                         break;
                     case R.id.navigation_workmates:
                         mToolbar.setTitle(R.string.title_workmates);
@@ -78,7 +80,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toggle.syncState();
 
         //Use Navigation Callback listener as follows
-        NavigationView navigationView = (NavigationView) findViewById(R.id.activity_main_drawer);
+        NavigationView navigationView = findViewById(R.id.activity_main_drawer);
         navigationView.setNavigationItemSelectedListener(this);
 
 

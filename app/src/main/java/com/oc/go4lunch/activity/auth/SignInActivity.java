@@ -59,7 +59,7 @@ public class SignInActivity extends BaseActivity {
     private GoogleSignInApi mGoogleSignInClient;
     OAuthProvider.Builder provider = OAuthProvider.newBuilder(String.valueOf(R.string.twitter));
 
-    // TODO : Fix Token issues for login
+    // TODO : Fix Token issues for login - Facebook keeps the auth when Firebase is logged out ?
     // TODO : Link account if trying to log with other provider
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class SignInActivity extends BaseActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        TwitterLoginButton mLoginButton = (TwitterLoginButton) findViewById(R.id.login_button_twitter);
+        TwitterLoginButton mLoginButton = findViewById(R.id.login_button_twitter);
         mLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
@@ -234,10 +234,11 @@ public class SignInActivity extends BaseActivity {
                                     // Handle failure.
                                 }
                             });
-        } else {
-            // There's no pending result so you need to start the sign-in flow.
-            // See below.
         }
+//        else {
+//            // There's no pending result so you need to start the sign-in flow.
+//            // See below.
+//        }
     }
 
     private void firebaseAuthWithTwitter(TwitterAuthConfig authConfig) {

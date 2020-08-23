@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:background="@color/colorText"
-    app:itemIconTint="@color/colorTextShadow"
+    app:itemIconTint="@color/colorTextBlack"
     app:itemTextColor="@color/colorPrimary"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintLeft_toLeftOf="parent"

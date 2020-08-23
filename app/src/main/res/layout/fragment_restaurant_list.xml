@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_restaurant"
+    android:name="com.oc.go4lunch.activity.fragment.RestaurantFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="activity.fragment.RestaurantFragment"
+    tools:listitem="@layout/item_restaurant">
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+</FrameLayout>

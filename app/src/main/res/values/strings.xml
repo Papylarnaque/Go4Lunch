@@ -28,4 +28,11 @@
     <string name="info_no_email_found">info_no_email_found</string>
     <string name="info_no_username_found">info_no_username_found</string>
     <string name="twitter">twitter.com</string>
+    <string name="text_first_line">text_restaurant_name</string>
+    <string name="text_second_line">restaurant_type_and_address</string>
+    <string name="text_third_line">restaurant_hours</string>
+    <string name="restaurant_distance">200m</string>
+    <string name="restaurant_text_number_workmates">(2)</string>
+    <string name="restaurant_rating">restaurant_rating</string>
+    <string name="restaurant_picture">restaurant_picture</string>
 </resources>
