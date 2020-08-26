@@ -5,7 +5,7 @@
     android:name="com.oc.go4lunch.activity.fragment.RestaurantFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="activity.fragment.RestaurantFragment"
+    tools:context="com.oc.go4lunch.activity.fragment.RestaurantFragment"
     tools:listitem="@layout/item_restaurant">
 
 <!--    <androidx.recyclerview.widget.RecyclerView-->

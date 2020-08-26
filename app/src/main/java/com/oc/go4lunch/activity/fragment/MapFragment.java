@@ -1,8 +1,6 @@
 package com.oc.go4lunch.activity.fragment;
 
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.oc.go4lunch.R;
+
+import java.util.Objects;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -65,14 +65,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
 
     /**
-     * Display the standard map when resumed
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    /**
      * This method display the Google Map on the screen when ready
      *
      * @param googleMap is the GoogleMap object to display
@@ -107,13 +99,13 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
      * This method allows us to get location permissions
      */
     private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+        if (ContextCompat.checkSelfPermission(requireActivity().getApplicationContext(),
                 ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             boolean mLocationPermissionGranted = true;
             mMap.setMyLocationEnabled(true);
         } else {
-            ActivityCompat.requestPermissions(getActivity(),
+            ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
@@ -157,19 +149,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(false);
         }
-    }
-
-    /**
-     * This method get a Bitmap object to display then as marker
-     *
-     * @param iconName is the name of the icon
-     * @param width    is the requested width
-     * @param height   is the requested height
-     * @return a Bitmap object of the icon
-     */
-    public Bitmap resizeMapIcons(String iconName, int width, int height) {
-        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", requireContext().getPackageName()));
-        return Bitmap.createScaledBitmap(imageBitmap, width, height, false);
     }
 
     @Override

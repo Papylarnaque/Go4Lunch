@@ -8,16 +8,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.oc.go4lunch.R;
 
 public class RestaurantFragment extends BaseFragment {
 
 //    private NeighbourApiService mApiService;
-    private RecyclerView mRecyclerView;
+//    private RecyclerView mRecyclerView;
 
 
     @Nullable
@@ -28,9 +25,9 @@ public class RestaurantFragment extends BaseFragment {
 //        return v;
         View view = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
         Context context = view.getContext();
-        mRecyclerView = (RecyclerView) view;
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
+//        mRecyclerView = (RecyclerView) view;
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         return view;
 
     }

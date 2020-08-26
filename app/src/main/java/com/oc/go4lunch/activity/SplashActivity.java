@@ -22,7 +22,7 @@ public class SplashActivity extends BaseActivity {
         if (isCurrentUserLogged()) {
             intent = new Intent(SplashActivity.this, MainActivity.class);
         } else {
-            signOutUserFromFirebase(); // TODO = line put temporarily to fix the Facebook auth issue - TOFIX !
+            signOutUserFromFirebase(); // TODO = line put temporarily to fix the Facebook auth issue - TOFIX ! Explanation : On startup, the Firebase User is not detected, but Facebook appears as logged
             intent = new Intent(SplashActivity.this, SignInActivity.class);
         }
         startActivity(intent);

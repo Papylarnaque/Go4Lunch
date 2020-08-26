@@ -65,6 +65,8 @@ public class SignInActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        retrieveLoginStatus();
+
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.twitter_consumer_key), getString(R.string.twitter_consumer_secret)))
@@ -80,10 +82,10 @@ public class SignInActivity extends BaseActivity {
         mLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-//                twitterSignIn();
+                twitterSignIn();
 //                AuthCredential credential = TwitterAuthProvider.getCredential(Twitter.getInstance().getTwitterAuthConfig().getConsumerKey(), Twitter.getInstance().getTwitterAuthConfig().getConsumerSecret())
 //                handleTwitterAccessToken(result.data.getAuthToken().token);
-                firebaseAuthWithTwitter(Twitter.getInstance().getTwitterAuthConfig());
+
 //                getTwitterPendingAuthResult();
 //                Objects.requireNonNull(result.data.getAuthToken());
             }
@@ -94,9 +96,61 @@ public class SignInActivity extends BaseActivity {
             }
         });
 
-        getTwitterPendingAuthResult();
+        Task<AuthResult> pendingResultTask = mAuth.getPendingAuthResult();
+        if (pendingResultTask != null) {
+            // There's something already here! Finish the sign-in for your user.
+            pendingResultTask
+                    .addOnSuccessListener(
+                            new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    // User is signed in.
+                                    // IdP data available in
+                                    // authResult.getAdditionalUserInfo().getProfile().
+                                    mAuth
+                                            .startActivityForSignInWithProvider(/* activity= */ SignInActivity.this, provider.build())
+                                            .addOnSuccessListener(
+                                                    new OnSuccessListener<AuthResult>() {
+                                                        @Override
+                                                        public void onSuccess(AuthResult authResult) {
+                                                            authLogin();
+                                                            // User is signed in.
+                                                            // IdP data available in
+                                                            // authResult.getAdditionalUserInfo().getProfile().
+                                                            // The OAuth access token can also be retrieved:
+                                                            // authResult.getCredential().getAccessToken().
+                                                            // The OAuth secret can be retrieved by calling:
+                                                            // authResult.getCredential().getSecret().
+                                                        }
+                                                    })
+                                            .addOnFailureListener(
+                                                    new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            // Handle failure.
+                                                        }
+                                                    });
+                                    // The OAuth access token can also be retrieved:
+                                    // authResult.getCredential().getAccessToken().
+                                    // The OAuth secret can be retrieved by calling:
+                                    // authResult.getCredential().getSecret().
+                                }
+                            })
+                    .addOnFailureListener(
+                            new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Handle failure.
+                                }
+                            });
+        }
+//        else {
+//            // There's no pending result so you need to start the sign-in flow.
+//            // See below.
+//        }
 
-        twitterSignIn();
+
+//        getTwitterPendingAuthResult();
 
 
         mCallbackManager = CallbackManager.Factory.create();
@@ -124,29 +178,6 @@ public class SignInActivity extends BaseActivity {
                 }
         );
 
-        LoginManager.getInstance().retrieveLoginStatus(this, new LoginStatusCallback() {
-            @Override
-            public void onCompleted(AccessToken accessToken) {
-                // User was previously logged in, can log them in directly here.
-                // If this callback is called, a popup notification appears that says
-                // "Logged in as <User Name>" } @Override public void onFailure() {
-                // No access token could be retrieved for the user } @Override public void onError(Exception exception) {
-                // An error occurred } });
-                authLogin();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-
-            @Override
-            public void onError(Exception exception) {
-
-            }
-
-
-        });
 
 //        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        if (user != null) {
@@ -171,6 +202,32 @@ public class SignInActivity extends BaseActivity {
 
     }
 
+    private void retrieveLoginStatus() {
+        LoginManager.getInstance().retrieveLoginStatus(this, new LoginStatusCallback() {
+            @Override
+            public void onCompleted(AccessToken accessToken) {
+                // User was previously logged in, can log them in directly here.
+                // If this callback is called, a popup notification appears that says
+                // "Logged in as <User Name>" } @Override public void onFailure() {
+                // No access token could be retrieved for the user } @Override public void onError(Exception exception) {
+                // An error occurred } });
+                authLogin();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onError(Exception exception) {
+
+            }
+
+
+        });
+    }
+
     FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -191,6 +248,7 @@ public class SignInActivity extends BaseActivity {
                                 // User is signed in.
                                 // IdP data available in
                                 Objects.requireNonNull(authResult.getAdditionalUserInfo()).getProfile();
+                                firebaseAuthWithTwitter(Twitter.getInstance().getTwitterAuthConfig());
                                 // The OAuth access token can also be retrieved:
                                 // authResult.getCredential().getAccessToken();
                                 // The OAuth secret can be retrieved by calling:
@@ -206,40 +264,6 @@ public class SignInActivity extends BaseActivity {
                         });
     }/**/
 
-    // --------------------
-    // TWITTER AUTH
-    // --------------------
-    private void getTwitterPendingAuthResult() {
-        Task<AuthResult> pendingResultTask = mAuth.getPendingAuthResult();
-        if (pendingResultTask != null) {
-            // There's something already here! Finish the sign-in for your user.
-            pendingResultTask
-                    .addOnSuccessListener(
-                            new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    // User is signed in.
-                                    // IdP data available in
-                                    // authResult.getAdditionalUserInfo().getProfile().
-                                    // The OAuth access token can also be retrieved:
-                                    // authResult.getCredential().getAccessToken().
-                                    // The OAuth secret can be retrieved by calling:
-                                    // authResult.getCredential().getSecret().
-                                }
-                            })
-                    .addOnFailureListener(
-                            new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Handle failure.
-                                }
-                            });
-        }
-//        else {
-//            // There's no pending result so you need to start the sign-in flow.
-//            // See below.
-//        }
-    }
 
     private void firebaseAuthWithTwitter(TwitterAuthConfig authConfig) {
         Log.d(TAG, "handleTwitterToken:" + authConfig);

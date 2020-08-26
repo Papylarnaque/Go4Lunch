@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.oc.go4lunch.R;
 import com.oc.go4lunch.activity.auth.SignInActivity;
 import com.oc.go4lunch.activity.fragment.MapFragment;
+import com.oc.go4lunch.activity.fragment.RestaurantFragment;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,7 +38,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         configureDrawerLayout();
         configureNavigationMenu();
 
-        getCurrentUser();
+//        getCurrentUser();
     }
 
     /**
@@ -57,8 +58,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         break;
                     case R.id.navigation_listview:
                         mToolbar.setTitle(R.string.title_listview);
-//                        fragment = new RestaurantFragment();
-//                        showFragment(fragment);
+                        fragment = new RestaurantFragment();
+                        showFragment(fragment);
                         break;
                     case R.id.navigation_workmates:
                         mToolbar.setTitle(R.string.title_workmates);
@@ -119,7 +120,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 LoginManager.getInstance().logOut();
                 Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                 startActivity(intent);
-                
+
                 return true;
             case R.id.activity_main_drawer_logo:
                 // test something like secret options ?

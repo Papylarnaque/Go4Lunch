@@ -11,39 +11,60 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43278e5a-dd0d-473e-a2da-cc4a954513b1" name="Default Changelist" comment="Restaurant item layout + issue identified in TODO to fix at login">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/RestaurantFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v21/ic_baseline_person_outline_24.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v21/ic_baseline_star_24.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_star_24.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/restaurant_pizza.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_restaurant_list.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_restaurant.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_2_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_solver_2_0_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_3_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_3_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_3_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_3_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_2_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_3_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_3_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/private_keys.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/desca.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/desca.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_1_1_3_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_solver_1_1_3_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_3_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_2_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_2_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_2_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_1_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_2_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_2_0_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__net_sf_kxml_kxml2_2_3_0_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/BaseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/BaseActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/BaseFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/BaseFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/RestaurantFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/RestaurantFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_principal_nav_drawer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_principal_nav_drawer.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_restaurant_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_restaurant_list.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/navbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/navbar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,10 +116,10 @@
       <list>
         <option value="Interface" />
         <option value="resourceFile" />
-        <option value="valueResourceFile" />
         <option value="navigationResourceFile" />
         <option value="Class" />
         <option value="layoutResourceFile" />
+        <option value="valueResourceFile" />
       </list>
     </option>
   </component>
@@ -124,7 +145,7 @@
     <property name="DEBUGGABLE_PROCESS" value="com.oc.go4lunch" />
     <property name="DEBUGGER_ID" value="Auto" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-21T19:00:00.328Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-26T21:50:12.291Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
@@ -158,7 +179,7 @@
       <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\drawable-mdpi" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Android App.App">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -166,7 +187,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+    <configuration name="App" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -175,12 +196,12 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
+      <option name="MODE" value="specific_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
@@ -212,7 +233,7 @@
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="" />
+      <option name="ACTIVITY_CLASS" value="com.oc.go4lunch.activity.SplashActivity" />
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
@@ -236,6 +257,10 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Android App.App" />
+      <item itemvalue="Gradle.C:/AndroidStudioProjects/Openclassrooms_projets/Go4Lunch [signingReport]" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.C:/AndroidStudioProjects/Openclassrooms_projets/Go4Lunch [signingReport]" />
@@ -302,7 +327,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598082693345</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Restaurant item layout + issue identified in TODO to fix at login">
+      <created>1598222162682</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1598222162682</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -322,10 +354,22 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="17" y="192" key="#PSD/0.0.1680.1020@0.0.1680.1020" timestamp="1597695254995" />
+    <state x="559" y="155" key="#Unnamed" timestamp="1598466212548">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="559" y="155" key="#Unnamed/0.0.1680.1020@0.0.1680.1020" timestamp="1598466212548" />
+    <state x="294" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598478439842">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="294" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598478439842" />
     <state x="645" y="219" width="612" height="581" key="#com.intellij.ide.util.MemberChooser" timestamp="1597790161530">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="645" y="219" width="612" height="581" key="#com.intellij.ide.util.MemberChooser/0.0.1680.1020@0.0.1680.1020" timestamp="1597790161530" />
+    <state x="569" y="294" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1598478437834">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="569" y="294" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598478437834" />
     <state x="520" y="238" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1597692156565">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -338,30 +382,30 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="7" y="230" width="1425" height="594" key="#xdebugger.evaluate/0.0.1680.1020@0.0.1680.1020" timestamp="1596267173531" />
-    <state x="583" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1597788038201">
+    <state x="583" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1598482103160">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="583" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1680.1020@0.0.1680.1020" timestamp="1597788038201" />
+    <state x="583" y="362" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1680.1020@0.0.1680.1020" timestamp="1598482103160" />
     <state x="420" y="265" key="AndroidCreateResourceDirectoryDialog" timestamp="1598221834723">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="420" y="265" key="AndroidCreateResourceDirectoryDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598221834723" />
-    <state x="585" y="271" key="AndroidCreateResourceFileDialog" timestamp="1598192085452">
+    <state x="585" y="271" key="AndroidCreateResourceFileDialog" timestamp="1598466396087">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="585" y="271" key="AndroidCreateResourceFileDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598192085452" />
-    <state x="788" y="318" key="AndroidCreateXmlResourceDialog" timestamp="1598222083544">
+    <state x="585" y="271" key="AndroidCreateResourceFileDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598466396087" />
+    <state x="788" y="318" key="AndroidCreateXmlResourceDialog" timestamp="1598482036360">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="788" y="318" key="AndroidCreateXmlResourceDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598222083544" />
+    <state x="788" y="318" key="AndroidCreateXmlResourceDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598482036360" />
     <state x="424" y="279" key="AndroidProcessChooserDialog" timestamp="1597703980016">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="424" y="279" key="AndroidProcessChooserDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1597703980016" />
-    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2" timestamp="1598222129972">
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2" timestamp="1598482088761">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1598222129972" />
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1598482088761" />
     <state x="92" y="92" width="1496" height="836" key="DiffContextDialog" timestamp="1597701184132">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -370,38 +414,38 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="267" y="244" width="638" height="490" key="FileChooserDialogImpl/0.0.1680.1020@0.0.1680.1020" timestamp="1597556479700" />
-    <state width="1637" height="192" key="GridCell.Tab.0.bottom" timestamp="1598221575299">
+    <state width="1637" height="-10" key="GridCell.Tab.0.bottom" timestamp="1598482017238">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
-    <state width="1637" height="192" key="GridCell.Tab.0.center" timestamp="1598221575299">
+    <state width="1637" height="-10" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1598482017238" />
+    <state width="1637" height="-10" key="GridCell.Tab.0.center" timestamp="1598482017238">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
-    <state width="1637" height="192" key="GridCell.Tab.0.left" timestamp="1598221575299">
+    <state width="1637" height="-10" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1598482017238" />
+    <state width="1637" height="-10" key="GridCell.Tab.0.left" timestamp="1598482017238">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
-    <state width="1637" height="192" key="GridCell.Tab.0.right" timestamp="1598221575299">
+    <state width="1637" height="-10" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1598482017238" />
+    <state width="1637" height="-10" key="GridCell.Tab.0.right" timestamp="1598482017238">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
-    <state width="1637" height="192" key="GridCell.Tab.1.bottom" timestamp="1598221575299">
+    <state width="1637" height="-10" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1598482017238" />
+    <state width="1637" height="311" key="GridCell.Tab.1.bottom" timestamp="1598481931652">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.1.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
-    <state width="1637" height="192" key="GridCell.Tab.1.center" timestamp="1598221575299">
+    <state width="1637" height="311" key="GridCell.Tab.1.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1598481931652" />
+    <state width="1637" height="311" key="GridCell.Tab.1.center" timestamp="1598481931652">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.1.center/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
-    <state width="1637" height="192" key="GridCell.Tab.1.left" timestamp="1598221575299">
+    <state width="1637" height="311" key="GridCell.Tab.1.center/0.0.1680.1020@0.0.1680.1020" timestamp="1598481931652" />
+    <state width="1637" height="311" key="GridCell.Tab.1.left" timestamp="1598481931651">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.1.left/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
-    <state width="1637" height="192" key="GridCell.Tab.1.right" timestamp="1598221575299">
+    <state width="1637" height="311" key="GridCell.Tab.1.left/0.0.1680.1020@0.0.1680.1020" timestamp="1598481931651" />
+    <state width="1637" height="311" key="GridCell.Tab.1.right" timestamp="1598481931652">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="192" key="GridCell.Tab.1.right/0.0.1680.1020@0.0.1680.1020" timestamp="1598221575299" />
+    <state width="1637" height="311" key="GridCell.Tab.1.right/0.0.1680.1020@0.0.1680.1020" timestamp="1598481931652" />
     <state x="341" y="152" key="SettingsEditor" timestamp="1597605146145">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -430,14 +474,14 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="649" y="427" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1680.1020@0.0.1680.1020" timestamp="1596993617316" />
-    <state x="780" y="478" width="540" height="468" key="extract.method.dialog" timestamp="1597577663318">
+    <state x="780" y="478" width="540" height="468" key="extract.method.dialog" timestamp="1598480915342">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="780" y="478" width="540" height="468" key="extract.method.dialog/0.0.1680.1020@0.0.1680.1020" timestamp="1597577663318" />
-    <state x="617" y="351" width="952" height="536" key="find.popup" timestamp="1597786959116">
+    <state x="780" y="478" width="540" height="468" key="extract.method.dialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598480915342" />
+    <state x="728" y="153" width="952" height="727" key="find.popup" timestamp="1598479128426">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="617" y="351" width="952" height="536" key="find.popup/0.0.1680.1020@0.0.1680.1020" timestamp="1597786959116" />
+    <state x="728" y="153" width="952" height="727" key="find.popup/0.0.1680.1020@0.0.1680.1020" timestamp="1598479128426" />
     <state x="496" y="235" key="run.anything.popup" timestamp="1597439648674">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -461,11 +505,6 @@
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
-          <line>250</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java</url>
           <line>59</line>
           <option name="timeStamp" value="33" />
@@ -482,13 +521,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
-          <line>151</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
           <line>364</line>
           <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

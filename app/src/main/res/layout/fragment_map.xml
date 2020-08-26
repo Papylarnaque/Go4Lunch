@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_map"
-    tools:context="activity.fragment.MapFragment">
+    tools:context="com.oc.go4lunch.activity.fragment.MapFragment">
 
     <FrameLayout
         android:id="@+id/map"

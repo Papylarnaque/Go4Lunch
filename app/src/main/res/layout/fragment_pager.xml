@@ -15,14 +15,17 @@
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_weight="0">
         <Button android:id="@+id/goto_first"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="@string/title_mapview">
         </Button>
         <Button android:id="@+id/goto_middle"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="@string/title_listview">
         </Button>
         <Button android:id="@+id/goto_last"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="@string/title_workmates">
         </Button>
