@@ -4,6 +4,8 @@
     package="com.oc.go4lunch">
 
 
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +32,8 @@
 
         <activity
             android:name=".activity.auth.SignInActivity"
-            android:theme="@style/AppTheme_SignIn">
+            android:theme="@style/AppTheme_SignIn"
+            >
             <!--                     android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"   -->
         </activity>
 

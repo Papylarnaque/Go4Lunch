@@ -20,8 +20,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.oc.go4lunch.R;
 
-import java.util.Objects;
-
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMarkerClickListener {
