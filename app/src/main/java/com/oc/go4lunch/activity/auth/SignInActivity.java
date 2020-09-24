@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -60,8 +58,8 @@ public class SignInActivity extends BaseActivity {
     private String TAG = "SIGN";
 
     // LOGIN REQUEST CODE
-    public static final int LOGIN_FACEBOOK = 111;
-    private static final int RC_SIGN_IN = 123;
+    public static final int LOGIN_FACEBOOK = 2;
+    private static final int RC_SIGN_IN = 3;
     
     // MODEL
     private FirebaseAuth mAuth;
@@ -69,9 +67,6 @@ public class SignInActivity extends BaseActivity {
     public GoogleSignInClient mGoogleSignInClient;
 
     // UI
-    private ImageView go4LunchImageView;
-    private TextView go4LunchTextView;
-    private TextView descriptionTextView;
     private LoginButton facebookSignInButton;
     private SignInButton googleSignInButton;
 

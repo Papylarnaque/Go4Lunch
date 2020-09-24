@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 public class Restaurant {
 
-    private String rid;
+    private String restaurantid;
     private String name;
     private Integer latitude;
     private Integer longitude;
@@ -16,7 +16,7 @@ public class Restaurant {
     }
 
     public Restaurant(String rid, String name, Integer latitude, Integer longitude, Integer rating, @Nullable String urlPicture) {
-        this.rid = rid;
+        this.restaurantid = rid;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -24,12 +24,12 @@ public class Restaurant {
         this.urlPicture = urlPicture;
     }
 
-    public String getRid() {
-        return rid;
+    public String getRestaurantid() {
+        return restaurantid;
     }
 
-    public void setRid(String rid) {
-        this.rid = rid;
+    public void setRestaurantid(String restaurantid) {
+        this.restaurantid = restaurantid;
     }
 
     public String getName() {
