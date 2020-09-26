@@ -39,7 +39,7 @@ public class RestaurantFragment extends BaseFragment {
 //        getRestaurantData();
 
 
-        View view = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_pager_list, container, false);
         Context context = view.getContext();
 //        mRecyclerView = (RecyclerView) view;
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));

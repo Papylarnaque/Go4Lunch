@@ -206,7 +206,7 @@ public class SignInActivity extends BaseActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                            Toast.makeText(SignInActivity.this, "AgetParent().requestDisallowInterceptTouchEvent(true);.",
                                     Toast.LENGTH_SHORT).show();
 //                            updateUI(null);
 //                            authLogin();

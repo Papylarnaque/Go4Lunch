@@ -24,8 +24,8 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -47,8 +47,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
-    private LatLng latLng = new LatLng(1, 0);
-    public static final float INITIAL_ZOOM = 15f;
+    private LatLng latLng = new LatLng(47.2056847,-1.5645443);
+    public static final float INITIAL_ZOOM = 13f;
+    GoogleMapOptions options = new GoogleMapOptions();
 
 
     // TODO : Add location of the user
@@ -84,9 +85,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         mMapFragment.getMapAsync(this);
 
+        v.setClickable(true);
+
 
         return v;
     }
+
+
+
 
 
     // Trigger new location updates at interval
@@ -128,7 +134,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 //        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
         // You can now create a LatLng Object for use with maps
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
 
 
@@ -141,45 +147,20 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-/*        // check permission
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // request for permission
-            getLocationPermission();
-        } else {
-            // already permission granted
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener((Executor) this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                // Logic to handle location object
-                                wayLatitude = location.getLatitude();
-                                wayLongitude = location.getLongitude();
-                                //txtLocation.setText(String.format(Locale.US, "%s -- %s", wayLatitude, wayLongitude));
-
-                            }
-                            else{
-                                startLocationUpdates();
-                            }
-                        }
-                    });
-        }*/
-
-
-
-
-
         enableMyLocationButton();
         mMap.setOnMyLocationButtonClickListener(this);
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
-
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
+//        assert mapView != null;
+//        mapView.setClickable(true);
 
         mMap.setOnMarkerClickListener(this);
+
+        options.compassEnabled(true).zoomControlsEnabled(true).zoomGesturesEnabled(true);
+
+        mMapFragment.onResume();
     }
 
 
