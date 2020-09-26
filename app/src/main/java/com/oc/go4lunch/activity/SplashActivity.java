@@ -8,9 +8,6 @@ import com.oc.go4lunch.activity.auth.SignInActivity;
 
 public class SplashActivity extends BaseActivity {
 
-//    private static final String TAG = "SPLASH";
-//    final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_Splash);
@@ -28,38 +25,7 @@ public class SplashActivity extends BaseActivity {
         startActivity(intent);
         finish();
 
-
     }
-
-
-//    private void loadRestaurant() {
-//
-//        db.collection("restaurant")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//
-//
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//
-//                        // Récupération des données
-//
-//                        // adapter.setData
-//                        // notifydatasetchanged
-//
-//
-//                    }
-//                });
-//    }
-
-
 }
 
 

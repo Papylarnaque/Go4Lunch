@@ -10,28 +10,14 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Firebase" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43278e5a-dd0d-473e-a2da-cc4a954513b1" name="Default Changelist" comment="get user location + zoom in on user">
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
+    <list default="true" id="43278e5a-dd0d-473e-a2da-cc4a954513b1" name="Default Changelist" comment="change private_keys and upload generic file without new keys">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/RestaurantFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/RestaurantFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/PageAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/PageFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/FragmentPagerSupport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/UserManagementActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/Fragment_Maps.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/private_keys.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/private_keys.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -317,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1600985606814</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="change private_keys and upload generic file without new keys">
+      <created>1601134074254</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1601134074254</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -332,7 +325,8 @@
     <MESSAGE value="Restaurant item layout + issue identified in TODO to fix at login" />
     <MESSAGE value="WIP on Twitter Authentication" />
     <MESSAGE value="get user location + zoom in on user" />
-    <option name="LAST_COMMIT_MESSAGE" value="get user location + zoom in on user" />
+    <MESSAGE value="change private_keys and upload generic file without new keys" />
+    <option name="LAST_COMMIT_MESSAGE" value="change private_keys and upload generic file without new keys" />
   </component>
   <component name="WindowStateProjectService">
     <state x="17" y="192" key="#PSD" timestamp="1597695254995">
@@ -391,10 +385,10 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="424" y="279" key="AndroidProcessChooserDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1601105076893" />
-    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2" timestamp="1601134002820">
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2" timestamp="1601134276128">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1601134002820" />
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1601134276128" />
     <state x="92" y="92" width="1496" height="836" key="DiffContextDialog" timestamp="1597701184132">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -488,29 +482,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java</url>
-          <line>44</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity2.java</url>
           <line>33</line>
           <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/SplashActivity.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
