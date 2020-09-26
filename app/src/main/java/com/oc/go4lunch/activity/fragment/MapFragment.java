@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,7 +48,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
-    private LatLng latLng = new LatLng(47.2056847,-1.5645443);
+    private LatLng latLng = new LatLng(47.2056847, -1.5645443);
     public static final float INITIAL_ZOOM = 13f;
     GoogleMapOptions options = new GoogleMapOptions();
 
@@ -92,9 +93,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     }
 
 
-
-
-
     // Trigger new location updates at interval
     @SuppressLint("MissingPermission")
     protected void startLocationUpdates() {
@@ -128,11 +126,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     public void onLocationChanged(Location location) {
         // New location has now been determined
-//        String msg = "Updated Location: " +
-//                Double.toString(location.getLatitude()) + "," +
-//                Double.toString(location.getLongitude());
-//        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
-        // You can now create a LatLng Object for use with maps
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
@@ -146,21 +139,16 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         enableMyLocationButton();
         mMap.setOnMyLocationButtonClickListener(this);
+
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
-//        assert mapView != null;
-//        mapView.setClickable(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
 
-        mMap.setOnMarkerClickListener(this);
+        //mMap.setOnMarkerClickListener(this);
 
-        options.compassEnabled(true).zoomControlsEnabled(true).zoomGesturesEnabled(true);
-
-        mMapFragment.onResume();
     }
 
 
@@ -235,7 +223,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     public boolean onMarkerClick(Marker marker) {
         return false;
     }
-
 
 
 }

@@ -2,7 +2,7 @@ package com.oc.go4lunch.model;
 
 import androidx.annotation.Nullable;
 
-public class User {
+public class Workmate {
 
 
     private String uid;
@@ -11,10 +11,10 @@ public class User {
     @Nullable
     private String urlPicture;
 
-    public User() {
+    public Workmate() {
     }
 
-    public User(String uid, String username, String urlPicture, int hasChosenRestaurant) {
+    public Workmate(String uid, String username, String urlPicture, int hasChosenRestaurant) {
         this.uid = uid;
         this.username = username;
         this.urlPicture = urlPicture;
