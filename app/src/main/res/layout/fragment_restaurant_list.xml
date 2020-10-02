@@ -1,16 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_restaurant"
     android:name="com.oc.go4lunch.activity.fragment.RestaurantFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.oc.go4lunch.activity.fragment.RestaurantFragment"
-    tools:listitem="@layout/item_restaurant">
+    android:orientation="vertical"
+    tools:context="com.oc.go4lunch.activity.fragment.RestaurantFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_restaurant"/>
 
-</FrameLayout>
+        <!-- The frame layout is here since we will be showing either
+        the empty view or the list view.  -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1">
+            <!-- Here is the list. Since we are using a ListActivity, we
+                 have to call it "@android:id/list" so ListActivity will
+                 find it -->
+            <ListView
+                android:id="@layout/item_restaurant"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawSelectorOnTop="false"
+                tools:listitem="@layout/item_restaurant"/>
+
+            <!-- Here is the view to show if the list is emtpy -->
+            <TextView
+                android:id="@android:id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/no_items"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </FrameLayout>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@layout/item_restaurant"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:listitem="@layout/item_restaurant" />-->
+
+</LinearLayout>

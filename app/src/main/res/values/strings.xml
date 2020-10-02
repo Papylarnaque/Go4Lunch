@@ -1,36 +1,38 @@
 <resources>
     <!-- SignIN -->
-    <string name="appName">Go4Lunch</string>
+    <string name="appName" translatable="false">Go4Lunch</string>
     <string name="appSentence">Find a nice restaurant and invite your co-workers for lunch!</string>
-    <string name="twitter">twitter.com</string>
+    <string name="twitter" translatable="false">twitter.com</string>
 
     <!-- Main Activity -->
     <string name="title_mapview">Map View</string>
     <string name="title_listview">List View</string>
     <string name="title_workmates">Workmates</string>
+
     <!-- Main Activity - Drawer-->
     <string name="your_lunch">YOUR LUNCH</string>
     <string name="settings">SETTINGS</string>
     <string name="logout">LOGOUT</string>
-    <string name="account_name">Account_Name</string>
-    <string name="account_mail">Account Mail</string>
-    <string name="info_no_email_found">info_no_email_found</string>
-    <string name="info_no_username_found">info_no_username_found</string>
-    <string name="navigation_drawer_open">Open</string>
-    <string name="navigation_drawer_close">Close</string>
-    <string name="bg_portraitBackgroundDescription">Background_image</string>
-    <string name="logoTextDescription">Logo</string>
+
+    <string name="account_name" translatable="false">Account_Name</string>
+    <string name="account_mail" translatable="false">Account Mail</string>
+    <string name="info_no_email_found" translatable="false">info_no_email_found</string>
+    <string name="info_no_username_found" translatable="false">info_no_username_found</string>
+    <string name="navigation_drawer_open" translatable="false">Open</string>
+    <string name="navigation_drawer_close" translatable="false">Close</string>
+    <string name="bg_portraitBackgroundDescription" translatable="false">Background_image</string>
+    <string name="logoTextDescription" translatable="false">Logo</string>
 
 
     <!-- Restaurant Fragment-->
-    <string name="text_first_line">text_restaurant_name</string>
-    <string name="text_second_line">restaurant_type_and_address</string>
-    <string name="text_third_line">restaurant_hours</string>
-    <string name="restaurant_distance">200m</string>
-    <string name="restaurant_text_number_workmates">(2)</string>
-    <string name="restaurant_rating">restaurant_rating</string>
-    <string name="restaurant_picture">restaurant_picture</string>
-    <string name="no_items">No items.</string>
+    <string name="text_first_line" translatable="false">text_restaurant_name</string>
+    <string name="text_second_line" translatable="false">restaurant_type_and_address</string>
+    <string name="text_third_line" translatable="false">restaurant_hours</string>
+    <string name="restaurant_distance" translatable="false">200m</string>
+    <string name="restaurant_text_number_workmates" translatable="false">(2)</string>
+    <string name="restaurant_rating" translatable="false">restaurant_rating</string>
+    <string name="restaurant_picture" translatable="false">restaurant_picture</string>
+    <string name="no_items" translatable="false">No items.</string>
 
 
 </resources>

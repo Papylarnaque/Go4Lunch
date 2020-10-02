@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- SignIN -->
+    <string name="appSentence">Trouvez un bon restaurant et invitez-y vos collègues pour déjeuner!</string>
+
+    <!-- Main Activity -->
+    <string name="title_mapview">Carte</string>
+    <string name="title_listview">Restaurants</string>
+    <string name="title_workmates">Collègues</string>
+
+    <!-- Main Activity - Drawer-->
+    <string name="your_lunch">VOTRE DEJEUNER</string>
+    <string name="settings">REGLAGES</string>
+    <string name="logout">DECONNEXION</string>
+
+</resources>

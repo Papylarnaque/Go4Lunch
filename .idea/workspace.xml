@@ -12,6 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43278e5a-dd0d-473e-a2da-cc4a954513b1" name="Default Changelist" comment="change private_keys and upload generic file without new keys">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/model/UserHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -22,14 +24,19 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/MapFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/RestaurantFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/fragment/RestaurantFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/model/Workmate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/model/Workmate.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pager_list.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_restaurant_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_restaurant_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_restaurant.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_restaurant.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/private_keys.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/private_keys.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,18 +138,18 @@
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.oc.go4lunch" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\layout" />
+      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\values" />
+      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\menu" />
+      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\drawable-mdpi" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\drawable-v21" />
       <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\drawable" />
       <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\drawable-mdpi" />
       <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res" />
       <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\layout" />
-      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\values" />
-      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\menu" />
-      <recent name="C:\AndroidStudioProjects\Openclassrooms_projets\Go4Lunch\app\src\main\res\drawable-mdpi" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.App">
@@ -328,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601135700429</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="fixed gmaps touch not working due to viewpager (layout order)&#10;+ minor improvements in restaurant layout">
+      <created>1601138061918</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1601138061918</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -345,7 +359,8 @@
     <MESSAGE value="get user location + zoom in on user" />
     <MESSAGE value="change private_keys and upload generic file without new keys" />
     <MESSAGE value="clean up app files" />
-    <option name="LAST_COMMIT_MESSAGE" value="clean up app files" />
+    <MESSAGE value="fixed gmaps touch not working due to viewpager (layout order)&#10;+ minor improvements in restaurant layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed gmaps touch not working due to viewpager (layout order)&#10;+ minor improvements in restaurant layout" />
   </component>
   <component name="WindowStateProjectService">
     <state x="17" y="192" key="#PSD" timestamp="1597695254995">
@@ -376,10 +391,10 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="346" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1600891790520" />
-    <state x="570" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1597444242206">
+    <state x="570" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601229168685">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="570" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1597444242206" />
+    <state x="570" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1601229168685" />
     <state x="7" y="230" width="1425" height="594" key="#xdebugger.evaluate" timestamp="1596267173531">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -392,10 +407,10 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="420" y="265" key="AndroidCreateResourceDirectoryDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598221834723" />
-    <state x="585" y="271" key="AndroidCreateResourceFileDialog" timestamp="1598466396087">
+    <state x="585" y="271" key="AndroidCreateResourceFileDialog" timestamp="1601227413308">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="585" y="271" key="AndroidCreateResourceFileDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1598466396087" />
+    <state x="585" y="271" key="AndroidCreateResourceFileDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1601227413308" />
     <state x="788" y="318" key="AndroidCreateXmlResourceDialog" timestamp="1598482036360">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -404,10 +419,10 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="424" y="279" key="AndroidProcessChooserDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1601137766191" />
-    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2" timestamp="1601137298920">
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2" timestamp="1601138060300">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1601137298920" />
+    <state x="259" y="13" width="1014" height="942" key="CommitChangelistDialog2/0.0.1680.1020@0.0.1680.1020" timestamp="1601138060300" />
     <state x="92" y="92" width="1496" height="836" key="DiffContextDialog" timestamp="1597701184132">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -416,22 +431,22 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="267" y="244" width="638" height="490" key="FileChooserDialogImpl/0.0.1680.1020@0.0.1680.1020" timestamp="1597556479700" />
-    <state width="1637" height="320" key="GridCell.Tab.0.bottom" timestamp="1601137910300">
+    <state width="1637" height="230" key="GridCell.Tab.0.bottom" timestamp="1601576674383">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="320" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1601137910300" />
-    <state width="1637" height="320" key="GridCell.Tab.0.center" timestamp="1601137910299">
+    <state width="1637" height="230" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1601576674383" />
+    <state width="1637" height="230" key="GridCell.Tab.0.center" timestamp="1601576674382">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="320" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1601137910299" />
-    <state width="1637" height="320" key="GridCell.Tab.0.left" timestamp="1601137910299">
+    <state width="1637" height="230" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1601576674382" />
+    <state width="1637" height="230" key="GridCell.Tab.0.left" timestamp="1601576674382">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="320" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1601137910299" />
-    <state width="1637" height="320" key="GridCell.Tab.0.right" timestamp="1601137910299">
+    <state width="1637" height="230" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1601576674382" />
+    <state width="1637" height="230" key="GridCell.Tab.0.right" timestamp="1601576674383">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="320" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1601137910299" />
+    <state width="1637" height="230" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1601576674383" />
     <state width="1637" height="320" key="GridCell.Tab.1.bottom" timestamp="1601137910300">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -456,10 +471,10 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="613" y="400" key="VCS.ChangelistChooser/0.0.1680.1020@0.0.1680.1020" timestamp="1601133960119" />
-    <state x="432" y="243" key="Vcs.Push.Dialog.v2" timestamp="1600985611534">
+    <state x="432" y="243" key="Vcs.Push.Dialog.v2" timestamp="1601138066958">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="432" y="243" key="Vcs.Push.Dialog.v2/0.0.1680.1020@0.0.1680.1020" timestamp="1600985611534" />
+    <state x="432" y="243" key="Vcs.Push.Dialog.v2/0.0.1680.1020@0.0.1680.1020" timestamp="1601138066958" />
     <state width="848" height="518" key="XDebugger.FullValuePopup" timestamp="1597696818218">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -484,10 +499,10 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="780" y="478" width="540" height="468" key="extract.method.dialog/0.0.1680.1020@0.0.1680.1020" timestamp="1600893640297" />
-    <state x="306" y="106" width="952" height="727" key="find.popup" timestamp="1601133818369">
+    <state x="306" y="106" width="952" height="727" key="find.popup" timestamp="1601227349631">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="306" y="106" width="952" height="727" key="find.popup/0.0.1680.1020@0.0.1680.1020" timestamp="1601133818369" />
+    <state x="306" y="106" width="952" height="727" key="find.popup/0.0.1680.1020@0.0.1680.1020" timestamp="1601227349631" />
     <state x="496" y="235" key="run.anything.popup" timestamp="1597439648674">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -509,16 +524,6 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>
           <line>364</line>
           <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/MainActivity.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/oc/go4lunch/activity/auth/SignInActivity.java</url>

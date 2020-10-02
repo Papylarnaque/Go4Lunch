@@ -49,7 +49,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
     private LatLng latLng = new LatLng(47.2056847, -1.5645443);
-    public static final float INITIAL_ZOOM = 13f;
+    public static final float INITIAL_ZOOM = 15f;
     GoogleMapOptions options = new GoogleMapOptions();
 
 
@@ -80,7 +80,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             fragmentTransaction.replace(R.id.map, mMapFragment).commit();
         }
 
-        startLocationUpdates();
+
 
         fusedLocationClient = getFusedLocationProviderClient(requireActivity());
 
@@ -127,7 +127,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     public void onLocationChanged(Location location) {
         // New location has now been determined
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
 
 
@@ -144,6 +144,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
+
+        startLocationUpdates();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
 

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/item_meeting_first_line"
+            android:id="@+id/item_restaurant_first_line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/restaurant_text_height"
             android:gravity="center_vertical"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/item_meeting_second_line"
+            android:id="@+id/item_restaurant_second_line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/restaurant_text_height"
             android:gravity="center_vertical"
@@ -37,10 +37,10 @@
             android:textColor="@color/colorTextGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_meeting_first_line" />
+            app:layout_constraintTop_toBottomOf="@id/item_restaurant_first_line" />
 
         <TextView
-            android:id="@+id/item_meeting_third_line"
+            android:id="@+id/item_restaurant_third_line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/restaurant_text_height"
             android:gravity="center_vertical"
@@ -50,13 +50,13 @@
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_meeting_second_line" />
+            app:layout_constraintTop_toBottomOf="@id/item_restaurant_second_line" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_restaurant_text_center"
+        android:id="@+id/item_restaurant_text_right"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/restaurant_vertical_margin"
@@ -98,7 +98,7 @@
 
 
     <ImageView
-        android:id="@+id/item_list_avatar"
+        android:id="@+id/item_list_restaurant_picture"
         android:layout_width="@dimen/picture_restaurant"
         android:layout_height="@dimen/picture_restaurant"
         android:layout_marginTop="@dimen/restaurant_horizontal_margin"

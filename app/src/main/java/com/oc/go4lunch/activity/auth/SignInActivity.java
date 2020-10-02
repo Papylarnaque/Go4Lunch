@@ -477,10 +477,13 @@ public class SignInActivity extends BaseActivity {
 
 
     private void authLogin() {
+
+
         if (isCurrentUserLogged()) {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }
+
         // TEST
 //        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
 //        startActivity(intent);
