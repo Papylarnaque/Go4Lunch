@@ -2,12 +2,15 @@ package com.oc.go4lunch.model;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
+
+
 public class Restaurant {
 
     private String restaurantid;
     private String name;
-    private Integer latitude;
-    private Integer longitude;
+    private LatLng latlng;
+    private String address;
     private Integer rating;
     @Nullable
     private String urlPicture;
@@ -15,11 +18,11 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String rid, String name, Integer latitude, Integer longitude, Integer rating, @Nullable String urlPicture) {
-        this.restaurantid = rid;
+    public Restaurant(String restaurantid, String name, LatLng latlng, String address, Integer rating, @Nullable String urlPicture) {
+        this.restaurantid = restaurantid;
         this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latlng = latlng;
+        this.address = address;
         this.rating = rating;
         this.urlPicture = urlPicture;
     }
@@ -40,20 +43,20 @@ public class Restaurant {
         this.name = name;
     }
 
-    public Integer getLatitude() {
-        return latitude;
+    public LatLng getLatlng() {
+        return latlng;
     }
 
-    public void setLatitude(Integer latitude) {
-        this.latitude = latitude;
+    public void setLatlng(LatLng latlng) {
+        this.latlng = latlng;
     }
 
-    public Integer getLongitude() {
-        return longitude;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLongitude(Integer longitude) {
-        this.longitude = longitude;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Integer getRating() {

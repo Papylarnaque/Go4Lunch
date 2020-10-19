@@ -1,6 +1,6 @@
 package com.oc.go4lunch.activity.fragment;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -26,52 +26,67 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.PlaceLikelihood;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.oc.go4lunch.R;
+import com.oc.go4lunch.model.Restaurant;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
-public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMarkerClickListener {
+// Add an import statement for the client library.
 
-    //TODO : Fix crash when leaves MapFragment for other tab (list or Workmates) and goe back to Maps
+public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final String TAG = "Map Fragment";
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationRequest mLocationRequest;
-    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
-    private LatLng latLng = new LatLng(47.2056847, -1.5645443);
-    public static final float INITIAL_ZOOM = 15f;
-    GoogleMapOptions options = new GoogleMapOptions();
+    private PlacesClient mPlacesClient;
 
+    private static final String TAG = "MapFragment";
+    private static final float INITIAL_ZOOM = 15f;
+    private static final long UPDATE_INTERVAL = 30000;    /* 10 secs */
+    private static final long FASTEST_INTERVAL = 10000;    /*  2 secs */
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
-    // TODO : Add location of the user
 
     // TODO : Add Places API for restaurants markers
 
 
+    // Use fields to define the data types to return.
+    List<Place.Field> placeFields = Collections.singletonList(Place.Field.NAME);
+
+    // Use the builder to create a FindCurrentPlaceRequest.
+    FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
+
     public MapFragment() {
     }
 
-//
 //    public static MapFragment newInstance() {
 //        return new MapFragment();
 //    }
 
-    @SuppressLint("MissingPermission")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_map, container, false);
+
         mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mMapFragment == null) {
             FragmentManager fragmentManager = getParentFragmentManager();
@@ -80,26 +95,20 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             fragmentTransaction.replace(R.id.map, mMapFragment).commit();
         }
 
-
-
-        fusedLocationClient = getFusedLocationProviderClient(requireActivity());
-
         mMapFragment.getMapAsync(this);
-
-        v.setClickable(true);
-
 
         return v;
     }
 
 
-    // Trigger new location updates at interval
-    @SuppressLint("MissingPermission")
+    // USER LOCATION updates listener service //
+
     protected void startLocationUpdates() {
 
         // Create the location request to start receiving updates
-        mLocationRequest = new LocationRequest();
+        LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
 
@@ -109,107 +118,153 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         LocationSettingsRequest locationSettingsRequest = builder.build();
 
         // Check whether location settings are satisfied
-        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
         SettingsClient settingsClient = LocationServices.getSettingsClient(requireActivity());
         settingsClient.checkLocationSettings(locationSettingsRequest);
 
         // new Google API SDK v11 uses getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            return;
+        }
         getFusedLocationProviderClient(requireActivity()).requestLocationUpdates(mLocationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
-                        // do work here
                         onLocationChanged(locationResult.getLastLocation());
                     }
                 },
                 Looper.myLooper());
     }
 
+    // USER LOCATION UPDATES actions : what to do if the user moves //
+
     public void onLocationChanged(Location location) {
+
+//        ZOOM_LEVEL = mMap.getCameraPosition().zoom;
+
         // New location has now been determined
-        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        //The line below is for camera actualisation if the user moves
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
 
 
-    /**
-     * This method display the Google Map on the screen when ready
-     *
-     * @param googleMap is the GoogleMap object to display
-     */
+    // UI MAP //
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
-        enableMyLocationButton();
+
+        enableCompassButton();
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
         startLocationUpdates();
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
-
-        //mMap.setOnMarkerClickListener(this);
+        initPlaces();
+        getNearbyPlaces();
+        getPlaces();
 
     }
 
 
-    /**
-     * This method defines the action to take when the user clicks on the location button
-     *
-     * @return a boolean
-     */
-    @Override
-    public boolean onMyLocationButtonClick() {
-//        if (mMainActivity.mSearchBar.getVisibility() == View.INVISIBLE) getRestaurants();
-        return false;
+    // ---------------------------- Init places ----
+
+    public void initPlaces() {
+        // Initialize the Places SDK
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), String.valueOf(R.string.google_maps_key));
+        }
+        mPlacesClient = Places.createClient(requireContext());
     }
 
-    /**
-     * This method allows us to get location permissions
-     */
-    private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(requireActivity().getApplicationContext(),
-                ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            boolean mLocationPermissionGranted = true;
-            mMap.setMyLocationEnabled(true);
+
+    //---------------------------- Places information type initialization -----
+
+    public void getNearbyPlaces() {
+        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.TYPES, Place.Field.LAT_LNG);
+        FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
+
+        mPlacesClient = Places.createClient(requireContext());
+        if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Task<FindCurrentPlaceResponse> placeResponse = mPlacesClient.findCurrentPlace(request);
+            placeResponse.addOnCompleteListener(new OnCompleteListener<FindCurrentPlaceResponse>() {
+                @Override
+                public void onComplete(@NonNull Task<FindCurrentPlaceResponse> task) {
+                    if (task.isSuccessful()) {
+                        FindCurrentPlaceResponse response = task.getResult();
+                        assert response != null;
+
+                        final String placeId = response.getPlaceLikelihoods().get(0).getPlace().getId();
+                        for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
+                            Log.i(TAG, String.format("Place '%s' has likelihood: '%f' ",
+                                    placeLikelihood.getPlace().getName(),
+                                    placeLikelihood.getLikelihood()));
+
+                            if (Objects.requireNonNull(placeLikelihood.getPlace().getTypes()).contains(Place.Type.RESTAURANT)) {
+                                Restaurant r = new Restaurant();
+                                r.setRestaurantid(placeLikelihood.getPlace().getId());
+                                r.setName(placeLikelihood.getPlace().getName());
+                                r.setAddress(placeLikelihood.getPlace().getAddress());
+                                r.setLatlng(placeLikelihood.getPlace().getLatLng());
+//                                mSharedViewModel.restaurants.add(r);
+                                //mMap.setInfoWindowAdapter(new CustomDetailWindowAdapter(getActivity()));
+                                mMap.addMarker(new MarkerOptions().position(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()))
+                                        //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+//                                        .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_restaurant_dark_orange_24dp))
+                                        .title(r.getName() + "\n" + r.getAddress()));
+//                                getRestaurantDetails(r);
+                            }
+
+                        }
+
+                    } else {
+                        Exception exception = task.getException();
+                        if (exception instanceof ApiException) {
+                            ApiException apiException = (ApiException) exception;
+                            Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                        }
+                    }
+                }
+            });
         } else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+//            getLocationPermission();
+        }
+    }
+
+    // ---------------------------- Get places ----
+
+    private void getPlaces() {
+        mPlacesClient = Places.createClient(requireContext());
+        if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Task<FindCurrentPlaceResponse> placeResponse = mPlacesClient.findCurrentPlace(request);
+            placeResponse.addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    FindCurrentPlaceResponse response = task.getResult();
+                    for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
+                        Log.i(TAG, String.format("Place '%s' has likelihood: %f",
+                                placeLikelihood.getPlace().getName(),
+                                placeLikelihood.getLikelihood()));
+                    }
+                } else {
+                    Exception exception = task.getException();
+                    if (exception instanceof ApiException) {
+                        ApiException apiException = (ApiException) exception;
+                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                    }
+                }
+            });
         }
     }
 
 
-    /**
-     * This method moves the location button into the right bottom corner
-     *
-     * @param mapView is the View on which we work
-     */
-    private void moveCompassButton(View mapView) {
-        try {
-            assert mapView != null; // skip this if the mapView has not been set yet
-            View view = mapView.findViewWithTag("GoogleMapMyLocationButton");
+    // COMPASS BUTTON //
 
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            layoutParams.setMargins(0, 0, 20, 20);
-
-            view.setLayoutParams(layoutParams);
-            view.setBackgroundColor(getResources().getColor(R.color.colorText));
-        } catch (Exception ex) {
-            Log.e(TAG, "MoveCompassButton() - failed: " + ex.getLocalizedMessage());
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * This method enables the compass / myLocation button
-     */
-    private void enableMyLocationButton() {
+    private void enableCompassButton() {
         if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(),
@@ -221,10 +276,32 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         }
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
+
+    // UI COMPASS BUTTON location
+
+    private void moveCompassButton(View mapView) {
+        try {
+            assert mapView != null; // skip this if the mapView has not been set yet
+            View view = mapView.findViewWithTag("GoogleMapMyLocationButton");
+
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layoutParams.setMargins(0, 0, 150, 30);
+
+            view.setLayoutParams(layoutParams);
+            view.setBackgroundColor(getResources().getColor(R.color.colorText));
+        } catch (Exception ex) {
+            Log.e(TAG, "MoveCompassButton() - failed: " + ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
     }
 
+    @Override
+    public boolean onMyLocationButtonClick() {
+//        if (mMainActivity.mSearchBar.getVisibility() == View.INVISIBLE) getRestaurants();
+        return false;
+    }
 
 }
