@@ -1,6 +1,7 @@
 package com.oc.go4lunch.activity.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.oc.go4lunch.R;
+import com.oc.go4lunch.activity.MainActivity;
 import com.oc.go4lunch.model.Restaurant;
 
 import java.util.Arrays;
@@ -62,7 +64,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private static final long UPDATE_INTERVAL = 30000;    /* 10 secs */
     private static final long FASTEST_INTERVAL = 10000;    /*  2 secs */
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-
+    private MainActivity mainActivity = new MainActivity();
 
     // TODO : Add Places API for restaurants markers
 
@@ -103,6 +105,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     // USER LOCATION updates listener service //
 
+    @SuppressLint("MissingPermission")
     protected void startLocationUpdates() {
 
         // Create the location request to start receiving updates

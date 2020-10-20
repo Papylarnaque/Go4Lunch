@@ -3,7 +3,9 @@ package com.oc.go4lunch.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +21,15 @@ import androidx.fragment.app.FragmentTransaction;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +37,9 @@ import com.oc.go4lunch.R;
 import com.oc.go4lunch.activity.auth.SignInActivity;
 import com.oc.go4lunch.activity.fragment.MapFragment;
 import com.oc.go4lunch.activity.fragment.RestaurantFragment;
+import com.oc.go4lunch.util.Prediction;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,8 +49,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
-
+    public boolean mLocationPermissionGranted;
+    private Intent autoCompleteIntent;
+    private int AUTOCOMPLETE_REQUEST_CODE = 111;
 
     // Use fields to define the data types to return.
     private List<Place.Field> placeFields = Collections.singletonList(Place.Field.NAME);
@@ -57,6 +68,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Places.initialize(getApplicationContext(), getString(R.string.google_api_key));
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        autoCompleteTextViewPlace = findViewById(R.id.autoCompleteTextViewPlace);
+
+
+        loadData();
+
+
         showFragment(new MapFragment());
         configureToolbar();
         configureDrawerLayout();
@@ -64,6 +81,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         getCurrentUser();
         getLocationPermission();
+
+
     }
 
     // BOTTOM NAVIGATION configuration //
@@ -113,6 +132,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+
     // DRAWER navigation  //
 
     @Override
@@ -146,19 +166,92 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
+    // TOOLBAR configuration //
 
-    // Request localisation
-    private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    private void configureToolbar() {
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id  = item.getItemId();
+        if(id == R.id.main_activity_menu_search && autoCompleteIntent != null){
+            startActivityForResult(autoCompleteIntent, AUTOCOMPLETE_REQUEST_CODE);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+
+    public void configureAutocomplete(LatLng position){
+        LatLngBounds bounds = convertToBounds(position, 2500);
+        autoCompleteIntent = new Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY, placeFields)
+                .setTypeFilter(TypeFilter.ESTABLISHMENT)
+                .setLocationRestriction(RectangularBounds.newInstance(bounds.southwest, bounds.northeast))
+                .build(this);
+
+    }
+
+    public static String convertLocationForApi(LatLng position){
+        if(position != null) {
+            Double lat = position.latitude;
+            Double lng = position.longitude;
+
+            return lat.toString() + "," + lng.toString();
+        }
+        return null;
+    }
+
+    public static LatLngBounds convertToBounds(LatLng center, double radius){
+        double distanceFromCenter = radius * Math.sqrt(2.0);
+//        LatLng southWest = computeOffset(center, distanceFromCenter, 225.0);
+//        LatLng northEast = SphericalUtil.computeOffset(center, distanceFromCenter, 45.0);
+        return new LatLngBounds(center, center);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            this.onAutocompleteRequest(resultCode, data);
         }
     }
+
+
+    // -----------------
+    // AUTOCOMPLETE CLICK
+    // -----------------
+    private void onAutocompleteRequest(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            boolean isRestaurant = false;
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            if(place.getTypes() != null) {
+
+                for (Place.Type type : place.getTypes()) {
+                    if (type == Place.Type.RESTAURANT) {
+                        isRestaurant = true;
+                        break;
+                    }
+                }
+            }
+            if(isRestaurant || place.getTypes() == null) {
+//                viewModel.showRestaurantSelected(place.getId());
+            }
+        }
+    }
+
+
+
 
 
 
@@ -184,12 +277,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
 
-    // TOOLBAR configuration //
-
-    private void configureToolbar() {
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-    }
 
 
     // FRAGMENT MANAGEMENT //
@@ -228,4 +315,34 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        }
 //    });
 
+
+
+    // Request localisation
+    public void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+
+    public AutoCompleteTextView autoCompleteTextViewPlace;
+
+
+
+    private void loadData() {
+        List<Prediction> predictions = new ArrayList<>();
+        PlacesAutoCompleteAdapter placesAutoCompleteAdapter = new PlacesAutoCompleteAdapter(getApplicationContext(), predictions);
+        autoCompleteTextViewPlace.setThreshold(1);
+        autoCompleteTextViewPlace.setAdapter(placesAutoCompleteAdapter);
+    }
+
+
+
 }
+
