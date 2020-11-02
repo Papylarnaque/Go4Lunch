@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
-    <string name="facebook_app_id" translatable="false">YOUR_KEY</string>
-    <string name="fb_login_protocol_scheme" translatable="false">YOUR_KEY</string>
+    <string name="facebook_app_id" translatable="false">987476838383860</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb987476838383860</string>
 
     <!-- Twitter consumer key and secret -->
-    <string name="twitter_consumer_key" translatable="false">YOUR_KEY</string>
-    <string name="twitter_consumer_secret" translatable="false">YOUR_KEY</string>
+    <string name="twitter_consumer_key" translatable="false">LNdtUDzlobzjM9VwXT2Bxv3xD</string>
+    <string name="twitter_consumer_secret" translatable="false">nIGAEjdNkkbuM6o3pGrGHOXOtEernbSgXKvHuWyGjI0VSFsRWF</string>
 
     <!-- Google Maps key -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY</string>
-    <string name="gmaps_app_id" translatable="false">YOUR_KEY</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBr-vowwD_JcVHBCjtUhqWDnML_jLQ-P4s</string>
+    <string name="gmaps_app_id" translatable="false">223977236fd33b3d</string>
 </resources>

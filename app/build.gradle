@@ -35,27 +35,31 @@ dependencies {
 
     implementation 'com.google.android.libraries.places:places:2.4.0'
 
-
     // Multidex
     implementation 'androidx.multidex:multidex:2.0.1'
 
+
+    // FIREBASE BOM platform & dependencies
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation "com.google.firebase:firebase-core"
+
     //Firestore
-    implementation 'com.google.firebase:firebase-firestore:21.7.1'
-
+//    implementation 'com.google.firebase:firebase-firestore:21.7.1'
     //firebase core
-    implementation "com.google.firebase:firebase-core:17.5.1"
-    implementation 'com.google.firebase:firebase-auth:19.4.0'
+//    implementation "com.google.firebase:firebase-core:17.5.1"
+//    implementation 'com.google.firebase:firebase-auth:19.4.0'
 
+    // AUTHENTICATION
     // FirebaseUI for Firebase Auth
     implementation 'com.firebaseui:firebase-ui-auth:6.3.0'
-
-    // Required for Facebook login support is required
+    // Facebook login support
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
-
-    // Required for Twitter login support is required
+    // Twitter login support
     implementation 'com.twitter.sdk.android:twitter-core:3.3.0'
-
-    // Required for Google login support
+    // Google login support
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -63,7 +67,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.1'
     implementation 'androidx.navigation:navigation-ui:2.3.1'
@@ -74,13 +78,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-
-
-    // Retrofit tests
-
+    // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 }

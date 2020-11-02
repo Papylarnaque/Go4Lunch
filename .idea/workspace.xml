@@ -14,6 +14,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="auth" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
@@ -29,7 +30,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_3_API_29]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -43,16 +44,25 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1jI47hEBKQffUmhnVw1MLM0Z1Mx" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DEBUGGABLE_DEVICE" value="emulator-5554" />
+    <property name="DEBUGGABLE_PROCESS" value="com.edescamp.go4lunch" />
+    <property name="DEBUGGER_ID" value="Auto" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_API_29" />
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-10-30T17:30:07.781Z" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="android-custom-viewC:/Users/Etienne/.gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.2.1/37d55d5141066b3d118d24232fa7025b65eb3a74/material-1.2.1-sources.jar!/com/google/android/material/navigation/NavigationView.java_SELECTED" value="NavigationView" />
     <property name="android-custom-viewC:/Users/Etienne/.gradle/caches/modules-2/files-2.1/com.twitter.sdk.android/twitter-core/3.3.0/4586b8a0b1e5836642ed4e89b9381ef8de0ae606/twitter-core-3.3.0-sources.jar!/com/twitter/sdk/android/core/identity/TwitterLoginButton.java_SELECTED" value="TwitterLoginButton" />
     <property name="android-custom-viewC:/Users/Etienne/AppData/Local/Android/Sdk/sources/android-29/android/view/View.java_SELECTED" value="View" />
@@ -62,14 +72,17 @@
     <property name="multi-representation-previewC:/Users/Etienne/.gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.2.1/37d55d5141066b3d118d24232fa7025b65eb3a74/material-1.2.1-sources.jar!/com/google/android/material/navigation/NavigationView.java_selected" value="Custom views" />
     <property name="multi-representation-previewC:/Users/Etienne/.gradle/caches/modules-2/files-2.1/com.twitter.sdk.android/twitter-core/3.3.0/4586b8a0b1e5836642ed4e89b9381ef8de0ae606/twitter-core-3.3.0-sources.jar!/com/twitter/sdk/android/core/identity/TwitterLoginButton.java_selected" value="Custom views" />
     <property name="multi-representation-previewC:/Users/Etienne/AppData/Local/Android/Sdk/sources/android-29/android/view/View.java_selected" value="Custom views" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.edescamp.go4lunch.activity.fragment" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Etienne\AndroidStudioProjects\Go4Lunch\app" />
     </key>
   </component>
   <component name="RunManager">
@@ -90,7 +103,7 @@
       <option name="ALL_USERS" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
+      <option name="MODE" value="specific_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
@@ -130,7 +143,7 @@
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="com.edescamp.go4lunch.activity.MainActivity" />
+      <option name="ACTIVITY_CLASS" value="com.edescamp.go4lunch.activity.auth.SplashActivity" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
@@ -156,14 +169,15 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="610" y="150" key="#Menus_and_Toolbars/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604090559302" />
-    <state x="1797" y="130" key="#PSD" timestamp="1604090763728">
-      <screen x="1600" y="0" width="1360" height="768" />
+    <state x="232" y="146" key="#PSD" timestamp="1604268094120">
+      <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="1797" y="130" key="#PSD/0.0.1600.860/1600.0.1360.768@1600.0.1360.768" timestamp="1604090763728" />
-    <state x="1763" y="36" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603995632949">
-      <screen x="1600" y="0" width="1360" height="768" />
+    <state x="232" y="146" key="#PSD/0.0.1600.860@0.0.1600.860" timestamp="1604268094120" />
+    <state x="254" y="85" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604244671285">
+      <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="254" y="85" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1603899436171" />
+    <state x="254" y="85" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604244671285" />
     <state x="1763" y="36" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1600.860/1600.0.1360.768@1600.0.1360.768" timestamp="1603995632949" />
     <state x="627" y="145" key="#com.intellij.ide.ui.customization.CustomizableActionsPanel.FindAvailableActionsDialog" timestamp="1604090434869">
       <screen x="0" y="0" width="1600" height="860" />
@@ -173,10 +187,10 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="605" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604084213958" />
-    <state x="529" y="220" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1603892705046">
+    <state x="529" y="220" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1604244669120">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="529" y="220" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1603892705046" />
+    <state x="529" y="220" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604244669120" />
     <state x="583" y="239" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1603823697976">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -194,6 +208,12 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604090053868" />
+    <state x="598" y="176" key="AndroidProcessChooserDialog" timestamp="1604357050237">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="598" y="176" key="AndroidProcessChooserDialog/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604357050237" />
+    <state x="598" y="176" key="AndroidProcessChooserDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245414137" />
+    <state x="598" y="176" key="AndroidProcessChooserDialog/0.0.1600.860@0.0.1600.860" timestamp="1604268538500" />
     <state x="380" y="135" key="AndroidThemeDialog" timestamp="1603902256381">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -202,22 +222,54 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1603906180270" />
-    <state width="1556" height="277" key="GridCell.Tab.0.bottom" timestamp="1604084001350">
+    <state width="1556" height="318" key="GridCell.Tab.0.bottom" timestamp="1604358767769">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="277" key="GridCell.Tab.0.bottom/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604084001350" />
-    <state width="1556" height="277" key="GridCell.Tab.0.center" timestamp="1604084001349">
+    <state width="1556" height="318" key="GridCell.Tab.0.bottom/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358767769" />
+    <state width="1095" height="251" key="GridCell.Tab.0.bottom/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483157" />
+    <state width="1299" height="386" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1604269084452" />
+    <state width="1556" height="318" key="GridCell.Tab.0.center" timestamp="1604358767769">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="277" key="GridCell.Tab.0.center/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604084001349" />
-    <state width="1556" height="277" key="GridCell.Tab.0.left" timestamp="1604084001349">
+    <state width="1556" height="318" key="GridCell.Tab.0.center/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358767769" />
+    <state width="1095" height="251" key="GridCell.Tab.0.center/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483156" />
+    <state width="1299" height="386" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1604269084452" />
+    <state width="1556" height="318" key="GridCell.Tab.0.left" timestamp="1604358767769">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="277" key="GridCell.Tab.0.left/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604084001349" />
-    <state width="1556" height="277" key="GridCell.Tab.0.right" timestamp="1604084001350">
+    <state width="1556" height="318" key="GridCell.Tab.0.left/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358767769" />
+    <state width="1095" height="251" key="GridCell.Tab.0.left/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483156" />
+    <state width="1299" height="386" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1604269084452" />
+    <state width="1556" height="318" key="GridCell.Tab.0.right" timestamp="1604358767769">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="277" key="GridCell.Tab.0.right/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604084001350" />
+    <state width="1556" height="318" key="GridCell.Tab.0.right/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358767769" />
+    <state width="1095" height="251" key="GridCell.Tab.0.right/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483156" />
+    <state width="1299" height="386" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1604269084452" />
+    <state width="1556" height="396" key="GridCell.Tab.1.bottom" timestamp="1604358690725">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1556" height="396" key="GridCell.Tab.1.bottom/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358690725" />
+    <state width="1095" height="251" key="GridCell.Tab.1.bottom/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483157" />
+    <state width="1299" height="261" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1604268914822" />
+    <state width="1556" height="396" key="GridCell.Tab.1.center" timestamp="1604358690725">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1556" height="396" key="GridCell.Tab.1.center/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358690725" />
+    <state width="1095" height="251" key="GridCell.Tab.1.center/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483157" />
+    <state width="1299" height="261" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1604268914822" />
+    <state width="1556" height="396" key="GridCell.Tab.1.left" timestamp="1604358690725">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1556" height="396" key="GridCell.Tab.1.left/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358690725" />
+    <state width="1095" height="251" key="GridCell.Tab.1.left/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483157" />
+    <state width="1299" height="261" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1604268914821" />
+    <state width="1556" height="396" key="GridCell.Tab.1.right" timestamp="1604358690725">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1556" height="396" key="GridCell.Tab.1.right/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358690725" />
+    <state width="1095" height="251" key="GridCell.Tab.1.right/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483157" />
+    <state width="1299" height="261" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1604268914822" />
     <state x="380" y="173" key="IDE.errors.dialog" timestamp="1604090521630">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -226,11 +278,12 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="300" y="9" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1603486257195" />
-    <state x="918" y="167" width="585" height="534" key="find.popup" timestamp="1604086036998">
+    <state x="507" y="163" width="585" height="534" key="find.popup" timestamp="1604358244413">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
+    <state x="507" y="163" width="585" height="534" key="find.popup/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604358244413" />
     <state x="918" y="167" width="585" height="534" key="find.popup/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604086036998" />
-    <state x="507" y="163" width="585" height="534" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1603997716532" />
+    <state x="507" y="163" width="585" height="534" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1604268235546" />
     <state x="456" y="195" key="run.anything.popup" timestamp="1604081637071">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
