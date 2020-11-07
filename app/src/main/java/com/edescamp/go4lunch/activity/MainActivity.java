@@ -74,6 +74,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
+
+
     //----- INITIAL STATE -----
 
     private void configureInitialState(){
@@ -285,7 +287,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
-
 
 
 

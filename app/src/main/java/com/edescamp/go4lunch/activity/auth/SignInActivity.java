@@ -42,13 +42,11 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 public class SignInActivity extends BaseActivity {
 
-    // TODO Override up action to avoid going back to main from up action
-
     // --------------------
     // FOR DATA
     // --------------------
 
-    private String TAG = "SIGN";
+    private static final String TAG = "SIGN";
 
     // LOGIN REQUEST CODE
     public static final int LOGIN_FACEBOOK = 2;
@@ -83,8 +81,6 @@ public class SignInActivity extends BaseActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     }
-
-
 
 
     private void retrieveLoginStatus() {
@@ -135,7 +131,6 @@ public class SignInActivity extends BaseActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-
     // HANDLE PROVIDER RESULT
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -162,7 +157,6 @@ public class SignInActivity extends BaseActivity {
         }
 
     }
-
 
     // FACEBOOK AUTH
     private void configFacebookAuth() {
@@ -237,7 +231,7 @@ public class SignInActivity extends BaseActivity {
                     // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(SignInActivity.this, "Authentication failed.",
+                        Toast.makeText(SignInActivity.this, "Facebook Authentication Failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -260,7 +254,7 @@ public class SignInActivity extends BaseActivity {
                             // TODO Handle merging users account / linking providers to account
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Snackbar.make(findViewById(R.id.signin_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.signin_layout), "Google Authentication Failed.", Snackbar.LENGTH_SHORT).show();
 //                            updateUI(null);
                         }
 
@@ -274,5 +268,12 @@ public class SignInActivity extends BaseActivity {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }
+    }
+
+    // Override up action to avoid going back to main from up action
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+
     }
 }

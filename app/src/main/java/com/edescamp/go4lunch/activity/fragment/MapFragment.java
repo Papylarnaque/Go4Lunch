@@ -21,7 +21,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
 import com.edescamp.go4lunch.model.Restaurant;
-import com.google.android.gms.common.api.ApiException;
+import com.edescamp.go4lunch.service.APIClient;
+import com.edescamp.go4lunch.service.GoogleMapAPI;
+import com.edescamp.go4lunch.service.entities.Result;
+import com.edescamp.go4lunch.service.entities.Results;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -35,22 +38,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
-
-// Add an import statement for the client library.
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
@@ -60,18 +57,17 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private static final long FASTEST_INTERVAL = 10000;    /*  2 secs */
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
+    // API request parameters
+    private static final int radius = 500; // radius in meters around user for search
+    private static final String language = "en";
+    private static final String keyword = "restaurant";
+
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
 
-    // TODO : Add Places API for restaurants markers
-    private PlacesClient mPlacesClient;
     private MainActivity mainActivity = new MainActivity();
 
     public MapFragment() {
-    }
-
-    public static MapFragment newInstance() {
-        return new MapFragment();
     }
 
     @Override
@@ -91,12 +87,13 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         mMapFragment.getMapAsync(this);
 
+        startLocationUpdates();
+
         return v;
     }
 
 
     // USER LOCATION updates listener service //
-
     @SuppressLint("MissingPermission")
     protected void startLocationUpdates() {
 
@@ -104,8 +101,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+//        mLocationRequest.setInterval(UPDATE_INTERVAL);
+//        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
 
         // Create LocationSettingsRequest object using location request
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -132,19 +129,25 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     }
 
     // USER LOCATION UPDATES actions : what to do if the user moves //
-
     public void onLocationChanged(Location location) {
 
         // New location has now been determined
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
         //The line below is for camera actualisation if the user moves
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, INITIAL_ZOOM));
+
+        // Userlocation for API request
+        String userLocationStr = userLocation.latitude + "," + userLocation.longitude;
+        getPlace(userLocationStr);
+
+        //TODO Manage AddMarker updates while moving the camera
+        // (location of the center of the camera) instead of radius around the userLocation
+
     }
 
 
     // UI MAP //
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -157,100 +160,52 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
-        startLocationUpdates();
-        initPlaces();
-        getNearbyPlaces();
-//        getPlaces();
-
-    }
-
-
-    // ---------------------------- Init places ----
-
-    public void initPlaces() {
-        if (!Places.isInitialized()) {
-            Places.initialize(requireContext(), String.valueOf(R.string.google_maps_key));
-        }
-        mPlacesClient = Places.createClient(requireContext());
-    }
-
-
-    //---------------------------- Places information type initialization -----
-    // + show the marker of the restaurant on the map
-
-    public void getNearbyPlaces() {
-        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.TYPES, Place.Field.LAT_LNG);
-        FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
-
-        mPlacesClient = Places.createClient(requireContext());
-        if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Task<FindCurrentPlaceResponse> placeResponse = mPlacesClient.findCurrentPlace(request);
-            placeResponse.addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    FindCurrentPlaceResponse response = task.getResult();
-                    assert response != null;
-
-                    final String placeId = response.getPlaceLikelihoods().get(0).getPlace().getId();
-                    for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                        Log.i(TAG, String.format("Place '%s' has likelihood: '%f' ",
-                                placeLikelihood.getPlace().getName(),
-                                placeLikelihood.getLikelihood()));
-
-                        if (Objects.requireNonNull(placeLikelihood.getPlace().getTypes()).contains(Place.Type.RESTAURANT)) {
-                            Restaurant r = new Restaurant();
-                            r.setRestaurantid(placeLikelihood.getPlace().getId());
-                            r.setName(placeLikelihood.getPlace().getName());
-                            r.setAddress(placeLikelihood.getPlace().getAddress());
-                            r.setLatlng(placeLikelihood.getPlace().getLatLng());
-                            // manage the marker of the restaurant on the map
-                            mMap.addMarker(new MarkerOptions().position(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()))
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                                    .title(r.getName() + "\n" + r.getAddress()));
-                        }
-
-                    }
-
-                } else {
-                    Exception exception = task.getException();
-                    if (exception instanceof ApiException) {
-                        ApiException apiException = (ApiException) exception;
-                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-                    }
-                }
-            });
-        } else {
-            getLocationPermission();
-        }
     }
 
     // ---------------------------- Get places ----
+    private void getPlace(String userLocationStr) {
+        GoogleMapAPI googleMapAPI = APIClient.getClient().create(GoogleMapAPI.class);
+        Call<Results> nearbyPlaces = googleMapAPI.getNearbyPlaces(userLocationStr, radius, language, keyword, getResources().getString(R.string.google_maps_key));
+        nearbyPlaces.enqueue(new Callback<Results>() {
+            @Override
+            public void onResponse(Call<Results> call, Response<Results> response) {
+                if (response.isSuccessful()) {
+                    Results body = response.body();
+                    List<Result> results = body.getResults();
+                    if (results != null && results.size() > 0) {
+                        for (Result result : results) {
+                            addMarkerResult(results);
+                        }
+                    }
+                }
+            }
 
-//    private void getPlaces() {
-//        mPlacesClient = Places.createClient(requireContext());
-//        if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            Task<FindCurrentPlaceResponse> placeResponse = mPlacesClient.findCurrentPlace(request);
-//            placeResponse.addOnCompleteListener(task -> {
-//                if (task.isSuccessful()) {
-//                    FindCurrentPlaceResponse response = task.getResult();
-//                    for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-//                        Log.i(TAG, String.format("Place '%s' has likelihood: %f",
-//                                placeLikelihood.getPlace().getName(),
-//                                placeLikelihood.getLikelihood()));
-//                    }
-//                } else {
-//                    Exception exception = task.getException();
-//                    if (exception instanceof ApiException) {
-//                        ApiException apiException = (ApiException) exception;
-//                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-//                    }
-//                }
-//            });
-//        }
-//    }
+            @Override
+            public void onFailure(Call<Results> call, Throwable t) {
+                // TODO Handle failures, 404 error, etc
+                Log.d(TAG, "getPlace API failure" + t);
+            }
+
+        });
+    }
+
+    // + show the marker of the restaurant on the map
+    private void addMarkerResult(List<Result> results) {
+        for (Result result : results) {
+            Log.d(TAG, "GoogleMapAPI result :" + result);
+            Restaurant restaurant = new Restaurant();
+            restaurant.setRestaurantid(result.getPlaceId());
+            restaurant.setName(result.getName());
+            restaurant.setAddress(result.getVicinity());
+            restaurant.setLatlng(new LatLng(result.getGeometry().getLocation().getLat(), result.getGeometry().getLocation().getLng()));
+            mMap.addMarker(new MarkerOptions().position(Objects.requireNonNull(restaurant.getLatlng()))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .title(restaurant.getName() + "\n" + restaurant.getAddress()));
+        }
+    }
 
 
     // COMPASS BUTTON //
-
     private void enableCompassButton() {
         if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -263,9 +218,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         }
     }
 
-
     // UI COMPASS BUTTON location
-
     private void moveCompassButton(View mapView) {
         try {
             assert mapView != null; // skip this if the mapView has not been set yet
@@ -288,9 +241,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     @Override
     public boolean onMyLocationButtonClick() {
 //        if (mMainActivity.mSearchBar.getVisibility() == View.INVISIBLE) getRestaurants();
+        startLocationUpdates();
         return false;
     }
-
 
     // Request localisation
     public void getLocationPermission() {
