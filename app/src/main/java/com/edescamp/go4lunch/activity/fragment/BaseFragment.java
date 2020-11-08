@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 
 public abstract class BaseFragment extends Fragment {
 
+    private static final String TAG = "BaseFragment";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +23,8 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         return super.onCreateView(inflater, container, savedInstanceState);
-    }
 
+    }
 
 }
 

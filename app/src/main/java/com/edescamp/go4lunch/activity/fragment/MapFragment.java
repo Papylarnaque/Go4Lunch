@@ -70,6 +70,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     public MapFragment() {
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,10 +88,30 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         mMapFragment.getMapAsync(this);
 
-        startLocationUpdates();
+
 
         return v;
     }
+
+
+    // UI MAP //
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        mMap = googleMap;
+
+        enableCompassButton();
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.setOnMyLocationButtonClickListener(this);
+
+        View mapView = mMapFragment.getView();
+        moveCompassButton(mapView);
+
+        startLocationUpdates();
+
+    }
+
+
 
 
     // USER LOCATION updates listener service //
@@ -128,18 +149,20 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                 Looper.myLooper());
     }
 
-    // USER LOCATION UPDATES actions : what to do if the user moves //
-    public void onLocationChanged(Location location) {
+    private void onLocationChanged(Location location) {
 
         // New location has now been determined
-         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
-        //The line below is for camera actualisation if the user moves
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, INITIAL_ZOOM));
+        if (userLocation != null) {
+            //The line below is for camera actualisation if the user moves
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, INITIAL_ZOOM));
 
-        // Userlocation for API request
-        String userLocationStr = userLocation.latitude + "," + userLocation.longitude;
-        getPlace(userLocationStr);
+            // Userlocation for API request
+            String userLocationStr = userLocation.latitude + "," + userLocation.longitude;
+            getPlace(userLocationStr);
+        }
+
 
         //TODO Manage AddMarker updates while moving the camera
         // (location of the center of the camera) instead of radius around the userLocation
@@ -147,25 +170,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     }
 
 
-    // UI MAP //
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        mMap = googleMap;
-
-        enableCompassButton();
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setOnMyLocationButtonClickListener(this);
-
-        View mapView = mMapFragment.getView();
-        moveCompassButton(mapView);
-
-    }
-
     // ---------------------------- Get places ----
     private void getPlace(String userLocationStr) {
         GoogleMapAPI googleMapAPI = APIClient.getClient().create(GoogleMapAPI.class);
         Call<Results> nearbyPlaces = googleMapAPI.getNearbyPlaces(userLocationStr, radius, language, keyword, getResources().getString(R.string.google_maps_key));
+
         nearbyPlaces.enqueue(new Callback<Results>() {
             @Override
             public void onResponse(Call<Results> call, Response<Results> response) {
@@ -173,13 +182,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     Results body = response.body();
                     List<Result> results = body.getResults();
                     if (results != null && results.size() > 0) {
-                        for (Result result : results) {
-                            addMarkerResult(results);
-                        }
+                        addMarkerResult(results);
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<Results> call, Throwable t) {
                 // TODO Handle failures, 404 error, etc
@@ -188,6 +194,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         });
     }
+
 
     // + show the marker of the restaurant on the map
     private void addMarkerResult(List<Result> results) {

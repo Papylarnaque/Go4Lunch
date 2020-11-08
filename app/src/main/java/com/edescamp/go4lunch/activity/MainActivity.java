@@ -154,14 +154,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
                 // TODO Manage YOUR LUNCH
-                Toast toast = Toast.makeText(getApplicationContext(),"Manage YOUR LUNCH",Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(),"Manage YOUR LUNCH",Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return true;
             // "SETTINGS"
             case main_drawer_settings_id:
                 // TODO Manage SETTINGS
-                Toast toastSettings = Toast.makeText(getApplicationContext(),"Manage SETTINGS",Toast.LENGTH_LONG);
+                Toast toastSettings = Toast.makeText(getApplicationContext(),"Manage SETTINGS",Toast.LENGTH_SHORT);
                 toastSettings.setGravity(Gravity.CENTER, 0, 0);
                 toastSettings.show();
                 return true;
@@ -205,7 +205,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id  = item.getItemId();
         if(id == R.id.main_activity_menu_search){
             // TODO Manage AUTOCOMPLETE SEARCH
-            Toast toast = Toast.makeText(getApplicationContext(),"Manage AUTOCOMPLETE SEARCH",Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(),"Manage AUTOCOMPLETE SEARCH",Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
             return true;

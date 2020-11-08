@@ -14,7 +14,7 @@ public class WorkmatesFragment extends BaseFragment {
 
 
     private static final String TAG = "TAG";
-    private static final String COLLECTION_RESTAURANTS = "restaurant";
+    private static final String COLLECTION_WOKMATES = "workmates";
 
 
     @Nullable
