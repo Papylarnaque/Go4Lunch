@@ -5,12 +5,10 @@ import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.model.Restaurant;
 import com.edescamp.go4lunch.service.APIClient;
@@ -62,11 +60,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
 
 //        getDistanceAPI(r);
 
-        r.setUrlPicture(results.get(position).getPhotos().get(0).getPhoto_URL()+R.string.google_api_key);
-
-        Glide.with(this.context)
-                .load(r.getUrlPicture())
-                .into((ImageView) holder.itemView.findViewById(R.id.item_restaurant_picture));
+        r.setUrlPicture(results.get(position).getPhotos().get(0).getPhoto_URL()+ context.getResources().getString(R.string.google_api_key));
 
 
         holder.updateViewWithRestaurants(results.get(position), r);

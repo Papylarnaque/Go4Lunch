@@ -1,5 +1,6 @@
 package com.edescamp.go4lunch.service;
 
+import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
 import com.edescamp.go4lunch.service.entities.RowAPIDistance;
 
@@ -25,6 +26,16 @@ public interface APIRequest {
             @Query("destinations") String destinations,
             @Query("key") String key
     );
+
+
+    @GET("place/details/json")
+    Call<ResultsAPIDetails> getDetailsRestaurant(
+            @Query("place_id") String place_id,
+            @Query("fields") String fields,
+            @Query("key") String key
+    );
+
+
 
 
 }

@@ -43,8 +43,6 @@ public class RestaurantFragment extends BaseFragment {
     private static final String COLLECTION_RESTAURANTS = "restaurant";
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     // API request parameters
     private static final int radius = 400; // radius in meters around user for search
