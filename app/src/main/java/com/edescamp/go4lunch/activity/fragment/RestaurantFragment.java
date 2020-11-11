@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.adapter.RestaurantAdapter;
 import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.GoogleMapAPI;
-import com.edescamp.go4lunch.service.entities.Result;
-import com.edescamp.go4lunch.service.entities.Results;
+import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.service.entities.ResultAPIMap;
+import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -47,7 +47,7 @@ public class RestaurantFragment extends BaseFragment {
     private RecyclerView.LayoutManager layoutManager;
 
     // API request parameters
-    private static final int radius = 500; // radius in meters around user for search
+    private static final int radius = 400; // radius in meters around user for search
     private static final String language = "en";
     private static final String keyword = "restaurant";
     private LatLng userLatLng;
@@ -67,7 +67,6 @@ public class RestaurantFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.restaurant_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        recyclerView.setAdapter(new RestaurantAdapter(1234));
 
         startLocationUpdates();
 
@@ -130,27 +129,30 @@ public class RestaurantFragment extends BaseFragment {
     }
 
 
-    // ---------------------------- Get places ----
+    // ---------------------------- Get places for markers----
     private void getPlace(String userLocationStr) {
-        GoogleMapAPI googleMapAPI = APIClient.getClient().create(GoogleMapAPI.class);
-        Call<Results> nearbyPlaces = googleMapAPI.getNearbyPlaces(userLocationStr, radius, language, keyword, getResources().getString(R.string.google_maps_key));
-
-        nearbyPlaces.enqueue(new Callback<Results>() {
+        APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
+        Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(
+                userLocationStr,
+                radius,
+                language,
+                keyword,
+                getResources().getString(R.string.google_maps_key)
+        );
+        nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
-            public void onResponse(Call<Results> call, Response<Results> response) {
+            public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
-                    Results body = response.body();
-                    List<Result> results = body.getResults();
+                    ResultsAPIMap body = response.body();
+                    List<ResultAPIMap> results = body.getResults();
                     if (results != null && results.size() > 0) {
-                        for (Result result : results){
-                            sendResultsToAdapter(results);
-                        }
+                        sendResultsToAdapter(results);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Results> call, Throwable t) {
+            public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
                 // TODO Handle failures, 404 error, etc
                 Log.d(TAG, "getPlace API failure" + t);
             }
@@ -158,8 +160,52 @@ public class RestaurantFragment extends BaseFragment {
         });
     }
 
-    private void sendResultsToAdapter(List<Result> results) {
-        recyclerView.setAdapter(new RestaurantAdapter(results, userLocation));
+    private void sendResultsToAdapter(List<ResultAPIMap> results) {
+//        for (ResultAPIMap result : results) {
+//            Location restaurantLatLng = null;
+//            restaurantLatLng.setLatitude(result.getGeometry().getLocation().getLat());
+//            restaurantLatLng.setLongitude(result.getGeometry().getLocation().getLng());
+//            getDistance(restaurantLatLng, results);
+//        }
+
+        recyclerView.setAdapter(new RestaurantAdapter(results, userLocation, getContext()));
+    }
+
+//    public void getDistance(Location restaurantLocation) {
+//        APIRequest apiRequest = APIClient.getClient().create(APIRequest.class);
+//        Call<RowAPIDistance> rowAPI = apiRequest.getDistanceBetweenLocations(
+//                convertLocationForApi(userLocation),
+//                convertLocationForApi(restaurantLocation),
+//                getResources().getString(R.string.google_maps_key));
+//        rowAPI.enqueue(new Callback<RowAPIDistance>() {
+//            @Override
+//            public void onResponse(Call<RowAPIDistance> call, Response<RowAPIDistance> response) {
+//                if (response.isSuccessful()) {
+//                    RowAPIDistance body = response.body();
+//                    if (body != null) {
+//                        float distance = body.getElements().getDistance().getValue();
+//                        Restaurant restaurant;
+//                        restaurant.setDistance(distance);
+//                        sendElementsToAdapter(elements.getDistance().getValue());
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RowAPIDistance> call, Throwable t) {
+//
+//            }
+//        });
+//    }
+
+    public static String convertLocationForApi(Location location) {
+        if (location != null) {
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+
+            return lat + "," + lng;
+        }
+        return null;
     }
 
 

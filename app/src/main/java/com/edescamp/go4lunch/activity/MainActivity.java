@@ -64,12 +64,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        autoCompleteTextViewPlace = findViewById(R.id.autoCompleteTextViewPlace);
 //        autoCompleteTextViewPlace.setVisibility(View.INVISIBLE);
 
-        configureInitialState();
+
         configureToolbar();
         configureDrawerLayout();
         configureNavigationMenu();
+        configureInitialState();
 
         getCurrentUser();
+
         getLocationPermission();
     }
 
@@ -79,13 +81,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     //----- INITIAL STATE -----
 
     private void configureInitialState(){
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
-        if(fragment == null) {
-            fragment = (MapFragment) new MapFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
-        }
+        Fragment fragment = new MapFragment();
+        mToolbar.setTitle(R.string.title_mapview);
+        showFragment(fragment);
+//        if(fragment == null) {
+//            fragment = (MapFragment) new MapFragment();
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.container, fragment)
+//                    .commit();
+//        }
 
     }
 

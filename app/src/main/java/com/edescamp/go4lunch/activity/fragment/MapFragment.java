@@ -22,9 +22,9 @@ import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
 import com.edescamp.go4lunch.model.Restaurant;
 import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.GoogleMapAPI;
-import com.edescamp.go4lunch.service.entities.Result;
-import com.edescamp.go4lunch.service.entities.Results;
+import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.service.entities.ResultAPIMap;
+import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -58,7 +58,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     // API request parameters
-    private static final int radius = 500; // radius in meters around user for search
+    private static final int radius = 400; // radius in meters around user for search
     private static final String language = "en";
     private static final String keyword = "restaurant";
 
@@ -172,22 +172,22 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     // ---------------------------- Get places ----
     private void getPlace(String userLocationStr) {
-        GoogleMapAPI googleMapAPI = APIClient.getClient().create(GoogleMapAPI.class);
-        Call<Results> nearbyPlaces = googleMapAPI.getNearbyPlaces(userLocationStr, radius, language, keyword, getResources().getString(R.string.google_maps_key));
+        APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
+        Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(userLocationStr, radius, language, keyword, getResources().getString(R.string.google_maps_key));
 
-        nearbyPlaces.enqueue(new Callback<Results>() {
+        nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
-            public void onResponse(Call<Results> call, Response<Results> response) {
+            public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
-                    Results body = response.body();
-                    List<Result> results = body.getResults();
+                    ResultsAPIMap body = response.body();
+                    List<ResultAPIMap> results = body.getResults();
                     if (results != null && results.size() > 0) {
                         addMarkerResult(results);
                     }
                 }
             }
             @Override
-            public void onFailure(Call<Results> call, Throwable t) {
+            public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
                 // TODO Handle failures, 404 error, etc
                 Log.d(TAG, "getPlace API failure" + t);
             }
@@ -197,9 +197,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
 
     // + show the marker of the restaurant on the map
-    private void addMarkerResult(List<Result> results) {
-        for (Result result : results) {
-            Log.d(TAG, "GoogleMapAPI result :" + result);
+    private void addMarkerResult(List<ResultAPIMap> results) {
+        for (ResultAPIMap result : results) {
+            Log.d(TAG, "apiMap result :" + result);
             Restaurant restaurant = new Restaurant();
             restaurant.setRestaurantid(result.getPlaceId());
             restaurant.setName(result.getName());

@@ -98,7 +98,7 @@
 
 
     <ImageView
-        android:id="@+id/item_list_restaurant_picture"
+        android:id="@+id/item_restaurant_picture"
         android:layout_width="@dimen/picture_restaurant"
         android:layout_height="@dimen/picture_restaurant"
         android:layout_marginTop="@dimen/restaurant_horizontal_margin"

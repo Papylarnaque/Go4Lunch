@@ -11,26 +11,28 @@ import java.io.Serializable;
 public class Restaurant implements Serializable {
 
 
-
-//    private String restaurantid;
+    //    private String restaurantid;
 //    private String name;
     private LatLng latlng;
     private String address;
     private Integer rating;
+    private Integer distance;
     @Nullable
     private String urlPicture;
 
     public Restaurant() {
     }
 
-    public Restaurant(String restaurantid, String name, LatLng latlng, String address, Integer rating, @Nullable String urlPicture) {
+    public Restaurant(String restaurantid, String name, LatLng latlng, String address, Integer rating, @Nullable String urlPicture, Integer distance) {
         this.restaurantid = restaurantid;
         this.name = name;
         this.latlng = latlng;
         this.address = address;
         this.rating = rating;
         this.urlPicture = urlPicture;
+        this.distance = distance;
     }
+
 
     @SerializedName("offset")
     private String restaurantid;
@@ -87,4 +89,13 @@ public class Restaurant implements Serializable {
     public void setUrlPicture(@Nullable String urlPicture) {
         this.urlPicture = urlPicture;
     }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
 }
