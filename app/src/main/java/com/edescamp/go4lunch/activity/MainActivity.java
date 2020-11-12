@@ -84,13 +84,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Fragment fragment = new MapFragment();
         mToolbar.setTitle(R.string.title_mapview);
         showFragment(fragment);
-//        if(fragment == null) {
-//            fragment = (MapFragment) new MapFragment();
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container, fragment)
-//                    .commit();
-//        }
-
     }
 
 

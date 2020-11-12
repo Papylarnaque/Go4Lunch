@@ -142,8 +142,8 @@ public class RestaurantFragment extends BaseFragment {
             public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
-                    List<ResultAPIMap> results = body.getResults();
-                    if (results != null && results.size() > 0) {
+                    if (body != null) {
+                        List<ResultAPIMap> results = body.getResults();
                         sendResultsToAdapter(results);
                     }
                 }
@@ -159,42 +159,9 @@ public class RestaurantFragment extends BaseFragment {
     }
 
     private void sendResultsToAdapter(List<ResultAPIMap> results) {
-//        for (ResultAPIMap result : results) {
-//            Location restaurantLatLng = null;
-//            restaurantLatLng.setLatitude(result.getGeometry().getLocation().getLat());
-//            restaurantLatLng.setLongitude(result.getGeometry().getLocation().getLng());
-//            getDistance(restaurantLatLng, results);
-//        }
-
-        recyclerView.setAdapter(new RestaurantAdapter(results, userLocation, getContext()));
+        recyclerView.setAdapter(new RestaurantAdapter(results, userLocation));
     }
 
-//    public void getDistance(Location restaurantLocation) {
-//        APIRequest apiRequest = APIClient.getClient().create(APIRequest.class);
-//        Call<RowAPIDistance> rowAPI = apiRequest.getDistanceBetweenLocations(
-//                convertLocationForApi(userLocation),
-//                convertLocationForApi(restaurantLocation),
-//                getResources().getString(R.string.google_maps_key));
-//        rowAPI.enqueue(new Callback<RowAPIDistance>() {
-//            @Override
-//            public void onResponse(Call<RowAPIDistance> call, Response<RowAPIDistance> response) {
-//                if (response.isSuccessful()) {
-//                    RowAPIDistance body = response.body();
-//                    if (body != null) {
-//                        float distance = body.getElements().getDistance().getValue();
-//                        Restaurant restaurant;
-//                        restaurant.setDistance(distance);
-//                        sendElementsToAdapter(elements.getDistance().getValue());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<RowAPIDistance> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
     public static String convertLocationForApi(Location location) {
         if (location != null) {

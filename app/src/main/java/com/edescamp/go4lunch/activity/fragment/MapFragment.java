@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.activity.MainActivity;
 import com.edescamp.go4lunch.model.Restaurant;
 import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
@@ -53,8 +52,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private static final String TAG = "MapFragment";
     private static final float INITIAL_ZOOM = 15f;
-    private static final long UPDATE_INTERVAL = 30000;    /* 10 secs */
-    private static final long FASTEST_INTERVAL = 10000;    /*  2 secs */
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     // API request parameters
@@ -64,8 +61,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
-
-    private MainActivity mainActivity = new MainActivity();
 
     public MapFragment() {
     }
@@ -107,11 +102,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
+
         startLocationUpdates();
-
     }
-
-
 
 
     // USER LOCATION updates listener service //
@@ -121,9 +114,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         // Create the location request to start receiving updates
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-//        mLocationRequest.setInterval(UPDATE_INTERVAL);
-//        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
 
         // Create LocationSettingsRequest object using location request
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -154,14 +144,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         // New location has now been determined
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if (userLocation != null) {
-            //The line below is for camera actualisation if the user moves
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, INITIAL_ZOOM));
+        //The line below is for camera actualisation if the user moves
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, INITIAL_ZOOM));
 
-            // Userlocation for API request
-            String userLocationStr = userLocation.latitude + "," + userLocation.longitude;
-            getPlace(userLocationStr);
-        }
+        // Userlocation for API request
+        String userLocationStr = userLocation.latitude + "," + userLocation.longitude;
+        getPlace(userLocationStr);
 
 
         //TODO Manage AddMarker updates while moving the camera
@@ -180,15 +168,16 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
-                    List<ResultAPIMap> results = body.getResults();
-                    if (results != null && results.size() > 0) {
+                    if (body != null) {
+                        List<ResultAPIMap> results = body.getResults();
                         addMarkerResult(results);
                     }
                 }
+                // TODO Handle failures, 404 error, etc
             }
             @Override
             public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
-                // TODO Handle failures, 404 error, etc
+
                 Log.d(TAG, "getPlace API failure" + t);
             }
 
@@ -207,7 +196,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             restaurant.setLatlng(new LatLng(result.getGeometry().getLocation().getLat(), result.getGeometry().getLocation().getLng()));
             mMap.addMarker(new MarkerOptions().position(Objects.requireNonNull(restaurant.getLatlng()))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                    .title(restaurant.getName() + "\n" + restaurant.getAddress()));
+                    .title(restaurant.getName()).snippet(restaurant.getAddress()));
         }
     }
 
@@ -252,16 +241,5 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         return false;
     }
 
-    // Request localisation
-    public void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-    }
 
 }

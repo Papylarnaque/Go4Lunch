@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.model.Restaurant;
-import com.edescamp.go4lunch.service.entities.ResultAPIMap;
 
 public class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
@@ -24,12 +23,11 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void updateViewWithRestaurants(ResultAPIMap result, Restaurant r) {
-        rName.setText(String.valueOf(result.getName()));
-        rAddress.setText(String.valueOf(result.getVicinity()));
-//        rDistance.setText(String.valueOf(distance));
-        rDistance.setText(new StringBuilder().append(r.getDistance()).append("m"));
-        Glide.with(itemView).load(r.getUrlPicture()).into(rPicture);
+    public void updateViewWithRestaurants(Restaurant restaurant) {
+        rName.setText(String.valueOf(restaurant.getName()));
+        rAddress.setText(String.valueOf(restaurant.getAddress()));
+        rDistance.setText(new StringBuilder().append(restaurant.getDistance()).append("m"));
+        Glide.with(itemView).load(restaurant.getUrlPicture()).into(rPicture);
 
 
     }

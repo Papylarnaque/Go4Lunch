@@ -11,29 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.model.Restaurant;
-import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.APIRequest;
-import com.edescamp.go4lunch.service.entities.ElementAPIDistance;
 import com.edescamp.go4lunch.service.entities.ResultAPIMap;
-import com.edescamp.go4lunch.service.entities.RowAPIDistance;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder> {
 
-    private Context context;
-    private List<ResultAPIMap> results;
-    private Location userLocation;
+    private final List<ResultAPIMap> results;
+    private final Location userLocation;
 
-    public RestaurantAdapter(List<ResultAPIMap> results, Location userLocation, Context context) {
+    public RestaurantAdapter(List<ResultAPIMap> results, Location userLocation) {
         this.results = results;
         this.userLocation = userLocation;
-        this.context = context;
     }
 
     @Override
@@ -50,20 +40,19 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
-        Restaurant r = new Restaurant();
-        r.setRestaurantid(results.get(position).getPlaceId());
-        r.setLatlng(new LatLng(
-                results.get(position).getGeometry().getLocation().getLat(),
-                results.get(position).getGeometry().getLocation().getLng()));
+        Restaurant restaurant = new Restaurant();
+        ResultAPIMap result = results.get(position);
+        restaurant.setRestaurantid(result.getPlaceId());
+        restaurant.setLatlng(new LatLng(
+                result.getGeometry().getLocation().getLat(),
+                result.getGeometry().getLocation().getLng()));
 
-        getStraightDistance(r);
+        getStraightDistance(restaurant);
 
-//        getDistanceAPI(r);
+        Context context = holder.itemView.getContext();
+        restaurant.setUrlPicture(result.getPhotos().get(0).getPhoto_URL()+ context.getResources().getString(R.string.google_api_key));
 
-        r.setUrlPicture(results.get(position).getPhotos().get(0).getPhoto_URL()+ context.getResources().getString(R.string.google_api_key));
-
-
-        holder.updateViewWithRestaurants(results.get(position), r);
+        holder.updateViewWithRestaurants(restaurant);
     }
 
     private void getStraightDistance(Restaurant r){
@@ -72,52 +61,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
         restaurantLocation.setLatitude(r.getLatlng().latitude);
 
         r.setDistance((int) restaurantLocation.distanceTo(userLocation));
-
     }
-
-
-    public void getDistanceAPI(Restaurant r) {
-        Location restaurantLocation = new Location("");
-        restaurantLocation.setLatitude(r.getLatlng().latitude);
-        restaurantLocation.setLongitude(r.getLatlng().longitude);
-
-        APIRequest apiRequest = APIClient.getClient().create(APIRequest.class);
-        Call<RowAPIDistance> rowAPI = apiRequest.getDistanceBetweenLocations(
-                convertLocationForApi(userLocation),
-                convertLocationForApi(restaurantLocation),
-                context.getResources().getString(R.string.google_maps_key));
-        rowAPI.enqueue(new Callback<RowAPIDistance>() {
-            @Override
-            public void onResponse(Call<RowAPIDistance> call, Response<RowAPIDistance> response) {
-                if (response.isSuccessful()) {
-                    RowAPIDistance body = response.body();
-                    if (body != null) {
-                        ElementAPIDistance elements = body.getElements();
-                        r.setDistance(elements.getDistance().getValue());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<RowAPIDistance> call, Throwable t) {
-
-            }
-        });
-    }
-
 
     @Override
     public int getItemCount() {
         return results.size();
     }
 
-    public static String convertLocationForApi(Location location) {
-        if (location != null) {
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-
-            return lat + "," + lng;
-        }
-        return null;
-    }
 
 }
