@@ -34,8 +34,12 @@
     <string name="restaurant_picture" translatable="false">restaurant_picture</string>
     <string name="no_items" translatable="false">No items.</string>
     <string name="menu_main_activity_search" translatable="false">Search</string>
-    <string name="text_workmate">text_workmate_name</string>
-    <string name="workmate_picture">workmate_picture</string>
+    <string name="text_workmate" translatable="false">text_workmate_name</string>
+    <string name="workmate_picture" translatable="false">workmate_picture</string>
+
+
+    <!--    Permissions-->
+    <string name="permissions_not_granted">Permissions were not granted.</string>
 
 
 </resources>

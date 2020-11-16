@@ -1,6 +1,5 @@
 package com.edescamp.go4lunch.activity.fragment;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -19,7 +18,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.model.Restaurant;
 import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
 import com.edescamp.go4lunch.service.entities.ResultAPIMap;
@@ -39,20 +37,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
     private static final String TAG = "MapFragment";
     private static final float INITIAL_ZOOM = 15f;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     // API request parameters
     private static final int radius = 400; // radius in meters around user for search
@@ -84,7 +80,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         mMapFragment.getMapAsync(this);
 
 
-
         return v;
     }
 
@@ -95,22 +90,22 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         mMap = googleMap;
 
-        enableCompassButton();
+
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
+        // TODO Fix twice Location permission request when opening MapFragment
 
-        startLocationUpdates();
+        getLocationPermission();
     }
 
 
     // USER LOCATION updates listener service //
     @SuppressLint("MissingPermission")
     protected void startLocationUpdates() {
-
         // Create the location request to start receiving updates
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -125,11 +120,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         settingsClient.checkLocationSettings(locationSettingsRequest);
 
         // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            return;
-        }
         getFusedLocationProviderClient(requireActivity()).requestLocationUpdates(mLocationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
@@ -140,7 +130,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     }
 
     private void onLocationChanged(Location location) {
-
         // New location has now been determined
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -157,8 +146,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     }
 
-
-    // ---------------------------- Get places ----
     private void getPlace(String userLocationStr) {
         APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
         Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(userLocationStr, radius, language, keyword, getResources().getString(R.string.google_maps_key));
@@ -175,6 +162,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                 }
                 // TODO Handle failures, 404 error, etc
             }
+
             @Override
             public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
 
@@ -188,27 +176,24 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     // + show the marker of the restaurant on the map
     private void addMarkerResult(List<ResultAPIMap> results) {
         for (ResultAPIMap result : results) {
-            Log.d(TAG, "apiMap result :" + result);
-            Restaurant restaurant = new Restaurant();
-            restaurant.setRestaurantid(result.getPlaceId());
-            restaurant.setName(result.getName());
-            restaurant.setAddress(result.getVicinity());
-            restaurant.setLatlng(new LatLng(result.getGeometry().getLocation().getLat(), result.getGeometry().getLocation().getLng()));
-            mMap.addMarker(new MarkerOptions().position(Objects.requireNonNull(restaurant.getLatlng()))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                    .title(restaurant.getName()).snippet(restaurant.getAddress()));
+            Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(
+                            result.getGeometry().getLocation().getLat(),
+                            result.getGeometry().getLocation().getLng()))
+//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo_g4l))
+                    .title(result.getName())
+                    .snippet(result.getVicinity()));
         }
     }
 
 
     // COMPASS BUTTON //
+    @SuppressLint("MissingPermission")
     private void enableCompassButton() {
-        if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        } else if (mMap != null) {
+        if (mMap != null) {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(false);
         }
@@ -220,7 +205,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             assert mapView != null; // skip this if the mapView has not been set yet
             View view = mapView.findViewWithTag("GoogleMapMyLocationButton");
 
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
 
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -236,9 +223,25 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     @Override
     public boolean onMyLocationButtonClick() {
-//        if (mMainActivity.mSearchBar.getVisibility() == View.INVISIBLE) getRestaurants();
         startLocationUpdates();
         return false;
+    }
+
+
+    // Request localisation
+    public void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            enableCompassButton();
+            startLocationUpdates();
+
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
     }
 
 

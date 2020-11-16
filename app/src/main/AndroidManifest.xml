@@ -35,7 +35,6 @@
             android:name=".activity.auth.SignInActivity"
             android:theme="@style/AppTheme_SignIn"
             >
-            <!--                     android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"   -->
         </activity>
 
 

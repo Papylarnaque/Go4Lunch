@@ -3,18 +3,16 @@ package com.edescamp.go4lunch.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -26,44 +24,23 @@ import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Collections;
-import java.util.List;
-
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private final int AUTOCOMPLETE_REQUEST_CODE = 111;
-    public AutoCompleteTextView autoCompleteTextViewPlace;
+    private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
+    private static final String TAG = "MAIN_ACTIVITY";
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
-    // Use fields to define the data types to return.
-    private List<Place.Field> placeFields = Collections.singletonList(Place.Field.NAME);
-    // Use the builder to create a FindCurrentPlaceRequest.
-    private FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
-    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Places.initialize(getApplicationContext(), getString(R.string.google_api_key));
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-//        autoCompleteTextViewPlace = findViewById(R.id.autoCompleteTextViewPlace);
-//        autoCompleteTextViewPlace.setVisibility(View.INVISIBLE);
-
 
         configureToolbar();
         configureDrawerLayout();
@@ -72,23 +49,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         getCurrentUser();
 
-        getLocationPermission();
     }
 
-
-
-
     //----- INITIAL STATE -----
-
-    private void configureInitialState(){
+    private void configureInitialState() {
         Fragment fragment = new MapFragment();
         mToolbar.setTitle(R.string.title_mapview);
         showFragment(fragment);
     }
 
-
     // BOTTOM NAVIGATION configuration //
-
     void configureNavigationMenu() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.navbar);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -120,9 +90,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
     }
 
-
     // DRAWER configuration //
-
     private void configureDrawerLayout() {
         mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
 
@@ -136,9 +104,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
-
     // DRAWER navigation  //
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -151,14 +117,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
                 // TODO Manage YOUR LUNCH
-                Toast toast = Toast.makeText(getApplicationContext(),"Manage YOUR LUNCH",Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "Manage YOUR LUNCH", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 return true;
             // "SETTINGS"
             case main_drawer_settings_id:
                 // TODO Manage SETTINGS
-                Toast toastSettings = Toast.makeText(getApplicationContext(),"Manage SETTINGS",Toast.LENGTH_SHORT);
+                Toast toastSettings = Toast.makeText(getApplicationContext(), "Manage SETTINGS", Toast.LENGTH_SHORT);
                 toastSettings.setGravity(Gravity.CENTER, 0, 0);
                 toastSettings.show();
                 return true;
@@ -179,14 +145,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-
     // TOOLBAR configuration
-
     private void configureToolbar() {
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
     }
-
 
 
     @Override
@@ -199,10 +162,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     // Manage the click on search button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id  = item.getItemId();
-        if(id == R.id.main_activity_menu_search){
+        int id = item.getItemId();
+        if (id == R.id.main_activity_menu_search) {
             // TODO Manage AUTOCOMPLETE SEARCH
-            Toast toast = Toast.makeText(getApplicationContext(),"Manage AUTOCOMPLETE SEARCH",Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), "Manage AUTOCOMPLETE SEARCH", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
             return true;
@@ -211,41 +174,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            this.onAutocompleteRequest(resultCode, data);
-        }
-    }
-
-
-
-    // AUTOCOMPLETE CLICK
-
-    private void onAutocompleteRequest(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            boolean isRestaurant = false;
-            Place place = Autocomplete.getPlaceFromIntent(data);
-            if(place.getTypes() != null) {
-
-                for (Place.Type type : place.getTypes()) {
-                    if (type == Place.Type.RESTAURANT) {
-                        isRestaurant = true;
-                        break;
-                    }
-                }
-            }
-            if(isRestaurant || place.getTypes() == null) {
-            }
-        }
-    }
-
-
-
     // Log out the User //
-
     private void logoutToSignInActivity() {
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
@@ -255,7 +184,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
     // DRAWER closed with back button
-
     @Override
     public void onBackPressed() {
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -273,19 +201,44 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-    // Request localisation
-    public void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            // Received permission result for location permission.
+            Log.i(TAG, "Received response for LOCATION permission request from MapFragment.");
+
+            // Check if the only required permission has been granted
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Location permission has been granted, preview can be displayed
+                Log.i(TAG, "LOCATION permission has now been granted. Showing preview.");
+                showFragment(new MapFragment());
+            } else {
+                // Location permission has been granted, preview can be displayed
+                Log.i(TAG, "LOCATION permission was NOT granted.");
+                Toast.makeText(getApplicationContext(), R.string.permissions_not_granted, Toast.LENGTH_SHORT).show();
+            }
+
+        } else if (requestCode == RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            // Received permission result for location permission.
+            Log.i(TAG, "Received response for LOCATION permission request from RestaurantFragment.");
+
+            // Check if the only required permission has been granted
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Location permission has been granted, preview can be displayed
+                Log.i(TAG, "LOCATION permission has now been granted. Showing preview.");
+                showFragment(new RestaurantFragment());
+            } else {
+                // Location permission has been granted, preview can be displayed
+                Log.i(TAG, "LOCATION permission was NOT granted.");
+                Toast.makeText(getApplicationContext(), R.string.permissions_not_granted, Toast.LENGTH_SHORT).show();
+
+            }
+
         } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
-
-
 }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,16 +40,14 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 public class RestaurantFragment extends BaseFragment {
 
-    private static final String TAG = "TAG";
-    private static final String COLLECTION_RESTAURANTS = "restaurant";
-
+    private static final String TAG = "RestaurantFragment";
+    private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private RecyclerView recyclerView;
 
     // API request parameters
     private static final int radius = 400; // radius in meters around user for search
     private static final String language = "en";
     private static final String keyword = "restaurant";
-    private LatLng userLatLng;
     private Location userLocation;
 
 
@@ -66,7 +65,7 @@ public class RestaurantFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        startLocationUpdates();
+        getLocationPermission();
 
         return view;
     }
@@ -75,13 +74,9 @@ public class RestaurantFragment extends BaseFragment {
     // USER LOCATION updates listener service //
     @SuppressLint("MissingPermission")
     protected void startLocationUpdates() {
-
         // Create the location request to start receiving updates
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-//        mLocationRequest.setInterval(UPDATE_INTERVAL);
-//        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
 
         // Create LocationSettingsRequest object using location request
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -111,7 +106,7 @@ public class RestaurantFragment extends BaseFragment {
         userLocation = location;
 
         // New location has now been determined
-        userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         if (userLatLng != null) {
 
@@ -119,11 +114,6 @@ public class RestaurantFragment extends BaseFragment {
             String userLocationStr = userLatLng.latitude + "," + userLatLng.longitude;
             getPlace(userLocationStr);
         }
-
-
-        //TODO Manage AddMarker updates while moving the camera
-        // (location of the center of the camera) instead of radius around the userLocation
-
     }
 
 
@@ -151,7 +141,6 @@ public class RestaurantFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
-                // TODO Handle failures, 404 error, etc
                 Log.d(TAG, "getPlace API failure" + t);
             }
 
@@ -163,15 +152,19 @@ public class RestaurantFragment extends BaseFragment {
     }
 
 
-    public static String convertLocationForApi(Location location) {
-        if (location != null) {
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-
-            return lat + "," + lng;
+    // Request localisation
+    public void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
-        return null;
     }
+
 
 
 }
