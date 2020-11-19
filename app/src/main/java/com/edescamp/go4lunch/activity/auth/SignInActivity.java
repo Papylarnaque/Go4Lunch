@@ -2,7 +2,9 @@ package com.edescamp.go4lunch.activity.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -61,6 +63,9 @@ public class SignInActivity extends BaseActivity {
     // UI
     private LoginButton facebookSignInButton;
     private SignInButton googleSignInButton;
+    private ProgressBar progressBar;
+    private Handler handler = new Handler();
+    private int i = 0;
 
     OAuthProvider.Builder provider = OAuthProvider.newBuilder(String.valueOf(R.string.twitter));
 
@@ -78,9 +83,12 @@ public class SignInActivity extends BaseActivity {
         configGoogleAuth();
         configTwitterAuth();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
     }
+
+
 
 
     private void retrieveLoginStatus() {
@@ -228,7 +236,7 @@ public class SignInActivity extends BaseActivity {
                         Log.d(TAG, "signInWithCredential:success");
                         authLogin();
                     } else {
-                    // TODO Handle merging users account / linking providers to account
+                        // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Toast.makeText(SignInActivity.this, "Facebook Authentication Failed.",
@@ -262,10 +270,11 @@ public class SignInActivity extends BaseActivity {
                     }
                 });
     }
-    
+
     private void authLogin() {
         if (isCurrentUserLogged()) {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            launchProgressBar();
             startActivity(intent);
         }
     }
@@ -276,4 +285,31 @@ public class SignInActivity extends BaseActivity {
         // Do nothing
 
     }
+
+
+    private void launchProgressBar() {
+
+        i = progressBar.getProgress();
+        new Thread(new Runnable() {
+            public void run() {
+                while (i < 100) {
+                    i += 1;
+                    // Update the progress bar and display the current value in text view
+                    handler.post(new Runnable() {
+                        public void run() {
+                            progressBar.setProgress(i);
+                        }
+                    });
+                    try {
+                        // Sleep for 100 milliseconds to show the progress slowly.
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -49,6 +50,8 @@ public class RestaurantFragment extends BaseFragment {
     private static final String language = "en";
     private static final String keyword = "restaurant";
     private Location userLocation;
+    private LatLng oldUserLatLng;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -57,12 +60,16 @@ public class RestaurantFragment extends BaseFragment {
             Bundle savedInstanceState
     ) {
 
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
 
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+
         // Add the following lines to create RecyclerView
         recyclerView = view.findViewById(R.id.restaurant_recyclerview);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         getLocationPermission();
@@ -108,12 +115,14 @@ public class RestaurantFragment extends BaseFragment {
         // New location has now been determined
         LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if (userLatLng != null) {
 
-            // Userlocation for API request
-            String userLocationStr = userLatLng.latitude + "," + userLatLng.longitude;
+        // Userlocation for API request
+        String userLocationStr = userLatLng.latitude + "," + userLatLng.longitude;
+        // Check location update to avoid unnecessary api calls
+        if (userLatLng != oldUserLatLng) {
             getPlace(userLocationStr);
         }
+        oldUserLatLng = userLatLng;
     }
 
 
@@ -127,9 +136,13 @@ public class RestaurantFragment extends BaseFragment {
                 keyword,
                 getResources().getString(R.string.google_maps_key)
         );
+        progressBar.setVisibility(View.VISIBLE);
         nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
             public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
+                // TODO if no result to show, show a message
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
@@ -141,7 +154,8 @@ public class RestaurantFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
-                Log.d(TAG, "getPlace API failure" + t);
+                progressBar.setVisibility(View.GONE);
+                Log.d(TAG, "getPlace failure" + t);
             }
 
         });
@@ -164,7 +178,6 @@ public class RestaurantFragment extends BaseFragment {
                     RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
-
 
 
 }

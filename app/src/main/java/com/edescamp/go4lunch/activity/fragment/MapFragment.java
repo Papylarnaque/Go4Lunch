@@ -36,6 +36,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,6 +59,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
+    private LatLng oldUserLatLng;
 
     public MapFragment() {
     }
@@ -79,10 +82,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         mMapFragment.getMapAsync(this);
 
-
         return v;
     }
-
 
     // UI MAP //
     @Override
@@ -90,16 +91,15 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         mMap = googleMap;
 
-
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
-        // TODO Fix twice Location permission request when opening MapFragment
-
+// TODO Fix second call to getLocationPermission
         getLocationPermission();
+
     }
 
 
@@ -131,18 +131,25 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private void onLocationChanged(Location location) {
         // New location has now been determined
-        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        //The line below is for camera actualisation if the user moves
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, INITIAL_ZOOM));
+
+        if (mMap != null) {
+            //The line below is for camera actualisation if the user moves
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, INITIAL_ZOOM));
+        }
 
         // Userlocation for API request
-        String userLocationStr = userLocation.latitude + "," + userLocation.longitude;
-        getPlace(userLocationStr);
+        String userLocationStr = userLatLng.latitude + "," + userLatLng.longitude;
+        // Check location update to avoid unnecessary api calls
+        if (userLatLng != oldUserLatLng) {
+            getPlace(userLocationStr);
+        }
 
+        oldUserLatLng = userLatLng;
 
         //TODO Manage AddMarker updates while moving the camera
-        // (location of the center of the camera) instead of radius around the userLocation
+        // (location of the center of the camera) instead of radius around the userLatLng
 
     }
 
@@ -152,7 +159,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
-            public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
+            public void onResponse(@NotNull Call<ResultsAPIMap> call, @NotNull Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
@@ -164,7 +171,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
 
             @Override
-            public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
+            public void onFailure(@NotNull Call<ResultsAPIMap> call, @NotNull Throwable t) {
 
                 Log.d(TAG, "getPlace API failure" + t);
             }
@@ -182,8 +189,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     .position(new LatLng(
                             result.getGeometry().getLocation().getLat(),
                             result.getGeometry().getLocation().getLng()))
-//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo_g4l))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                     .title(result.getName())
                     .snippet(result.getVicinity()));
         }
@@ -197,6 +203,28 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(false);
         }
+    }
+
+    // Request localisation
+    public void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            enableCompassButton();
+            startLocationUpdates();
+
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        getLocationPermission();
+        return false;
     }
 
     // UI COMPASS BUTTON location
@@ -218,29 +246,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         } catch (Exception ex) {
             Log.e(TAG, "MoveCompassButton() - failed: " + ex.getLocalizedMessage());
             ex.printStackTrace();
-        }
-    }
-
-    @Override
-    public boolean onMyLocationButtonClick() {
-        startLocationUpdates();
-        return false;
-    }
-
-
-    // Request localisation
-    public void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-
-            enableCompassButton();
-            startLocationUpdates();
-
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
