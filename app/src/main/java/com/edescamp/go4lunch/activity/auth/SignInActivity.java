@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -33,7 +34,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 import com.twitter.sdk.android.core.DefaultLogger;
@@ -84,7 +84,7 @@ public class SignInActivity extends BaseActivity {
         configTwitterAuth();
 
 
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.signin_progress_bar);
 
     }
 
@@ -255,18 +255,13 @@ public class SignInActivity extends BaseActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-//                            updateUI(user);
                             authLogin();
                         } else {
                             // TODO Handle merging users account / linking providers to account
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Snackbar.make(findViewById(R.id.signin_layout), "Google Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-//                            updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }
@@ -279,37 +274,19 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
+    private void launchProgressBar() {
+        View mainLayout = findViewById(R.id.signin_main_layout);
+        mainLayout.setVisibility(View.INVISIBLE);
+        View progressBar = findViewById(R.id.signin_progress_bar_layout);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
     // Override up action to avoid going back to main from up action
     @Override
     public void onBackPressed() {
         // Do nothing
-
     }
 
-
-    private void launchProgressBar() {
-
-        i = progressBar.getProgress();
-        new Thread(new Runnable() {
-            public void run() {
-                while (i < 100) {
-                    i += 1;
-                    // Update the progress bar and display the current value in text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(i);
-                        }
-                    });
-                    try {
-                        // Sleep for 100 milliseconds to show the progress slowly.
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
 
 
 }

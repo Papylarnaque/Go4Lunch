@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signin_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <ImageView
         android:id="@+id/signin_background"
         android:layout_width="wrap_content"
@@ -116,31 +120,36 @@
         app:layout_constraintEnd_toEndOf="@+id/signin_background"
         app:layout_constraintStart_toStartOf="@+id/signin_background"
         app:layout_constraintTop_toBottomOf="@+id/login_button_google" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signin_progress_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
 
-    <!--TODO Implement progress bar between activities-->
     <ImageView
-        android:id="@+id/progress_bar_background"
+        android:id="@+id/signin_progress_bar_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/quantum_white_text"
         android:contentDescription="@string/bg_portraitBackgroundDescription"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/signin_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -41,5 +41,9 @@
     <!--    Permissions-->
     <string name="permissions_not_granted">Permissions were not granted.</string>
 
+    <!--    AlertDialog-->
+    <string name="alertdialog_extendradius_message">No restaurant at %1$dm from your location. Extend the research by 1km?</string>
+    <string name="alertdialog_extendradius_title">Extend the research radius?</string>
+
 
 </resources>

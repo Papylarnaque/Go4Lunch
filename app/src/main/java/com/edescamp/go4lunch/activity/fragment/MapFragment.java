@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -34,6 +35,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
@@ -44,18 +46,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.edescamp.go4lunch.activity.MainActivity.keyword;
+import static com.edescamp.go4lunch.activity.MainActivity.language;
+import static com.edescamp.go4lunch.activity.MainActivity.radius;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
-public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "MapFragment";
     private static final float INITIAL_ZOOM = 15f;
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-
-    // API request parameters
-    private static final int radius = 400; // radius in meters around user for search
-    private static final String language = "en";
-    private static final String keyword = "restaurant";
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
@@ -99,6 +99,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
 // TODO Fix second call to getLocationPermission
         getLocationPermission();
+
 
     }
 
@@ -164,8 +165,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     ResultsAPIMap body = response.body();
                     if (body != null) {
                         List<ResultAPIMap> results = body.getResults();
-                        addMarkerResult(results);
+                        if (results.size()==0) {
+                            Toast.makeText(getContext(), "Pas de restaurant a 400m d'ici", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            addMarkerResult(results);
+                        }
                     }
+
                 }
                 // TODO Handle failures, 404 error, etc
             }
@@ -182,17 +189,17 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     // + show the marker of the restaurant on the map
     private void addMarkerResult(List<ResultAPIMap> results) {
-        for (ResultAPIMap result : results) {
-            Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
+            for (ResultAPIMap result : results) {
+                Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
 
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(
-                            result.getGeometry().getLocation().getLat(),
-                            result.getGeometry().getLocation().getLng()))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                    .title(result.getName())
-                    .snippet(result.getVicinity()));
-        }
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(
+                                result.getGeometry().getLocation().getLat(),
+                                result.getGeometry().getLocation().getLng()))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                        .title(result.getName())
+                        .snippet(result.getVicinity()));
+            }
     }
 
 
@@ -249,5 +256,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         }
     }
 
+    // Handle click on marker to open Restaurant details
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Log.d(TAG, "Click on marker" + marker.getTitle());
+        Toast.makeText(getContext(), "Click on " + marker.getTitle(), Toast.LENGTH_SHORT).show();
 
+
+    }
 }

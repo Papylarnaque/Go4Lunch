@@ -18,4 +18,8 @@
     <!--    Permissions-->
     <string name="permissions_not_granted">Les permissions ont ete refuses.</string>
 
+    <!--    AlertDialog-->
+    <string name="alertdialog_extendradius_message">Pas de restaurant a %1$dm de votre position. Souhaitez-vous etendre le rayon de recherche d\'1km?</string>
+    <string name="alertdialog_extendradius_title">Augmenter le rayon de recherche ?</string>
+
 </resources>

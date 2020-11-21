@@ -37,6 +37,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
 
+    // API request parameters
+    public static int radius = 400; // radius in meters around user for search
+    public static final String language = "en";
+    public static final String keyword = "restaurant";
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
