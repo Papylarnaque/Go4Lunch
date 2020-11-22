@@ -16,10 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.auth.SignInActivity;
+import com.edescamp.go4lunch.activity.fragment.BaseFragment;
 import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
@@ -28,20 +28,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private static final String TAG = "MAIN_ACTIVITY";
-    private Toolbar mToolbar;
+    public Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
 
     // API request parameters
     public static int radius = 400; // radius in meters around user for search
     public static final String language = "en";
     public static final String keyword = "restaurant";
-
 
 
     @Override
@@ -54,7 +55,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         configureNavigationMenu();
         configureInitialState();
 
-        getCurrentUser();
+//        getCurrentUser();
 
     }
 
@@ -196,17 +197,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.mDrawerLayout.closeDrawer(GravityCompat.START);
         }
+        tellFragments();
+        super.onBackPressed();
+    }
+
+    private void tellFragments(){
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for(Fragment f : fragments){
+            if(f instanceof BaseFragment)
+                ((BaseFragment)f).onBackPressed();
+        }
     }
 
 
     // FRAGMENT MANAGEMENT //
-    private void showFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    public void showFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
-
 
 
     @Override

@@ -13,10 +13,10 @@ public class ResultAPIDetails {
     private String name;
 
     @SerializedName("opening_hours")
-    private List<String> opening_hours;
+    private OpeningHoursAPIDetails opening_hours;
 
     @SerializedName("rating")
-    private Integer rating;
+    private Float rating;
 
     @SerializedName("website")
     private String website;
@@ -26,6 +26,24 @@ public class ResultAPIDetails {
 
     @SerializedName("international_phone_number")
     private String international_phone_number;
+
+    @SerializedName("formatted_address")
+    private String formatted_address;
+
+    @SerializedName("photos")
+    private List<PhotoAttributesAPIMap> photos;
+
+    public List<PhotoAttributesAPIMap> getPhotos() {
+        return photos;
+    }
+
+    public String getFormatted_address() {
+        return formatted_address;
+    }
+
+    public void setFormatted_address(String formatted_address) {
+        this.formatted_address = formatted_address;
+    }
 
     public String getPlace_id() {
         return place_id;
@@ -43,19 +61,19 @@ public class ResultAPIDetails {
         this.name = name;
     }
 
-    public List<String> getOpening_hours() {
+    public OpeningHoursAPIDetails getOpening_hours() {
         return opening_hours;
     }
 
-    public void setOpening_hours(List<String> opening_hours) {
+    public void setOpening_hours(OpeningHoursAPIDetails opening_hours) {
         this.opening_hours = opening_hours;
     }
 
-    public Integer getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

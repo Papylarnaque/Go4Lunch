@@ -15,13 +15,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultAPIMap;
+import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -51,11 +54,12 @@ import static com.edescamp.go4lunch.activity.MainActivity.language;
 import static com.edescamp.go4lunch.activity.MainActivity.radius;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
-public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnInfoWindowClickListener {
+public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
     private static final String TAG = "MapFragment";
     private static final float INITIAL_ZOOM = 15f;
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final String FIELDS = "formatted_address,photos,place_id,name,rating,opening_hours,website,reviews,international_phone_number";
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
@@ -64,20 +68,18 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     public MapFragment() {
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_map);
         if (mMapFragment == null) {
             FragmentManager fragmentManager = getParentFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             mMapFragment = SupportMapFragment.newInstance();
-            fragmentTransaction.replace(R.id.map, mMapFragment).commit();
+            fragmentTransaction.replace(R.id.fragment_map, mMapFragment).commit();
         }
 
         mMapFragment.getMapAsync(this);
@@ -85,10 +87,15 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         return v;
     }
 
+    @Override
+    public void onBackPressed() {
+        // do nothing
+    }
+
     // UI MAP //
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        Log.d(TAG, "Enter onMapReady ");
         mMap = googleMap;
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -100,6 +107,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 // TODO Fix second call to getLocationPermission
         getLocationPermission();
 
+        // Handle click on marker info
+        mMap.setOnInfoWindowClickListener(marker -> {
+            Log.d(TAG, "Click on marker " + marker.getTag());
+            getPlaceDetails(marker.getTag().toString());
+
+        });
 
     }
 
@@ -165,10 +178,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     ResultsAPIMap body = response.body();
                     if (body != null) {
                         List<ResultAPIMap> results = body.getResults();
-                        if (results.size()==0) {
+                        if (results.size() == 0) {
                             Toast.makeText(getContext(), "Pas de restaurant a 400m d'ici", Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                        } else {
                             addMarkerResult(results);
                         }
                     }
@@ -186,20 +198,55 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         });
     }
 
-
     // + show the marker of the restaurant on the map
     private void addMarkerResult(List<ResultAPIMap> results) {
-            for (ResultAPIMap result : results) {
-                Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
+        for (ResultAPIMap result : results) {
+            Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
 
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(
-                                result.getGeometry().getLocation().getLat(),
-                                result.getGeometry().getLocation().getLng()))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                        .title(result.getName())
-                        .snippet(result.getVicinity()));
+            Marker markerRestaurant = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(
+                            result.getGeometry().getLocation().getLat(),
+                            result.getGeometry().getLocation().getLng()))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                    .title(result.getName())
+                    .snippet(result.getVicinity()));
+            markerRestaurant.setTag(result.getPlaceId());
+        }
+
+
+    }
+
+    private void getPlaceDetails(String placeId) {
+        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, getResources().getString(R.string.google_maps_key));
+
+        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
+            @Override
+            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+                Log.d(TAG, "getPlaceDetails API ");
+                if (response.isSuccessful()) {
+                    ResultsAPIDetails body = response.body();
+                    if (body != null) {
+                        ResultAPIDetails result = body.getResult();
+                        Log.d(TAG, "getPlaceDetails successful response "  + result.getName() + " " + result.getPlace_id());
+
+                        Fragment fragment = new DetailsFragment(result);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, fragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                    }
+                    // TODO Handle failures, 404 error, etc
+                }
             }
+
+            @Override
+            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+                Log.d(TAG, "getPlaceDetails API failure" + t);
+            }
+
+        });
     }
 
 
@@ -225,6 +272,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            Log.d(TAG, "Request location permission ");
         }
     }
 
@@ -256,12 +304,4 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         }
     }
 
-    // Handle click on marker to open Restaurant details
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        Log.d(TAG, "Click on marker" + marker.getTitle());
-        Toast.makeText(getContext(), "Click on " + marker.getTitle(), Toast.LENGTH_SHORT).show();
-
-
-    }
 }

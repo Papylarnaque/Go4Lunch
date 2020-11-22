@@ -2,7 +2,6 @@ package com.edescamp.go4lunch.service;
 
 import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
-import com.edescamp.go4lunch.service.entities.RowAPIDistance;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -20,16 +19,8 @@ public interface APIRequest {
     );
 
 
-    @GET("distancematrix/json")
-    Call<RowAPIDistance> getDistanceBetweenLocations(
-            @Query("origins") String origins,
-            @Query("destinations") String destinations,
-            @Query("key") String key
-    );
-
-
     @GET("place/details/json")
-    Call<ResultsAPIDetails> getDetailsRestaurant(
+    Call<ResultsAPIDetails> getPlaceDetails(
             @Query("place_id") String place_id,
             @Query("fields") String fields,
             @Query("key") String key

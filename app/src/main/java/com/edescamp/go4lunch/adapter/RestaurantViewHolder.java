@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.service.entities.PhotoAttributesAPIMap;
 import com.edescamp.go4lunch.service.entities.ResultAPIMap;
@@ -37,7 +38,11 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
         try {
             PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
-                Glide.with(itemView).load(photoAttributesAPIMap.getPhoto_URL() + API_KEY).into(rPicture);
+                Glide.with(this.itemView)
+                        .load(photoAttributesAPIMap.getPhoto_URL() + API_KEY)
+                        .apply(new RequestOptions()
+                                .centerCrop())
+                        .into(rPicture);
         } catch (Exception e) {
             Log.d(TAG, "photoAttributesAPIMap is null" + e);
         }

@@ -13,12 +13,15 @@
     <dimen name="nav_header_height">275dp</dimen>
 
     <!-- RESTAURANT -->
-    <dimen name="restaurant_horizontal_margin">10dp</dimen>
-    <dimen name="restaurant_vertical_margin">10dp</dimen>
+    <dimen name="restaurant_horizontal_margin">5dp</dimen>
+    <dimen name="restaurant_vertical_margin">5dp</dimen>
        <!-- text-->
     <dimen name="restaurant_text_height">33dp</dimen>
        <!-- pics-->
     <dimen name="picture_restaurant">75dp</dimen>
+
+    <!-- RESTAURANT DETAILS -->
+    <dimen name="restaurant_details_picture_height">250dp</dimen>
 
 
 </resources>

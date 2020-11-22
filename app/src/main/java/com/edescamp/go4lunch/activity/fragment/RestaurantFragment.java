@@ -73,12 +73,16 @@ public class RestaurantFragment extends BaseFragment {
 
         // Add the following lines to create RecyclerView
         recyclerView = view.findViewById(R.id.restaurant_recyclerview);
-//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         getLocationPermission();
 
         return view;
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
 

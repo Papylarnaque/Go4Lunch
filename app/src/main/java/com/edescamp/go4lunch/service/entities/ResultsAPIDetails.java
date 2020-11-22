@@ -9,8 +9,24 @@ public class ResultsAPIDetails {
     @SerializedName("status")
     private String status;
 
-    @SerializedName("results")
-    private List<ResultAPIDetails> results;
+    @SerializedName("result")
+    private ResultAPIDetails result;
+
+    @SerializedName("html_attributions")
+    private List<String> html_attributions;
+
+    public void setResult(ResultAPIDetails result) {
+        this.result = result;
+    }
+
+    public List<String> getHtml_attributions() {
+        return html_attributions;
+    }
+
+    public void setHtml_attributions(List<String> html_attributions) {
+        this.html_attributions = html_attributions;
+    }
+
 
     public String getStatus() {
         return this.status;
@@ -20,11 +36,9 @@ public class ResultsAPIDetails {
         this.status = status;
     }
 
-    public List<ResultAPIDetails> getResults() {
-        return this.results;
+    public ResultAPIDetails getResult() {
+        return this.result;
     }
 
-    public void setPredictions(List<ResultAPIDetails> results) {
-        this.results = results;}
 }
 

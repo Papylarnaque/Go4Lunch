@@ -44,6 +44,7 @@
     <!--    AlertDialog-->
     <string name="alertdialog_extendradius_message">No restaurant at %1$dm from your location. Extend the research by 1km?</string>
     <string name="alertdialog_extendradius_title">Extend the research radius?</string>
+    <string name="website_image">website_image</string>
 
 
 </resources>

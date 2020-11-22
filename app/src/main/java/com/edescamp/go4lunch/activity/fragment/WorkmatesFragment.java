@@ -13,9 +13,7 @@ import com.edescamp.go4lunch.R;
 public class WorkmatesFragment extends BaseFragment {
 
 
-    private static final String TAG = "TAG";
-    private static final String COLLECTION_WOKMATES = "workmates";
-
+    private static final String TAG = "WorkmatesFragment";
 
     @Nullable
     @Override
@@ -24,6 +22,11 @@ public class WorkmatesFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.fragment_workmates, container, false);
 
         return v;
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 
