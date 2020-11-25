@@ -1,6 +1,8 @@
 package com.edescamp.go4lunch.activity.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -44,11 +46,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.edescamp.go4lunch.activity.MainActivity.FIELDS;
 import static com.edescamp.go4lunch.activity.MainActivity.keyword;
 import static com.edescamp.go4lunch.activity.MainActivity.language;
 import static com.edescamp.go4lunch.activity.MainActivity.radius;
@@ -59,17 +63,17 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private static final String TAG = "MapFragment";
     private static final float INITIAL_ZOOM = 15f;
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final String FIELDS = "formatted_address,photos,place_id,name,rating,opening_hours,website,reviews,international_phone_number";
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
+    private String userLocationStr;
     private LatLng oldUserLatLng;
 
     public MapFragment() {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull @NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_map, container, false);
@@ -110,7 +114,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         // Handle click on marker info
         mMap.setOnInfoWindowClickListener(marker -> {
             Log.d(TAG, "Click on marker " + marker.getTag());
-            getPlaceDetails(marker.getTag().toString());
+            getPlaceDetails(Objects.requireNonNull(marker.getTag()).toString());
 
         });
 
@@ -154,7 +158,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         }
 
         // Userlocation for API request
-        String userLocationStr = userLatLng.latitude + "," + userLatLng.longitude;
+        userLocationStr = userLatLng.latitude + "," + userLatLng.longitude;
         // Check location update to avoid unnecessary api calls
         if (userLatLng != oldUserLatLng) {
             getPlace(userLocationStr);
@@ -177,11 +181,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
-                        List<ResultAPIMap> results = body.getResults();
-                        if (results.size() == 0) {
+                        List<ResultAPIMap> resultsAPIMap = body.getResults();
+                        if (resultsAPIMap.size() == 0) {
                             Toast.makeText(getContext(), "Pas de restaurant a 400m d'ici", Toast.LENGTH_LONG).show();
+                            extendRadiusDialog();
                         } else {
-                            addMarkerResult(results);
+                            addMarkerResult(resultsAPIMap);
                         }
                     }
 
@@ -196,6 +201,29 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
 
         });
+    }
+
+    private void extendRadiusDialog() {
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setMessage(getString(R.string.alertdialog_extendradius_message, radius))
+                .setTitle(R.string.alertdialog_extendradius_title);
+        // 3. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OUI", (dialog1, which) -> {
+            radius += 1000;
+            getPlace(userLocationStr);
+            dialog1.dismiss();
+        });
+
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NON", (dialog12, which) -> dialog12.dismiss());
+
+
+        dialog.show();
+
+
     }
 
     // + show the marker of the restaurant on the map
@@ -228,14 +256,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     ResultsAPIDetails body = response.body();
                     if (body != null) {
                         ResultAPIDetails result = body.getResult();
-                        Log.d(TAG, "getPlaceDetails successful response "  + result.getName() + " " + result.getPlace_id());
+                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlace_id());
 
-                        Fragment fragment = new DetailsFragment(result);
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, fragment)
-                                .addToBackStack(null)
-                                .commit();
-
+                        openDetailsFragment(result);
                     }
                     // TODO Handle failures, 404 error, etc
                 }
@@ -247,6 +270,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
 
         });
+    }
+
+    private void openDetailsFragment(ResultAPIDetails result) {
+        Fragment fragment = new DetailsFragment(result);
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 
@@ -303,5 +334,4 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             ex.printStackTrace();
         }
     }
-
 }

@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:gravity="center"
-    android:orientation="vertical"
-    android:id="@+id/activity_main_drawer_header">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
@@ -29,7 +28,6 @@
         android:layout_marginBottom="50dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/activity_main_drawer_profile_pic"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_baseline_account_circle_24"
@@ -41,14 +39,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/activity_main_drawer_profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/account_name"
                 android:textColor="@color/colorText"/>
 
             <TextView
-                android:id="@+id/activity_main_drawer_profile_mail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/account_mail"

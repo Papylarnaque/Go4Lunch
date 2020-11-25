@@ -16,16 +16,13 @@
 
     <string name="account_name" translatable="false">Account_Name</string>
     <string name="account_mail" translatable="false">Account Mail</string>
-    <string name="info_no_email_found" translatable="false">info_no_email_found</string>
-    <string name="info_no_username_found" translatable="false">info_no_username_found</string>
     <string name="navigation_drawer_open" translatable="false">Open</string>
     <string name="navigation_drawer_close" translatable="false">Close</string>
     <string name="bg_portraitBackgroundDescription" translatable="false">Background_image</string>
     <string name="logoTextDescription" translatable="false">Logo</string>
-    <string name="input_your_place">Input your place…</string>
 
     <!-- Restaurant Fragment-->
-    <string name="text_restaurant_first_line" translatable="false">text_restaurant_name</string>
+    <string name="text_restaurant_first_line" translatable="false">Restaurant_Name</string>
     <string name="text_restaurant_second_line" translatable="false">restaurant_type_and_address</string>
     <string name="text_third_line" translatable="false">restaurant_hours</string>
     <string name="restaurant_distance" translatable="false">200m</string>
@@ -44,7 +41,7 @@
     <!--    AlertDialog-->
     <string name="alertdialog_extendradius_message">No restaurant at %1$dm from your location. Extend the research by 1km?</string>
     <string name="alertdialog_extendradius_title">Extend the research radius?</string>
-    <string name="website_image">website_image</string>
+    <string name="website_image" translatable="false">website_image</string>
 
 
 </resources>

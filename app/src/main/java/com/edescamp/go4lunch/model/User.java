@@ -14,13 +14,13 @@ public class User {
     public User() {
     }
 
-    public User(String uid, String username, String urlPicture) {
+    public User(String uid, String username, @org.jetbrains.annotations.Nullable String urlPicture) {
         this.uid = uid;
         this.username = username;
         this.urlPicture = urlPicture;
     }
 
-    public User(String uid, String username, String urlPicture, int hasChosenRestaurant) {
+    public User(String uid, String username, @org.jetbrains.annotations.Nullable String urlPicture, int hasChosenRestaurant) {
         this.uid = uid;
         this.username = username;
         this.urlPicture = urlPicture;
@@ -36,6 +36,7 @@ public class User {
         return username;
     }
 
+    @org.jetbrains.annotations.Nullable
     public String getUrlPicture() {
         return urlPicture;
     }
@@ -53,7 +54,7 @@ public class User {
         this.uid = uid;
     }
 
-    public void setUrlPicture(String urlPicture) {
+    public void setUrlPicture(@org.jetbrains.annotations.Nullable String urlPicture) {
         this.urlPicture = urlPicture;
     }
 

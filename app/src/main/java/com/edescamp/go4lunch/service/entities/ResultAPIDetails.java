@@ -21,9 +21,6 @@ public class ResultAPIDetails {
     @SerializedName("website")
     private String website;
 
-    @SerializedName("reviews")
-    private List<ReviewAPIDetails> reviews;
-
     @SerializedName("international_phone_number")
     private String international_phone_number;
 
@@ -32,6 +29,32 @@ public class ResultAPIDetails {
 
     @SerializedName("photos")
     private List<PhotoAttributesAPIMap> photos;
+
+    @SerializedName("geometry")
+    private GeometryAPIMap geometry;
+
+    @SerializedName("vicinity")
+    private String vicinity;
+
+    public void setPhotos(List<PhotoAttributesAPIMap> photos) {
+        this.photos = photos;
+    }
+
+    public String getVicinity() {
+        return vicinity;
+    }
+
+    public void setVicinity(String vicinity) {
+        this.vicinity = vicinity;
+    }
+
+    public GeometryAPIMap getGeometry() {
+        return geometry;
+    }
+
+    public void setGeometry(GeometryAPIMap geometry) {
+        this.geometry = geometry;
+    }
 
     public List<PhotoAttributesAPIMap> getPhotos() {
         return photos;
@@ -83,14 +106,6 @@ public class ResultAPIDetails {
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public List<ReviewAPIDetails> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<ReviewAPIDetails> reviews) {
-        this.reviews = reviews;
     }
 
     public String getInternational_phone_number() {

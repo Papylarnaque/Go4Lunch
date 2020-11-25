@@ -1,16 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list_workmates"
     android:name="com.edescamp.go4lunch.activity.fragment.RestaurantFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.edescamp.go4lunch.activity.fragment.RestaurantFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1">
         <ListView
             android:id="@layout/item_workmate"
             android:layout_width="match_parent"
@@ -24,8 +19,5 @@
             android:layout_height="match_parent"
             android:text="@string/no_items"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </FrameLayout>
-
 
 </LinearLayout>

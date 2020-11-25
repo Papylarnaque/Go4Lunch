@@ -64,8 +64,8 @@ public class SignInActivity extends BaseActivity {
     private LoginButton facebookSignInButton;
     private SignInButton googleSignInButton;
     private ProgressBar progressBar;
-    private Handler handler = new Handler();
-    private int i = 0;
+    private final Handler handler = new Handler();
+    private final int i = 0;
 
     OAuthProvider.Builder provider = OAuthProvider.newBuilder(String.valueOf(R.string.twitter));
 

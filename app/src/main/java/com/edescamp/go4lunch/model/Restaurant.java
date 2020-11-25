@@ -3,7 +3,6 @@ package com.edescamp.go4lunch.model;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -11,8 +10,8 @@ import java.io.Serializable;
 public class Restaurant implements Serializable {
 
 
-    //    private String restaurantid;
-//    private String name;
+    private String placeId;
+    private String name;
     private LatLng latlng;
     private String address;
     private Integer rating;
@@ -23,8 +22,8 @@ public class Restaurant implements Serializable {
     public Restaurant() {
     }
 
-    public Restaurant(String restaurantid, String name, LatLng latlng, String address, Integer rating, @Nullable String urlPicture, Integer distance) {
-        this.restaurantid = restaurantid;
+    public Restaurant(String placeId, String name, LatLng latlng, String address, Integer rating, @Nullable String urlPicture, Integer distance) {
+        this.placeId = placeId;
         this.name = name;
         this.latlng = latlng;
         this.address = address;
@@ -33,20 +32,12 @@ public class Restaurant implements Serializable {
         this.distance = distance;
     }
 
-
-    @SerializedName("offset")
-    private String restaurantid;
-
-    @SerializedName("name")
-    private String name;
-
-
-    public String getRestaurantid() {
-        return restaurantid;
+    public String getPlaceId() {
+        return placeId;
     }
 
-    public void setRestaurantid(String restaurantid) {
-        this.restaurantid = restaurantid;
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
     }
 
     public String getName() {

@@ -61,11 +61,9 @@ public class RestaurantFragment extends BaseFragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NotNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
 
@@ -126,7 +124,6 @@ public class RestaurantFragment extends BaseFragment {
         // New location has now been determined
         LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-
         // Userlocation for API request
         userLocationStr = location.getLatitude() + "," + location.getLongitude();
         // Check location update to avoid unnecessary api calls
@@ -135,7 +132,6 @@ public class RestaurantFragment extends BaseFragment {
         }
         oldUserLatLng = userLatLng;
     }
-
 
     // ---------------------------- Get places for markers----
     private void getPlace(String userLocationStr) {
@@ -159,11 +155,7 @@ public class RestaurantFragment extends BaseFragment {
                     if (body != null) {
                         List<ResultAPIMap> results = body.getResults();
                         if (results.size() == 0) {
-//                            Toast.makeText(getContext(), "Pas de restaurant a 400m d'ici", Toast.LENGTH_LONG).show();
-//                            Snackbar.make(recyclerView.getRootView(),"Pas de restaurant a 400m d'ici", BaseTransientBottomBar.LENGTH_SHORT);
-
                             extendRadiusDialog();
-
                         } else {
                             sendResultsToAdapter(results);
                         }
@@ -181,29 +173,21 @@ public class RestaurantFragment extends BaseFragment {
     }
 
     private void extendRadiusDialog() {
-        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
+        // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // 2. Chain together various setter methods to set the dialog characteristics
         builder.setMessage(getString(R.string.alertdialog_extendradius_message, radius))
                 .setTitle(R.string.alertdialog_extendradius_title);
-        // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
+        // 3. Get the AlertDialog from create()
         AlertDialog dialog = builder.create();
 
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OUI",new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                radius +=1000;
-                getPlace(userLocationStr);
-                dialog.dismiss();
-            }
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OUI", (dialog1, which) -> {
+            radius +=1000;
+            getPlace(userLocationStr);
+            dialog1.dismiss();
         });
 
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NON",new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NON", (dialog12, which) -> dialog12.dismiss());
 
 
         dialog.show();
@@ -214,7 +198,6 @@ public class RestaurantFragment extends BaseFragment {
     private void sendResultsToAdapter(List<ResultAPIMap> results) {
         recyclerView.setAdapter(new RestaurantAdapter(results, userLocation));
     }
-
 
     // Request localisation
     public void getLocationPermission() {
@@ -228,6 +211,11 @@ public class RestaurantFragment extends BaseFragment {
                     RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
+
+
+
+
+
 
 
 }

@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.edescamp.go4lunch.R;
 
+import org.jetbrains.annotations.NotNull;
+
 public class WorkmatesFragment extends BaseFragment {
 
 
@@ -17,7 +19,7 @@ public class WorkmatesFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NotNull @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_workmates, container, false);
 

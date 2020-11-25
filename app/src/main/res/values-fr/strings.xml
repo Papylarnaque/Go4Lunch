@@ -8,7 +8,6 @@
     <string name="title_mapview">Carte</string>
     <string name="title_listview">Restaurants</string>
     <string name="title_workmates">Collègues</string>
-    <string name="input_your_place">Saisir le lieu…</string>
 
     <!-- Main Activity - Drawer-->
     <string name="your_lunch">VOTRE DEJEUNER</string>

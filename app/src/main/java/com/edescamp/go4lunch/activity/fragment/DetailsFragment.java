@@ -18,6 +18,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 public class DetailsFragment extends BaseFragment {
 
     private static final String TAG = "DetailsFragment";
@@ -32,9 +36,10 @@ public class DetailsFragment extends BaseFragment {
         this.result = result;
     }
 
+
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NotNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
@@ -111,8 +116,6 @@ public class DetailsFragment extends BaseFragment {
         Toast.makeText(getActivity().getApplicationContext(), "OnBackPressed clicked", Toast.LENGTH_SHORT).show();
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -133,12 +136,12 @@ public class DetailsFragment extends BaseFragment {
     }
 
     private void hideActivityViews() {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        getActivity().findViewById(R.id.navbar).setVisibility(View.INVISIBLE);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
+        requireActivity().findViewById(R.id.navbar).setVisibility(View.INVISIBLE);
     }
 
     private void showActivityViews() {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        getActivity().findViewById(R.id.navbar).setVisibility(View.VISIBLE);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
+        requireActivity().findViewById(R.id.navbar).setVisibility(View.VISIBLE);
     }
 }

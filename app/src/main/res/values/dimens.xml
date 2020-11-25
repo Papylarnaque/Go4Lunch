@@ -1,11 +1,8 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- SIGNIN -->
     <dimen name="signin_between_buttons">10dp</dimen>
-    <dimen name="signin_first_button_distance_from_bottom">225dp</dimen>
     <dimen name="signin_button_width">300dp</dimen>
     <dimen name="signin_button_height">45dp</dimen>
 

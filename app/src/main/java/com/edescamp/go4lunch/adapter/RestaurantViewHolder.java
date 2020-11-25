@@ -18,10 +18,14 @@ import com.edescamp.go4lunch.service.entities.ResultAPIMap;
 public class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
     private static final String TAG = "RestaurantViewHolder";
-    private final TextView rName = itemView.findViewById(R.id.item_restaurant_first_line);
-    private final TextView rAddress = itemView.findViewById(R.id.item_restaurant_second_line);
+    private final TextView rName = itemView.findViewById(R.id.item_restaurant_name);
+    private final TextView rAddress = itemView.findViewById(R.id.item_restaurant_address);
     private final TextView rDistance = itemView.findViewById(R.id.item_restaurant_distance);
+    // TODO private final TextView rOpeningHours = itemView.findViewById(R.id.item_restaurant_hours);
     private final ImageView rPicture = itemView.findViewById(R.id.item_restaurant_picture);
+    private final ImageView star1 = itemView.findViewById(R.id.item_restaurant_rating_star1);
+    private final ImageView star2 = itemView.findViewById(R.id.item_restaurant_rating_star2);
+    private final ImageView star3 = itemView.findViewById(R.id.item_restaurant_rating_star3);
 
 
     public RestaurantViewHolder(@NonNull View itemView) {
@@ -35,6 +39,7 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         rName.setText(String.valueOf(result.getName()));
         rAddress.setText(String.valueOf(result.getVicinity()));
         rDistance.setText(new StringBuilder().append(distance.intValue()).append("m"));
+        // TODO  rOpeningHours.setText(result.getOpening_hours().toString());
 
         try {
             PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
@@ -47,6 +52,20 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
             Log.d(TAG, "photoAttributesAPIMap is null" + e);
         }
 
-
+        showRating(result);
     }
+
+    private void showRating(ResultAPIMap result) {
+        if (result.getRating() > 4) {
+            star1.setVisibility(View.VISIBLE);
+            star2.setVisibility(View.VISIBLE);
+            star3.setVisibility(View.VISIBLE);
+        } else if (result.getRating() > 2.5) {
+            star1.setVisibility(View.VISIBLE);
+            star2.setVisibility(View.VISIBLE);
+        } else if (result.getRating() > 1) {
+            star1.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

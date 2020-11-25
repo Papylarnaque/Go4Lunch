@@ -36,6 +36,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private static final String TAG = "MAIN_ACTIVITY";
+
     public Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
 
@@ -43,6 +44,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static int radius = 400; // radius in meters around user for search
     public static final String language = "en";
     public static final String keyword = "restaurant";
+    public static final String FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,reviews,international_phone_number";
 
 
     @Override
