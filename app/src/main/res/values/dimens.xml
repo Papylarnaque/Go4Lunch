@@ -19,6 +19,8 @@
 
     <!-- RESTAURANT DETAILS -->
     <dimen name="restaurant_details_picture_height">250dp</dimen>
+    <dimen name="restaurant_details_image_margintop">10dp</dimen>
+    <dimen name="restaurant_details_text_margintop">50dp</dimen>
 
 
 </resources>

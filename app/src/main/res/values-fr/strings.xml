@@ -20,5 +20,19 @@
     <!--    AlertDialog-->
     <string name="alertdialog_extendradius_message">Pas de restaurant a %1$dm de votre position. Souhaitez-vous etendre le rayon de recherche d\'1km?</string>
     <string name="alertdialog_extendradius_title">Augmenter le rayon de recherche ?</string>
+    <string name="YES">OUI</string>
+    <string name="NO">NON</string>
+
+    <!--  RestaurantList Fragment  -->
+    <string name="restaurant_List_no_restaurants_to_show">Pas de restaurant a une distance de %1$dm</string>
+
+    <!--  Details Fragment  -->
+    <string name="no_phone_number">Pas de numero de telephone</string>
+    <string name="workmates_List_no_workmates_to_show">Pas de collegues references</string>
+    <string name="no_website">Pas de site internet</string>
+    <string name="fragment_settings_title">Reglages</string>
+    <string name="restaurant_details_phone_call">APPELER</string>
+    <string name="restaurant_details_like">FAVORIS</string>
+    <string name="restaurant_details_website">SITE</string>
 
 </resources>

@@ -146,25 +146,33 @@ public class SignInActivity extends BaseActivity {
 
         // FACEBOOK
         facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LOGIN_FACEBOOK)
+        if (requestCode == LOGIN_FACEBOOK) {
+            if (resultCode == RESULT_OK){
             facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-
+        }
+        }
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
+            if (resultCode == RESULT_OK){
                 // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
+                GoogleSignInAccount account = null;
+                try {
+                    account = task.getResult(ApiException.class);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 handleGoogleAccessToken(account.getIdToken());
-            } catch (ApiException e) {
+            } else {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
+                Log.w(TAG, "Google sign in failed");
                 // ...
             }
         }
 
-    }
+}
+
 
     // FACEBOOK AUTH
     private void configFacebookAuth() {

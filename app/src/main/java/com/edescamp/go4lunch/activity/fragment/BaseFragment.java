@@ -11,13 +11,6 @@ import androidx.fragment.app.Fragment;
 
 public abstract class BaseFragment extends Fragment  {
 
-    // TODO Interface Onclick on a marker of the map => open List view with restaurant selected
-
-    // TODO API calls centralized = markes and listview generated while calling mainactivity !
-
-
-    private static final String TAG = "BaseFragment";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +24,5 @@ public abstract class BaseFragment extends Fragment  {
 
     }
 
-    public abstract void onBackPressed();
 }
 

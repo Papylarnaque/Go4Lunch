@@ -33,6 +33,7 @@
     <string name="menu_main_activity_search" translatable="false">Search</string>
     <string name="text_workmate" translatable="false">text_workmate_name</string>
     <string name="workmate_picture" translatable="false">workmate_picture</string>
+    <string name="restaurant_List_no_restaurants_to_show">No Restaurants to show in %1$dm radius</string>
 
 
     <!--    Permissions-->
@@ -41,7 +42,22 @@
     <!--    AlertDialog-->
     <string name="alertdialog_extendradius_message">No restaurant at %1$dm from your location. Extend the research by 1km?</string>
     <string name="alertdialog_extendradius_title">Extend the research radius?</string>
+    <string name="YES">YES</string>
+    <string name="NO">NO</string>
+
+    <!-- Settings Fragment-->
+    <string name="fragment_settings_title">Settings</string>
+
+    <!-- Details Fragment-->
+    <string name="restaurant_details_phone_call">CALL</string>
+    <string name="restaurant_details_picture" translatable="false">restaurant_details_picture</string>
+    <string name="workmates_List_no_workmates_to_show">No workmates.</string>
+    <string name="no_phone_number">No phone number</string>
+    <string name="no_website">No website</string>
     <string name="website_image" translatable="false">website_image</string>
+    <string name="restaurant_details_like">LIKE</string>
+    <string name="restaurant_details_website">WEBSITE</string>
+    <string name="fragment_settings_radius_search">Radius search: %1$d meters</string>
 
 
 </resources>

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_restaurant_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,35 +17,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars[2]" />
 
-    <!--Back arrow navigation feature-->
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_baseline_arrow_back_24" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="35dp"
-        android:background="@drawable/button_add_restaurant_background"
-        android:src="@drawable/ic_baseline_check_circle_30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/restaurant_details_cardview"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!--  Description details of the restaurant  -->
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/restaurant_details_cardview"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardElevation="-1dp"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/restaurant_details_picture">
@@ -58,7 +37,7 @@
             android:textColor="@android:color/background_light"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@id/restaurant_details_cardview"
-            app:layout_constraintTop_toBottomOf="@id/restaurant_details_picture"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Restaurant_name" />
 
         <ImageView
@@ -67,6 +46,8 @@
             android:layout_height="18dp"
             android:layout_marginStart="80dp"
             android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star"
             app:tint="@color/quantum_yellow" />
 
@@ -76,6 +57,8 @@
             android:layout_height="18dp"
             android:layout_marginStart="100dp"
             android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star"
             app:tint="@color/quantum_yellow" />
 
@@ -85,6 +68,8 @@
             android:layout_height="18dp"
             android:layout_marginStart="120dp"
             android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star"
             app:tint="@color/quantum_yellow" />
 
@@ -93,84 +78,81 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="12dp"
             android:textColor="@android:color/background_light"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@id/restaurant_details_cardview"
             app:layout_constraintTop_toBottomOf="@id/restaurant_details_name"
             tools:text="Restaurant_address" />
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <!--  Description details of the restaurant  -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:cardElevation="-5dp"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/restaurant_details_cardview">
 
 
-
-        <ImageView
-            android:id="@+id/restaurant_details_phone_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="40dp"
-            android:src="@drawable/ic_baseline_phone_24"
-            app:tint="@color/colorPrimary" />
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-            android:elevation="1dp"
-            android:textAlignment="center"
+        <Button
+            android:id="@+id/restaurant_details_phone_call"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@drawable/ic_baseline_phone_24"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@id/restaurant_details_cardview"
-            app:layout_constraintTop_toBottomOf="@id/restaurant_details_name"
             tools:text="CALL" />
 
-        <ImageView
-            android:id="@+id/restaurant_details_like_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="160dp"
-            android:src="@drawable/ic_star"
-            app:tint="@color/colorPrimary" />
-
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="160dp"
-            android:layout_marginTop="40dp"
-            android:textAlignment="center"
+        <Button
+            android:id="@+id/restaurant_details_like"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@drawable/ic_star"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp"
             tools:text="LIKE" />
 
-        <ImageView
-            android:id="@+id/restaurant_details_website_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="280dp"
-            android:src="@drawable/ic_baseline_website_24"
-            app:tint="@color/colorPrimary"
-            android:contentDescription="@string/website_image" />
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="260dp"
-            android:layout_marginTop="40dp"
-            android:textAlignment="center"
+        <Button
+            android:id="@+id/restaurant_details_website"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@drawable/ic_baseline_website_24"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp"
             tools:text="WEBSITE" />
+    </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/restaurant_details_choice"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/button_add_restaurant_background"
+        android:src="@drawable/ic_baseline_check_circle_30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/restaurant_details_cardview"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/fragment_restaurant_details_backpress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

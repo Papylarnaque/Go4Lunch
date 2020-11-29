@@ -1,6 +1,8 @@
 package com.edescamp.go4lunch.adapter;
 
+import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +14,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
+import com.edescamp.go4lunch.service.APIClient;
+import com.edescamp.go4lunch.service.APIRequest;
 import com.edescamp.go4lunch.service.entities.LocationAPIMap;
 import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultAPIMap;
+import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.edescamp.go4lunch.activity.MainActivity.FIELDS;
+
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder> {
 
+    private static final String TAG = "RestaurantAdapter";
     private final List<ResultAPIMap> results;
     private final Location userLocation;
+    private Context context;
 
     public RestaurantAdapter(List<ResultAPIMap> results, Location userLocation) {
         this.results = results;
@@ -37,6 +52,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
     @Override
     public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+        context = view.getContext();
         return new RestaurantViewHolder(view);
 
         // TODO On click on a restaurant openDetailsFragment
@@ -49,35 +65,61 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
 
         ResultAPIMap resultAPIMap = results.get(position);
 
-        ResultAPIDetails result = new ResultAPIDetails();
-        result.setPlace_id(resultAPIMap.getPlaceId());
-        result.setName(resultAPIMap.getName());
-        result.setVicinity(resultAPIMap.getVicinity());
-        result.setFormatted_address(resultAPIMap.getVicinity());
-        result.setGeometry(resultAPIMap.getGeometry());
-        result.setPhotos(resultAPIMap.getPhotos());
-        result.setRating(resultAPIMap.getRating());
+//        ResultAPIDetails result = new ResultAPIDetails();
+//        result.setPlaceId(resultAPIMap.getPlaceId());
+//        result.setName(resultAPIMap.getName());
+//        result.setVicinity(resultAPIMap.getVicinity());
+//        result.setFormatted_address(resultAPIMap.getVicinity());
+//        result.setGeometry(resultAPIMap.getGeometry());
+//        if (resultAPIMap.getPhotos() != null) {
+//            result.setPhotos(resultAPIMap.getPhotos());
+//        }
+//        result.setRating(resultAPIMap.getRating());
 
         // TODO Get Details data for the restaurant
-
 
         float distance = getStraightDistance(resultAPIMap.getGeometry().getLocation());
         holder.updateViewWithRestaurants(results.get(position), distance);
 
-        holder.itemView.setOnClickListener(v -> openDetailsFragment(holder, result));
+        holder.itemView.setOnClickListener(v -> getPlaceDetails(results.get(position).getPlaceId()));
 
     }
 
+    public void getPlaceDetails(String placeId) {
+        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, context.getResources().getString(R.string.google_maps_key));
 
-    private void openDetailsFragment(@NonNull RestaurantViewHolder holder, ResultAPIDetails result) {
-        AppCompatActivity activity = (AppCompatActivity) holder.itemView.getContext();
+        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
+            @Override
+            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+                Log.d(TAG, "getPlaceDetails API ");
+                if (response.isSuccessful()) {
+                    ResultsAPIDetails body = response.body();
+                    if (body != null) {
+                        ResultAPIDetails result = body.getResult();
+                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
+
+                        openDetailsFragment(result);
+                    }
+                    // TODO Handle failures, 404 error, etc
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+                Log.d(TAG, "getPlaceDetails API failure" + t);
+            }
+        });
+    }
+
+    private void openDetailsFragment(ResultAPIDetails result) {
+        AppCompatActivity activity = (AppCompatActivity) context;
         Fragment fragment = new DetailsFragment(result);
         activity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
     }
-
 
     private float getStraightDistance(LocationAPIMap r) {
         Location restaurantLocation = new Location("");

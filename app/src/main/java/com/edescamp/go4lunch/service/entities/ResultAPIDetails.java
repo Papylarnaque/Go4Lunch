@@ -68,11 +68,11 @@ public class ResultAPIDetails {
         this.formatted_address = formatted_address;
     }
 
-    public String getPlace_id() {
+    public String getPlaceId() {
         return place_id;
     }
 
-    public void setPlace_id(String place_id) {
+    public void setPlaceId(String place_id) {
         this.place_id = place_id;
     }
 

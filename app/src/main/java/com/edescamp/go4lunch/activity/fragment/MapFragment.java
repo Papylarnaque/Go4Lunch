@@ -69,6 +69,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private String userLocationStr;
     private LatLng oldUserLatLng;
 
+
     public MapFragment() {
     }
 
@@ -89,11 +90,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         mMapFragment.getMapAsync(this);
 
         return v;
-    }
-
-    @Override
-    public void onBackPressed() {
-        // do nothing
     }
 
     // UI MAP //
@@ -166,9 +162,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         oldUserLatLng = userLatLng;
 
-        //TODO Manage AddMarker updates while moving the camera
-        // (location of the center of the camera) instead of radius around the userLatLng
-
     }
 
     private void getPlace(String userLocationStr) {
@@ -220,10 +213,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NON", (dialog12, which) -> dialog12.dismiss());
 
-
         dialog.show();
-
-
     }
 
     // + show the marker of the restaurant on the map
@@ -244,6 +234,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     }
 
+
     private void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
         Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, getResources().getString(R.string.google_maps_key));
@@ -256,7 +247,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     ResultsAPIDetails body = response.body();
                     if (body != null) {
                         ResultAPIDetails result = body.getResult();
-                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlace_id());
+                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
 
                         openDetailsFragment(result);
                     }

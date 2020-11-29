@@ -41,17 +41,19 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         rDistance.setText(new StringBuilder().append(distance.intValue()).append("m"));
         // TODO  rOpeningHours.setText(result.getOpening_hours().toString());
 
-        try {
-            PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
+        if (result.getPhotos()== null) {
+            Log.i(TAG, "result.getPhotos() == null =>  " + result.getPlaceId());
+            rPicture.setVisibility(View.INVISIBLE);
+            TextView noPhoto = itemView.findViewById(R.id.item_restaurant_no_picture_text);
+            noPhoto.setVisibility(View.VISIBLE);
+        } else {
+                PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
                 Glide.with(this.itemView)
                         .load(photoAttributesAPIMap.getPhoto_URL() + API_KEY)
                         .apply(new RequestOptions()
                                 .centerCrop())
                         .into(rPicture);
-        } catch (Exception e) {
-            Log.d(TAG, "photoAttributesAPIMap is null" + e);
         }
-
         showRating(result);
     }
 

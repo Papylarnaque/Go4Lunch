@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.BaseActivity;
 import com.edescamp.go4lunch.activity.MainActivity;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends BaseActivity {
 
@@ -14,13 +15,14 @@ public class SplashActivity extends BaseActivity {
         setTheme(R.style.AppTheme_Splash);
         super.onCreate(savedInstanceState);
 
-        getCurrentUser();
+        FirebaseUser currentUser = getCurrentUser();
 
         Intent intent;
-        if (isCurrentUserLogged()) {
+        // TODO Debug login when userlogged
+//        if (isCurrentUserLogged()) {
+        if (currentUser!=null) {
             intent = new Intent(SplashActivity.this, MainActivity.class);
         } else {
-//            signOutUserFromFirebase(); // TODO = line put temporarily to fix the Facebook auth issue - TOFIX ! Explanation : On startup, the Firebase User is not detected, but Facebook appears as logged
             intent = new Intent(SplashActivity.this, SignInActivity.class);
 
         }

@@ -21,14 +21,13 @@ import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.auth.SignInActivity;
 import com.edescamp.go4lunch.activity.fragment.BaseFragment;
 import com.edescamp.go4lunch.activity.fragment.MapFragment;
-import com.edescamp.go4lunch.activity.fragment.RestaurantFragment;
-import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
+import com.edescamp.go4lunch.activity.fragment.RestaurantListFragment;
+import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
+import com.edescamp.go4lunch.activity.fragment.WorkmatesListFragment;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.List;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,6 +35,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private static final String TAG = "MAIN_ACTIVITY";
+    public static final int RADIUS_MAX = 5000; // radius in meters around user for search
+
 
     public Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -44,8 +45,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static int radius = 400; // radius in meters around user for search
     public static final String language = "en";
     public static final String keyword = "restaurant";
-    public static final String FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,reviews,international_phone_number";
-
+    public static final String FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,12 +86,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 case navigation_listview_id:
                     mToolbar.setTitle(R.string.title_listview);
-                    fragment = new RestaurantFragment();
+                    fragment = new RestaurantListFragment();
                     showFragment(fragment);
                     break;
 
                 case navigation_workmates_id:
-                    fragment = new WorkmatesFragment();
+                    fragment = new WorkmatesListFragment();
                     showFragment(fragment);
                     mToolbar.setTitle(R.string.title_workmates);
                     break;
@@ -133,19 +133,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return true;
             // "SETTINGS"
             case main_drawer_settings_id:
-                // TODO Manage SETTINGS
-                Toast toastSettings = Toast.makeText(getApplicationContext(), "Manage SETTINGS", Toast.LENGTH_SHORT);
-                toastSettings.setGravity(Gravity.CENTER, 0, 0);
-                toastSettings.show();
+                this.mDrawerLayout.closeDrawer(GravityCompat.START);
+                Fragment fragment = new SettingsFragment();
+                showFragmentWithBackStack(fragment);
                 return true;
             // "LOGOUT"
             case main_drawer_logout_id:
                 logoutToSignInActivity();
-
                 return true;
+            //  LOGO
             case main_drawer_logo_id:
-                // test something like secret options ?
-                setTheme(R.style.ThemeOverlay_AppCompat_Dark);
                 return true;
             default:
                 break;
@@ -153,7 +150,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     // TOOLBAR configuration
     private void configureToolbar() {
@@ -199,21 +195,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.mDrawerLayout.closeDrawer(GravityCompat.START);
         }
-        tellFragments();
-        super.onBackPressed();
-    }
 
-    private void tellFragments(){
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for(Fragment f : fragments){
-            if(f instanceof BaseFragment)
-                ((BaseFragment)f).onBackPressed();
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (currentFragment instanceof BaseFragment) {
+            // do nothing
+        } else {
+            super.onBackPressed();
         }
     }
 
-
     // FRAGMENT MANAGEMENT //
     public void showFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+    }
+
+
+    private void showFragmentWithBackStack(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
@@ -247,7 +246,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Location permission has been granted, preview can be displayed
                 Log.i(TAG, "LOCATION permission has now been granted. Showing preview.");
-                showFragment(new RestaurantFragment());
+                showFragment(new RestaurantListFragment());
             } else {
                 // Location permission has been granted, preview can be displayed
                 Log.i(TAG, "LOCATION permission was NOT granted.");
@@ -255,8 +254,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             }
 
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        } else {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
