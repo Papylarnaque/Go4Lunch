@@ -2,10 +2,8 @@ package com.edescamp.go4lunch.activity.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,8 +15,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.LoginStatusCallback;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -59,13 +55,7 @@ public class SignInActivity extends BaseActivity {
     private CallbackManager facebookCallbackManager;
     private GoogleSignInClient mGoogleSignInClient;
 
-
-    // UI
-    private LoginButton facebookSignInButton;
-    private SignInButton googleSignInButton;
-    private ProgressBar progressBar;
-    private final Handler handler = new Handler();
-    private final int i = 0;
+    FirebaseAuth.AuthStateListener mAuthListener = firebaseAuth -> authLogin();
 
     OAuthProvider.Builder provider = OAuthProvider.newBuilder(String.valueOf(R.string.twitter));
 
@@ -77,47 +67,15 @@ public class SignInActivity extends BaseActivity {
         setContentView(R.layout.activity_signin);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        retrieveLoginStatus();
-
         configFacebookAuth();
         configGoogleAuth();
         configTwitterAuth();
 
-
-        progressBar = (ProgressBar) findViewById(R.id.signin_progress_bar);
+        getCurrentUser();
+        authLogin();
 
     }
 
-
-
-
-    private void retrieveLoginStatus() {
-        LoginManager.getInstance().retrieveLoginStatus(this, new LoginStatusCallback() {
-            @Override
-            public void onCompleted(AccessToken accessToken) {
-                // User was previously logged in, can log them in directly here.
-                // If this callback is called, a popup notification appears that says
-                // "Logged in as <User Name>" } @Override public void onFailure() {
-                // No access token could be retrieved for the user } @Override public void onError(Exception exception) {
-                // An error occurred } });
-                authLogin();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-
-            @Override
-            public void onError(Exception exception) {
-
-            }
-
-
-        });
-    }
-
-    FirebaseAuth.AuthStateListener mAuthListener = firebaseAuth -> authLogin();
 
     @Override
     public void onStart() {
@@ -178,7 +136,8 @@ public class SignInActivity extends BaseActivity {
     private void configFacebookAuth() {
 
         facebookCallbackManager = CallbackManager.Factory.create();
-        facebookSignInButton = findViewById(R.id.login_button_facebook);
+        // UI
+        LoginButton facebookSignInButton = findViewById(R.id.login_button_facebook);
         facebookSignInButton.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
@@ -214,7 +173,7 @@ public class SignInActivity extends BaseActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // GOOGLE SIGN IN BUTTON
-        googleSignInButton = findViewById(R.id.login_button_google);
+        SignInButton googleSignInButton = findViewById(R.id.login_button_google);
         googleSignInButton.setOnClickListener(v -> signIn());
         googleSignInButton.setSize(SignInButton.SIZE_STANDARD);
 
@@ -276,11 +235,12 @@ public class SignInActivity extends BaseActivity {
 
     private void authLogin() {
         if (isCurrentUserLogged()) {
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             launchProgressBar();
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }
     }
+
 
     private void launchProgressBar() {
         View mainLayout = findViewById(R.id.signin_main_layout);

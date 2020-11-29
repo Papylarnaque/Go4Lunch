@@ -32,9 +32,16 @@ public class DetailsFragment extends Fragment {
     private static final String TAG = "DetailsFragment";
     private final ResultAPIDetails result;
 
+    private TextView restaurantName;
+    private TextView restaurantAddress;
+    private ImageView restaurantPicture;
     private ImageView star1;
     private ImageView star2;
     private ImageView star3;
+    private ImageButton backPress;
+    private Button phone;
+    private Button like;
+    private Button website;
 
 
     public DetailsFragment(ResultAPIDetails result) {
@@ -53,6 +60,39 @@ public class DetailsFragment extends Fragment {
         hideActivityViews();
         configureView(view);
 
+
+        phone.setOnClickListener(v -> {
+            if (result.getInternational_phone_number() == null) {
+                Toast toast = Toast.makeText(getContext(), R.string.no_phone_number, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            } else {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + result.getInternational_phone_number().trim()));
+                startActivity(intent);
+            }
+        });
+
+        website.setOnClickListener(v -> {
+            if (result.getWebsite() == null) {
+                Toast toast = Toast.makeText(getContext(), R.string.no_website, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            } else {
+                Intent openURL = new Intent(Intent.ACTION_VIEW);
+                openURL.setData(Uri.parse(result.getWebsite()));
+                startActivity(openURL);
+            }
+        });
+
+        like.setOnClickListener(v -> {
+            // TODO : implement like functionnality
+            Toast.makeText(getContext(), "TODO : implement like functionnality", Toast.LENGTH_SHORT).show();
+        });
+
+        backPress.setOnClickListener(v -> requireActivity().onBackPressed());
+
+
         return view;
     }
 
@@ -62,14 +102,13 @@ public class DetailsFragment extends Fragment {
         String API_KEY = context.getResources().getString(R.string.google_api_key);
 
         // View
-        TextView restaurantName = view.findViewById(R.id.restaurant_details_name);
-        TextView restaurantAddress = view.findViewById(R.id.restaurant_details_address);
-        ImageView restaurantPicture = view.findViewById(R.id.restaurant_details_picture);
-
-        Button phone = view.findViewById(R.id.restaurant_details_phone_call);
-        Button like = view.findViewById(R.id.restaurant_details_like);
-        Button website = view.findViewById(R.id.restaurant_details_website);
-        ImageButton backPress = view.findViewById(R.id.fragment_settings_backpress);
+        restaurantName = view.findViewById(R.id.restaurant_details_name);
+        restaurantAddress = view.findViewById(R.id.restaurant_details_address);
+        restaurantPicture = view.findViewById(R.id.restaurant_details_picture);
+        phone = view.findViewById(R.id.restaurant_details_phone_call);
+        like = view.findViewById(R.id.restaurant_details_like);
+        website = view.findViewById(R.id.restaurant_details_website);
+        backPress = view.findViewById(R.id.fragment_restaurant_details_backpress);
 
         phone.setText(R.string.restaurant_details_phone_call);
         like.setText(R.string.restaurant_details_like);
@@ -77,6 +116,11 @@ public class DetailsFragment extends Fragment {
 
         restaurantName.setText(result.getName());
         restaurantAddress.setText(result.getFormatted_address());
+
+        star1 = view.findViewById(R.id.restaurant_details_star1);
+        star2 = view.findViewById(R.id.restaurant_details_star2);
+        star3 = view.findViewById(R.id.restaurant_details_star3);
+
 
         if (result.getPhotos() == null) {
             Log.i(TAG, "result.getPhotos() == null =>  " + result.getPlaceId());
@@ -93,39 +137,6 @@ public class DetailsFragment extends Fragment {
             restaurantPicture.setVisibility(View.VISIBLE);
         }
 
-        phone.setOnClickListener(v -> {
-            if (result.getInternational_phone_number()==null){
-                Toast toast = Toast.makeText(getContext(), R.string.no_phone_number, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            } else {
-            Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + result.getInternational_phone_number().trim()));
-            startActivity(intent);}
-        });
-
-        website.setOnClickListener(v -> {
-            if (result.getWebsite()==null){
-                Toast toast = Toast.makeText(getContext(), R.string.no_website, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            } else {
-            Intent openURL = new Intent(Intent.ACTION_VIEW);
-            openURL.setData(Uri.parse(result.getWebsite()));
-            startActivity(openURL);}
-        });
-
-        like.setOnClickListener(v -> {
-            // TODO : implement like functionnality
-            Toast.makeText(getContext(), "TODO : implement like functionnality", Toast.LENGTH_SHORT).show();
-        });
-
-//        backPress.setOnClickListener(v -> requireActivity().onBackPressed());
-
-
-        star1 = view.findViewById(R.id.restaurant_details_star1);
-        star2 = view.findViewById(R.id.restaurant_details_star2);
-        star3 = view.findViewById(R.id.restaurant_details_star3);
 
         showRating();
     }

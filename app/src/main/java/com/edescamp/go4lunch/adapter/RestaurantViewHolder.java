@@ -48,7 +48,8 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
             noPhoto.setVisibility(View.VISIBLE);
         } else {
                 PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
-                Glide.with(this.itemView)
+
+                Glide.with(this.itemView.getContext())
                         .load(photoAttributesAPIMap.getPhoto_URL() + API_KEY)
                         .apply(new RequestOptions()
                                 .centerCrop())

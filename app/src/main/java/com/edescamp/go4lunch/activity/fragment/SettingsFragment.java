@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MAX;
+import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_STEP;
 import static com.edescamp.go4lunch.activity.MainActivity.radius;
 
 public class SettingsFragment extends Fragment {
@@ -61,6 +62,7 @@ public class SettingsFragment extends Fragment {
         radiusSlider.setValue(radius);
         radiusSlider.setValueTo(RADIUS_MAX);
         radiusSlider.setLabelFormatter(value -> String.valueOf(radius));
+        radiusSlider.setStepSize(RADIUS_STEP);
     }
 
 

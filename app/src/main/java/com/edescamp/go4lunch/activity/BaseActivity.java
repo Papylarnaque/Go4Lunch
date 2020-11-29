@@ -14,7 +14,9 @@ public class BaseActivity extends AppCompatActivity {
      * @return a FirebaseUser object representing the logged user
      */
     @Nullable
-    protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
+    protected FirebaseUser getCurrentUser(){
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
 
     /**
      * This method allows to know if a user is logged
