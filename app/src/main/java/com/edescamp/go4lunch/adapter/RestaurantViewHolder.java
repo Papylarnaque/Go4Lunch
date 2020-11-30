@@ -40,34 +40,44 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         rAddress.setText(String.valueOf(result.getVicinity()));
         rDistance.setText(new StringBuilder().append(distance.intValue()).append("m"));
         // TODO  rOpeningHours.setText(result.getOpening_hours().toString());
+        showRating(result);
 
-        if (result.getPhotos()== null) {
+        if (result.getPhotos() == null) {
             Log.i(TAG, "result.getPhotos() == null =>  " + result.getPlaceId());
             rPicture.setVisibility(View.INVISIBLE);
             TextView noPhoto = itemView.findViewById(R.id.item_restaurant_no_picture_text);
+            noPhoto.setText(R.string.no_picture);
             noPhoto.setVisibility(View.VISIBLE);
         } else {
-                PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
+            PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
 
-                Glide.with(this.itemView.getContext())
-                        .load(photoAttributesAPIMap.getPhoto_URL() + API_KEY)
-                        .apply(new RequestOptions()
-                                .centerCrop())
-                        .into(rPicture);
+            Glide.with(this.itemView.getContext())
+                    .load(photoAttributesAPIMap.getPhoto_URL() + API_KEY)
+                    .apply(new RequestOptions()
+                            .centerCrop())
+                    .into(rPicture);
         }
-        showRating(result);
+
     }
 
     private void showRating(ResultAPIMap result) {
-        if (result.getRating() > 4) {
+        if (result.getRating() == null) {
+        } else if (result.getRating() >= 4) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
             star3.setVisibility(View.VISIBLE);
-        } else if (result.getRating() > 2.5) {
+        } else if (result.getRating() >= 2.5 && result.getRating() < 4) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
-        } else if (result.getRating() > 1) {
+            star2.setVisibility(View.INVISIBLE);
+        } else if (result.getRating() >= 1 && result.getRating() < 2.5) {
             star1.setVisibility(View.VISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+        } else  {
+            star1.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.INVISIBLE);
         }
     }
 

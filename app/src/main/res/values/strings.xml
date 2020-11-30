@@ -58,7 +58,8 @@
     <string name="restaurant_details_like">LIKE</string>
     <string name="restaurant_details_website">WEBSITE</string>
     <string name="fragment_settings_radius_search">Radius search: %1$d meters</string>
-    <string name="activity_splash_logo">activity_splash_logo</string>
+    <string name="activity_splash_logo" translatable="false">activity_splash_logo</string>
+    <string name="no_picture">No picture</string>
 
 
 </resources>

@@ -124,10 +124,10 @@ public class DetailsFragment extends Fragment {
 
         if (result.getPhotos() == null) {
             Log.i(TAG, "result.getPhotos() == null =>  " + result.getPlaceId());
-//            restaurantPicture.setVisibility(View.INVISIBLE);
-//            TextView noPhoto = view.findViewById(R.id.restaurant_details_no_picture_text);
-//            noPhoto.setText("No picture");
-//            noPhoto.setVisibility(View.VISIBLE);
+            restaurantPicture.setVisibility(View.INVISIBLE);
+            TextView noPhoto = view.findViewById(R.id.restaurant_details_no_picture_text);
+            noPhoto.setText(R.string.no_picture);
+            noPhoto.setVisibility(View.VISIBLE);
         } else {
             Glide.with(view)
                     .load(result.getPhotos().get(0).getPhoto_URL() + API_KEY)
@@ -143,16 +143,22 @@ public class DetailsFragment extends Fragment {
 
     private void showRating() {
         if (result.getRating() == null) {
-            // no rating
-        } else if (result.getRating() > 4) {
+        } else if (result.getRating() >= 4) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
             star3.setVisibility(View.VISIBLE);
-        } else if (result.getRating() > 2.5) {
+        } else if (result.getRating() >= 2.5 && result.getRating() < 4) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
-        } else if (result.getRating() > 1) {
+            star2.setVisibility(View.INVISIBLE);
+        } else if (result.getRating() >= 1 && result.getRating() < 2.5) {
             star1.setVisibility(View.VISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+        } else  {
+            star1.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.INVISIBLE);
         }
     }
 

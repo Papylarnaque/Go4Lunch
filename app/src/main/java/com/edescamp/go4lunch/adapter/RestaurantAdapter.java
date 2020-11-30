@@ -63,22 +63,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
 
-        ResultAPIMap resultAPIMap = results.get(position);
+        float distance = getStraightDistance(results.get(position).getGeometry().getLocation());
 
-//        ResultAPIDetails result = new ResultAPIDetails();
-//        result.setPlaceId(resultAPIMap.getPlaceId());
-//        result.setName(resultAPIMap.getName());
-//        result.setVicinity(resultAPIMap.getVicinity());
-//        result.setFormatted_address(resultAPIMap.getVicinity());
-//        result.setGeometry(resultAPIMap.getGeometry());
-//        if (resultAPIMap.getPhotos() != null) {
-//            result.setPhotos(resultAPIMap.getPhotos());
-//        }
-//        result.setRating(resultAPIMap.getRating());
-
-        // TODO Get Details data for the restaurant
-
-        float distance = getStraightDistance(resultAPIMap.getGeometry().getLocation());
         holder.updateViewWithRestaurants(results.get(position), distance);
 
         holder.itemView.setOnClickListener(v -> getPlaceDetails(results.get(position).getPlaceId()));
