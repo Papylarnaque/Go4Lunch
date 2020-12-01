@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.auth.SignInActivity;
 import com.edescamp.go4lunch.activity.fragment.BaseFragment;
@@ -28,6 +32,9 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,7 +44,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "MAIN_ACTIVITY";
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
     public static final int RADIUS_STEP = 500; // STEP Radius for slider
-
 
     public Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -59,6 +65,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         configureInitialState();
 
 //        getCurrentUser();
+
 
     }
 
@@ -112,6 +119,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //Use Navigation Callback listener as follows
         NavigationView navigationView = findViewById(R.id.activity_main_drawer);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header = navigationView.getHeaderView(0);
+
+        TextView userMail = header.findViewById(R.id.drawer_user_mail);
+        TextView userName = header.findViewById(R.id.drawer_user_name);
+        ImageView userPicture = header.findViewById(R.id.drawer_user_picture);
+
+        if (isCurrentUserLogged()) {
+            FirebaseUser firebaseUser = Objects.requireNonNull(getCurrentUser());
+
+            userName.setText(firebaseUser.getDisplayName());
+            Log.i(TAG, "firebaseUser : " + userName);
+
+            userMail.setText(firebaseUser.getEmail());
+            Log.i(TAG, "firebaseUser : " + userMail);
+
+            Glide.with(getApplicationContext())
+                    .load(Objects.requireNonNull(getCurrentUser()).getPhotoUrl())
+                    .circleCrop()
+                    .into(userPicture);
+
+        }
 
     }
 
