@@ -69,15 +69,15 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         } else if (result.getRating() >= 2.5 && result.getRating() < 4) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.INVISIBLE);
+            star3.setVisibility(View.GONE);
         } else if (result.getRating() >= 1 && result.getRating() < 2.5) {
             star1.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.INVISIBLE);
-            star2.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.GONE);
+            star3.setVisibility(View.GONE);
         } else  {
-            star1.setVisibility(View.INVISIBLE);
-            star2.setVisibility(View.INVISIBLE);
-            star2.setVisibility(View.INVISIBLE);
+            star1.setVisibility(View.GONE);
+            star2.setVisibility(View.GONE);
+            star3.setVisibility(View.GONE);
         }
     }
 

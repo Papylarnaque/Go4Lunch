@@ -54,9 +54,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         context = view.getContext();
         return new RestaurantViewHolder(view);
-
-        // TODO On click on a restaurant openDetailsFragment
-
     }
 
 
@@ -64,6 +61,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantViewHolder
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
 
         float distance = getStraightDistance(results.get(position).getGeometry().getLocation());
+
 
         holder.updateViewWithRestaurants(results.get(position), distance);
 

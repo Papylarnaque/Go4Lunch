@@ -150,15 +150,15 @@ public class DetailsFragment extends Fragment {
         } else if (result.getRating() >= 2.5 && result.getRating() < 4) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.INVISIBLE);
+            star3.setVisibility(View.INVISIBLE);
         } else if (result.getRating() >= 1 && result.getRating() < 2.5) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.INVISIBLE);
-            star2.setVisibility(View.INVISIBLE);
+            star3.setVisibility(View.INVISIBLE);
         } else  {
             star1.setVisibility(View.INVISIBLE);
             star2.setVisibility(View.INVISIBLE);
-            star2.setVisibility(View.INVISIBLE);
+            star3.setVisibility(View.INVISIBLE);
         }
     }
 

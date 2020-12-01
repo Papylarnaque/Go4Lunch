@@ -43,12 +43,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="656d221b-9fb2-4e0a-8f34-4c9b7695c7d7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout-sw600dp/activity_signin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/auth/SignInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/auth/SignInActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/DetailsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/DetailsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/adapter/RestaurantAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/adapter/RestaurantAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/adapter/RestaurantViewHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/adapter/RestaurantViewHolder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -587,13 +589,13 @@
     <state x="380" y="185" key="AndroidCreateResourceFileDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604089396982" />
     <state x="380" y="185" key="AndroidCreateResourceFileDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606069206671" />
     <state x="380" y="185" key="AndroidCreateResourceFileDialog/0.0.1600.860@0.0.1600.860" timestamp="1606771536058" />
-    <state x="645" y="237" key="AndroidCreateXmlResourceDialog" timestamp="1606759564130">
+    <state x="645" y="237" key="AndroidCreateXmlResourceDialog" timestamp="1606855831098">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606681795170" />
     <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604090053868" />
     <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606431347115" />
-    <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860@0.0.1600.860" timestamp="1606759564130" />
+    <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860@0.0.1600.860" timestamp="1606855831098" />
     <state x="598" y="176" key="AndroidProcessChooserDialog" timestamp="1606057714144">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
