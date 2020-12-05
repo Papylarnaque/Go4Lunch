@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signin_layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/signin_background"
@@ -113,7 +117,7 @@
         app:layout_constraintStart_toStartOf="@+id/signin_background"
         app:layout_constraintTop_toBottomOf="@+id/login_button_google" />
 
-
+</androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signin_progress_bar_layout"
         android:layout_width="match_parent"

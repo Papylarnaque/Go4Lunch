@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,51 +24,59 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.auth.SignInActivity;
-import com.edescamp.go4lunch.activity.fragment.BaseFragment;
 import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantListFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesListFragment;
+import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
-    private static final String TAG = "MAIN_ACTIVITY";
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
     public static final int RADIUS_STEP = 500; // STEP Radius for slider
-
-    public Toolbar mToolbar;
-    private DrawerLayout mDrawerLayout;
-
-    // API request parameters
-    public static int radius = 500; // radius in meters around user for search
     public static final String language = "en";
     public static final String keyword = "restaurant";
     public static final String FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
+    private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
+    private static final String TAG = "MAIN_ACTIVITY";
+    // API request parameters
+    public static int radius = 500; // radius in meters around user for search
+    public static String uid = null;
+    public static String usernameString = null;
+    public Toolbar mToolbar;
+    private DrawerLayout mDrawerLayout;
+    private TextView userMail;
+    private TextView userName;
+    private ImageView userPicture;
+    private Task<DocumentSnapshot> user;
+    private FirebaseUser firebaseUser;
+    private ImageButton logo_button;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         configureToolbar();
         configureDrawerLayout();
         configureNavigationMenu();
         configureInitialState();
-
-//        getCurrentUser();
-
-
     }
+
 
     //----- INITIAL STATE -----
     private void configureInitialState() {
@@ -122,25 +131,56 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         View header = navigationView.getHeaderView(0);
 
-        TextView userMail = header.findViewById(R.id.drawer_user_mail);
-        TextView userName = header.findViewById(R.id.drawer_user_name);
-        ImageView userPicture = header.findViewById(R.id.drawer_user_picture);
+        userMail = header.findViewById(R.id.drawer_user_mail);
+        userName = header.findViewById(R.id.drawer_user_name);
+        userPicture = header.findViewById(R.id.drawer_user_picture);
 
+        logo_button = findViewById(R.id.activity_main_drawer_logo);
+
+        logo_button.setOnClickListener(v -> {
+            // quit the app
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory(Intent.CATEGORY_HOME);
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+        });
+
+        updateUser();
+        // TODO Get updated username from settings to Drawer Textview when changed
+
+    }
+
+
+
+    private void updateUser() {
         if (isCurrentUserLogged()) {
-            FirebaseUser firebaseUser = Objects.requireNonNull(getCurrentUser());
-
-            userName.setText(firebaseUser.getDisplayName());
-            Log.i(TAG, "firebaseUser : " + userName);
-
-            userMail.setText(firebaseUser.getEmail());
-            Log.i(TAG, "firebaseUser : " + userMail);
-
-            Glide.with(getApplicationContext())
-                    .load(Objects.requireNonNull(getCurrentUser()).getPhotoUrl())
-                    .circleCrop()
-                    .into(userPicture);
-
+            firebaseUser = Objects.requireNonNull(getCurrentUser());
+            uid = firebaseUser.getUid();
+            user = UserHelper.getUser(uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    DocumentSnapshot result = user.getResult();
+                    updateUI(result);
+                }
+            });
         }
+    }
+
+    private void updateUI(DocumentSnapshot result) {
+
+        userName.setText(result.get("username").toString());
+        Log.i(TAG, "firebaseUser : " + userName.getText());
+
+        userMail.setText(result.get("mail").toString());
+        Log.i(TAG, "firebaseUser : " + userMail.getText());
+
+        Glide.with(getApplicationContext())
+                .load(Objects.requireNonNull(result.get("urlPicture")))
+                .circleCrop()
+                .into(userPicture);
+
+
+        usernameString = userName.getText().toString();
 
     }
 
@@ -152,7 +192,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         final int main_drawer_lunch_id = R.id.activity_main_drawer_lunch;
         final int main_drawer_settings_id = R.id.activity_main_drawer_settings;
         final int main_drawer_logout_id = R.id.activity_main_drawer_logout;
-        final int main_drawer_logo_id = R.id.activity_main_drawer_logo;
         switch (id) {
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
@@ -170,9 +209,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // "LOGOUT"
             case main_drawer_logout_id:
                 logoutToSignInActivity();
-                return true;
-            //  LOGO
-            case main_drawer_logo_id:
                 return true;
             default:
                 break;
@@ -227,7 +263,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
-        if (currentFragment instanceof BaseFragment) {
+        if (currentFragment instanceof MapFragment
+                || currentFragment instanceof RestaurantListFragment
+                || currentFragment instanceof WorkmatesListFragment) {
             // do nothing
         } else {
             super.onBackPressed();
@@ -283,10 +321,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Toast.makeText(getApplicationContext(), R.string.permissions_not_granted, Toast.LENGTH_SHORT).show();
 
             }
-
-//        } else {
-//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUser();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateUser();
     }
 }
 

@@ -31,6 +31,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginStart="10dp"
             android:id="@+id/drawer_user_picture"
             android:src="@drawable/ic_baseline_account_circle_24"
             android:layout_marginEnd="20dp"/>

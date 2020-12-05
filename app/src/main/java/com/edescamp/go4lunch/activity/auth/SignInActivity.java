@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.BaseActivity;
 import com.edescamp.go4lunch.activity.MainActivity;
+import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -97,19 +98,15 @@ public class SignInActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // FACEBOOK
         facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LOGIN_FACEBOOK) {
-            if (resultCode == RESULT_OK){
-            facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-        }
+
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            if (resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 // Google Sign In was successful, authenticate with Firebase
+                // 2 - CREATE USER IN FIRESTORE
                 GoogleSignInAccount account = null;
                 try {
                     account = task.getResult(ApiException.class);
@@ -125,7 +122,7 @@ public class SignInActivity extends BaseActivity {
             }
         }
 
-}
+    }
 
 
     // FACEBOOK AUTH
@@ -139,7 +136,6 @@ public class SignInActivity extends BaseActivity {
                     public void onSuccess(LoginResult loginResult) {
                         Log.d(TAG, "facebook:onSuccess:" + loginResult);
                         handleFacebookAccessToken(loginResult.getAccessToken());
-                        //loginResult OK wen debugging
                     }
 
                     @Override
@@ -229,6 +225,7 @@ public class SignInActivity extends BaseActivity {
     private void authLogin() {
         if (isCurrentUserLogged()) {
             launchProgressBar();
+            createUserInFirestore();
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -236,7 +233,7 @@ public class SignInActivity extends BaseActivity {
 
 
     private void launchProgressBar() {
-        View mainLayout = findViewById(R.id.signin_layout);
+        View mainLayout = findViewById(R.id.signin_layout_main);
         mainLayout.setVisibility(View.INVISIBLE);
         View progressBar = findViewById(R.id.signin_progress_bar_layout);
         progressBar.setVisibility(View.VISIBLE);
@@ -248,6 +245,21 @@ public class SignInActivity extends BaseActivity {
         // Do nothing
     }
 
+    private void createUserInFirestore() {
+        if (this.getCurrentUser() != null) {
+            String userId = this.getCurrentUser().getUid();
+            if (UserHelper.getUser(userId) == null) {
 
+                String userUrlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
+                String userName = this.getCurrentUser().getDisplayName();
+                String userMail = this.getCurrentUser().getEmail();
+
+                UserHelper.createUser(userId, userName, userUrlPicture, userMail).addOnFailureListener(this.onFailureListener());
+            }
+            else {
+                // User already exist, do nothing => OR Update UI ???
+            }
+        }
+    }
 
 }

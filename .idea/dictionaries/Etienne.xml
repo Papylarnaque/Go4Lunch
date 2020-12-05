@@ -2,6 +2,7 @@
   <dictionary name="Etienne">
     <words>
       <w>distancematrix</w>
+      <w>firestore</w>
       <w>latlng</w>
       <w>nearbysearch</w>
       <w>restaurantid</w>

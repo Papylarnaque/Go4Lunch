@@ -60,6 +60,10 @@
     <string name="fragment_settings_radius_search">Radius search: %1$d meters</string>
     <string name="activity_splash_logo" translatable="false">activity_splash_logo</string>
     <string name="no_picture">No picture</string>
+    <string name="error_unknown_error">Unknown error</string>
+    <string name="fragment_settings_backpress_description">fragment_settings_backpress_description</string>
+    <string name="fragment_settings_update_username_text">Update your username:</string>
+    <string name="activity_main_drawer_logo_description">activity_main_drawer_logo_description</string>
 
 
 </resources>

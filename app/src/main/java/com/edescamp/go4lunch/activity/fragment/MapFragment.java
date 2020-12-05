@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -176,7 +175,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     if (body != null) {
                         List<ResultAPIMap> resultsAPIMap = body.getResults();
                         if (resultsAPIMap.size() == 0) {
-                            Toast.makeText(getContext(), "Pas de restaurant a 400m d'ici", Toast.LENGTH_LONG).show();
                             extendRadiusDialog();
                         } else {
                             addMarkerResult(resultsAPIMap);

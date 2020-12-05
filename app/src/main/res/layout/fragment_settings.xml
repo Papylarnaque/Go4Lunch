@@ -6,6 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/fragment_settings_backpress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:contentDescription="@string/fragment_settings_backpress_description"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/fragment_settings_title"
@@ -41,18 +55,46 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_settings_radius_text"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <ImageButton
-        android:id="@+id/fragment_settings_backpress"
+    <TextView
+        android:id="@+id/fragment_settings_update_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@null"
-        android:tint="@color/colorPrimary"
-        android:src="@drawable/ic_baseline_arrow_back_24"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="230dp"
+        android:text="@string/fragment_settings_update_username_text"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/fragment_settings_update_username_textbox"
+        style="@android:style/Widget.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="264dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:labelFor="@+id/fragment_settings_update_username_textbox"
+        android:maxLength="40"
+        android:maxLines="3"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="    Username    " />
+
+    <Button
+        android:id="@+id/fragment_settings_validate_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="16dp"
+        android:text="Valider"
+        app:layout_constraintStart_toEndOf="@+id/fragment_settings_update_username_textbox"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_update_username_textbox" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
