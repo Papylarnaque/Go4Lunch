@@ -8,7 +8,7 @@ public class User {
     private String uid;
     private String username;
     private String userMail;
-    private Integer hasChosenRestaurant;
+    private String hasChosenRestaurant;
     @Nullable
     private String urlPicture;
 
@@ -22,7 +22,7 @@ public class User {
 //        this.userMail = userMail;
     }
 
-    public User(String uid, String username, @org.jetbrains.annotations.Nullable String urlPicture, String userMail, int hasChosenRestaurant) {
+    public User(String uid, String username, @org.jetbrains.annotations.Nullable String urlPicture, String userMail, String hasChosenRestaurant) {
 //        this.uid = uid;
 //        this.username = username;
 //        this.urlPicture = urlPicture;
@@ -45,7 +45,7 @@ public class User {
         return urlPicture;
     }
 
-    public Integer getHasChosenRestaurant() {
+    public String getHasChosenRestaurant() {
         return hasChosenRestaurant;
     }
 
@@ -62,7 +62,7 @@ public class User {
         this.urlPicture = urlPicture;
     }
 
-    public void setHasChosenRestaurant(Integer restaurantId) {
+    public void setHasChosenRestaurant(String restaurantId) {
         hasChosenRestaurant = restaurantId;
     }
 

@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class UserHelper {
         userToCreate.put("username", userName);
         userToCreate.put("urlPicture", userUrlPicture);
         userToCreate.put("mail", userMail);
+        userToCreate.put("hasChosenRestaurant", "");
         Log.i(TAG, "userId: "+userId + " username: "+userName);
         return UserHelper.getUsersCollection().document(userId).set(userToCreate);
     }
@@ -38,6 +40,12 @@ public class UserHelper {
 
     public static Task<DocumentSnapshot> getUser(String uid){
         return UserHelper.getUsersCollection().document(uid).get();
+    }
+
+    // --- GET ---
+
+    public static Task<QuerySnapshot> getAllUsers(){
+        return UserHelper.getUsersCollection().get();
     }
 
     // --- UPDATE ---
@@ -53,4 +61,8 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).delete();
     }
 
+
+    public static Task<Void> setChosenRestaurant(String placeId, String uid) {
+        return UserHelper.getUsersCollection().document(uid).update("hasChosenRestaurant", placeId);
+    }
 }

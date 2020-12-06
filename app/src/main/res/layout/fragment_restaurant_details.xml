@@ -129,21 +129,21 @@
     </LinearLayout>
 
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/restaurant_details_choice"
+    <ImageButton
+        android:id="@+id/fragment_restaurant_details_button_restaurant_choice"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="300dp"
         android:layout_marginTop="220dp"
         android:layout_marginEnd="35dp"
         android:background="@drawable/button_add_restaurant_background"
-        android:src="@drawable/ic_baseline_check_circle_30"
+        android:src="@drawable/ic_baseline_add_30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/restaurant_details_cardview"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/fragment_restaurant_details_backpress"
+        android:id="@+id/fragment_restaurant_details_button_backpress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

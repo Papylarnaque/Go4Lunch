@@ -25,9 +25,9 @@ import com.bumptech.glide.Glide;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.auth.SignInActivity;
 import com.edescamp.go4lunch.activity.fragment.MapFragment;
-import com.edescamp.go4lunch.activity.fragment.RestaurantListFragment;
+import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
-import com.edescamp.go4lunch.activity.fragment.WorkmatesListFragment;
+import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +43,7 @@ import java.util.Objects;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    //
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
     public static final int RADIUS_STEP = 500; // STEP Radius for slider
     public static final String language = "en";
@@ -51,10 +52,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private static final String TAG = "MAIN_ACTIVITY";
-    // API request parameters
     public static int radius = 500; // radius in meters around user for search
+
     public static String uid = null;
     public static String usernameString = null;
+
+    // UI
     public Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private TextView userMail;
@@ -103,12 +106,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 case navigation_listview_id:
                     mToolbar.setTitle(R.string.title_listview);
-                    fragment = new RestaurantListFragment();
+                    fragment = new RestaurantsFragment();
                     showFragment(fragment);
                     break;
 
                 case navigation_workmates_id:
-                    fragment = new WorkmatesListFragment();
+                    fragment = new WorkmatesFragment();
                     showFragment(fragment);
                     mToolbar.setTitle(R.string.title_workmates);
                     break;
@@ -196,9 +199,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
                 // TODO Manage YOUR LUNCH
-                Toast toast = Toast.makeText(getApplicationContext(), "Manage YOUR LUNCH", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), user.getResult().get("hasChosenRestaurant").toString(), Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
+//                Fragment fragment = new DetailsFragment();
+//                showFragmentWithBackStack(fragment);
                 return true;
             // "SETTINGS"
             case main_drawer_settings_id:
@@ -264,8 +269,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (currentFragment instanceof MapFragment
-                || currentFragment instanceof RestaurantListFragment
-                || currentFragment instanceof WorkmatesListFragment) {
+                || currentFragment instanceof RestaurantsFragment
+                || currentFragment instanceof WorkmatesFragment) {
             // do nothing
         } else {
             super.onBackPressed();
@@ -314,7 +319,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Location permission has been granted, preview can be displayed
                 Log.i(TAG, "LOCATION permission has now been granted. Showing preview.");
-                showFragment(new RestaurantListFragment());
+                showFragment(new RestaurantsFragment());
             } else {
                 // Location permission has been granted, preview can be displayed
                 Log.i(TAG, "LOCATION permission was NOT granted.");

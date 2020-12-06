@@ -21,7 +21,11 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.R;
+import com.edescamp.go4lunch.activity.MainActivity;
 import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
+import com.edescamp.go4lunch.util.UserHelper;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +42,8 @@ public class DetailsFragment extends Fragment {
     private ImageView star1;
     private ImageView star2;
     private ImageView star3;
-    private ImageButton backPress;
+    private ImageButton buttonBackPress;
+    private ImageButton buttonRestaurantChoice;
     private Button phone;
     private Button like;
     private Button website;
@@ -56,10 +61,20 @@ public class DetailsFragment extends Fragment {
     ) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_restaurant_details, container, false);
-
         hideActivityViews();
         configureView(view);
 
+        UserHelper.getUser(MainActivity.uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.get("hasChosenRestaurant").equals(result.getPlaceId())){
+                    buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
+                }
+                else    {
+                    buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_add_30);
+                }
+            }
+        });
 
         phone.setOnClickListener(v -> {
             if (result.getInternational_phone_number() == null) {
@@ -87,13 +102,21 @@ public class DetailsFragment extends Fragment {
 
         like.setOnClickListener(v -> {
             // TODO : implement like functionnality
-            Toast.makeText(getContext(), "TODO : implement like functionnality", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "TODO : implement like functionality", Toast.LENGTH_SHORT).show();
         });
 
-        backPress.setOnClickListener(v -> requireActivity().onBackPressed());
+        buttonBackPress.setOnClickListener(v -> requireActivity().onBackPressed());
+
+        buttonRestaurantChoice.setOnClickListener(v -> selectRestaurant());
 
 
         return view;
+    }
+
+    private void selectRestaurant() {
+        UserHelper.setChosenRestaurant(result.getPlaceId(), MainActivity.uid);
+        buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
+        Toast.makeText(getContext(), getString(R.string.restaurant_Chosen,restaurantName.getText()), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -108,7 +131,8 @@ public class DetailsFragment extends Fragment {
         phone = view.findViewById(R.id.restaurant_details_phone_call);
         like = view.findViewById(R.id.restaurant_details_like);
         website = view.findViewById(R.id.restaurant_details_website);
-        backPress = view.findViewById(R.id.fragment_restaurant_details_backpress);
+        buttonBackPress = view.findViewById(R.id.fragment_restaurant_details_button_backpress);
+        buttonRestaurantChoice = view.findViewById(R.id.fragment_restaurant_details_button_restaurant_choice);
 
         phone.setText(R.string.restaurant_details_phone_call);
         like.setText(R.string.restaurant_details_like);

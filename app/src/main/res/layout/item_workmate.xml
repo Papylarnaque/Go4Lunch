@@ -2,55 +2,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_workmates"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_workmate_picture"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/restaurant_vertical_margin"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
+        android:id="@+id/item_workmates_picture"
         android:layout_width="@dimen/picture_restaurant"
         android:layout_height="@dimen/picture_restaurant"
         android:layout_marginTop="@dimen/restaurant_horizontal_margin"
         android:layout_marginEnd="@dimen/restaurant_horizontal_margin"
         android:layout_marginBottom="@dimen/restaurant_vertical_margin"
+        android:contentDescription="@string/workmate_picture"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_baseline_person_24"
-        android:contentDescription="@string/workmate_picture" />
+        tools:src="@drawable/ic_baseline_person_24" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <!-- BLOC OF TEXT VIEW -->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="250dp"
+    <TextView
+        android:id="@+id/item_workmates_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/item_workmate_picture"
-        app:layout_constraintTop_toTopOf="parent">
+        android:textStyle="bold"
+        android:scrollHorizontally="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:text="@string/text_workmate"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/item_workmates_picture"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/restaurant_text_height"
-            android:gravity="center_vertical"
-            android:text="@string/text_workmate"
-            android:textColor="@color/colorTextBlack"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <TextView
+        android:id="@+id/item_workmates_restaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:text="@string/item_workmates_restaurant_text_null"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/item_workmates_picture"
+        app:layout_constraintTop_toBottomOf="@id/item_workmates_name"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

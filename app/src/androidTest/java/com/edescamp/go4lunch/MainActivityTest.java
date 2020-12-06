@@ -64,7 +64,7 @@ public class MainActivityTest {
 
         onView(withId(R.id.navigation_workmates))
                 .perform(click());
-        onView(withId(R.id.fragment_workmates_list)).check(matches(isDisplayed()));
+        onView(withId(R.id.fragment_workmates)).check(matches(isDisplayed()));
     }
 
 }
