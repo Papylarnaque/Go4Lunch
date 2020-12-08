@@ -170,11 +170,11 @@ public class DetailsFragment extends Fragment {
 
     private void showRating() {
         if (resultAPIDetails.getRating() == null) {
-        } else if (resultAPIDetails.getRating() >= 4) {
+        } else if (resultAPIDetails.getRating() >= 4.5) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
             star3.setVisibility(View.VISIBLE);
-        } else if (resultAPIDetails.getRating() >= 2.5 && resultAPIDetails.getRating() < 4) {
+        } else if (resultAPIDetails.getRating() >= 2.5 && resultAPIDetails.getRating() < 4.5) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
             star3.setVisibility(View.INVISIBLE);

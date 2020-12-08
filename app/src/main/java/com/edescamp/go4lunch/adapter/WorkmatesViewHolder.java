@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.model.User;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
@@ -31,8 +30,8 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void updateViewWithWorkmates(DocumentSnapshot document) {
-        User user = document.toObject(User.class);
+    public void updateViewWithWorkmates(User user) {
+
 
         userName.setText(user.getUsername());
 
@@ -44,12 +43,11 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
 
         // TODO Handle chosen restaurant
-        if (user.getHasChosenRestaurant()==null){
+        if (user.getHasChosenRestaurant()==null || user.getHasChosenRestaurant().equals("")){
             userRestaurantChoice.setText(R.string.item_workmates_restaurant_text_null);
         }
         else {
-            userRestaurantChoice.setText(R.string.item_workmates_restaurant_text);
-//            userRestaurantChoice.setText(context.getString(R.string.item_workmates_restaurant_text, user.getHasChosenRestaurant().toString()));
+            userRestaurantChoice.setText(context.getString(R.string.item_workmates_restaurant_text, user.getChosenRestaurantName()));
         }
     }
 }

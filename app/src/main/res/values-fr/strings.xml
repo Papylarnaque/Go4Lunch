@@ -43,5 +43,6 @@
     <string name="details_fragment_alertdialog_restaurant_choice_change_message">Voulez-vous annuler votre precedent choix de restaurant pour le restaurant: %1$s?</string>
     <string name="details_fragment_alertdialog_restaurant_choice_change_title">Changement de restaurant ?</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Voulez-vous annuler ce choix de restaurant?</string>
+    <string name="item_restaurant_no_opening_hours">Aucun horaire connu</string>
 
 </resources>

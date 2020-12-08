@@ -30,12 +30,12 @@ import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
@@ -52,7 +52,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private static final String TAG = "MAIN_ACTIVITY";
-    public static int radius = 500; // radius in meters around user for search
+    public static int radius = 2500; // radius in meters around user for search
+    private DocumentReference docRef;
 
     public static String uid = null;
     public static String usernameString = null;
@@ -66,6 +67,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Task<DocumentSnapshot> user;
     private FirebaseUser firebaseUser;
     private ImageButton logo_button;
+    private String restaurantChoice;
 
 
     @Override
@@ -78,6 +80,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         configureDrawerLayout();
         configureNavigationMenu();
         configureInitialState();
+
+
     }
 
 
@@ -148,41 +152,54 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startActivity(homeIntent);
         });
 
-        updateUser();
+        updateUserSnaptshot();
         // TODO Get updated username from settings to Drawer Textview when changed
 
     }
 
 
-
-    private void updateUser() {
+    private void updateUserSnaptshot() {
         if (isCurrentUserLogged()) {
-            firebaseUser = Objects.requireNonNull(getCurrentUser());
-            uid = firebaseUser.getUid();
-            user = UserHelper.getUser(uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    DocumentSnapshot result = user.getResult();
-                    updateUI(result);
-                }
-            });
-        }
+        uid = getCurrentUser().getUid();
+        docRef = UserHelper.getUsersCollection().document(uid);
+
+        docRef.addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e);
+                return;
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: " + snapshot.getData());
+                updateUI(snapshot);
+
+            } else {
+                Log.d(TAG, "Current data: null");
+            }
+        });}
     }
 
     private void updateUI(DocumentSnapshot result) {
 
-        userName.setText(result.get("username").toString());
-        Log.i(TAG, "firebaseUser : " + userName.getText());
+        if (result.get("username") != null) {
+            userName.setText(result.get("username").toString());
+            Log.i(TAG, "firebaseUser : " + userName.getText());
+        }
+        if (result.get("mail") != null) {
+            userMail.setText(result.get("mail").toString());
+            Log.i(TAG, "firebaseUser : " + userMail.getText());
+        }
+        if (result.get("urlPicture") != null) {
+            Glide.with(getApplicationContext())
+                    .load(Objects.requireNonNull(result.get("urlPicture")))
+                    .circleCrop()
+                    .into(userPicture);
+        }
 
-        userMail.setText(result.get("mail").toString());
-        Log.i(TAG, "firebaseUser : " + userMail.getText());
-
-        Glide.with(getApplicationContext())
-                .load(Objects.requireNonNull(result.get("urlPicture")))
-                .circleCrop()
-                .into(userPicture);
-
-
+        if (result.get("hasChosenRestaurant") != null) {
+            restaurantChoice = result.get("hasChosenRestaurant").toString();
+            Log.i(TAG, "firebaseUser : " + restaurantChoice);
+        }
         usernameString = userName.getText().toString();
 
     }
@@ -199,7 +216,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
                 // TODO Manage YOUR LUNCH
-                Toast toast = Toast.makeText(getApplicationContext(), user.getResult().get("hasChosenRestaurant").toString(), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), restaurantChoice, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
 //                Fragment fragment = new DetailsFragment();
@@ -332,13 +349,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onResume() {
         super.onResume();
-        updateUser();
+        updateUserSnaptshot();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        updateUser();
+        updateUserSnaptshot();
     }
 }
 

@@ -37,6 +37,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     private final List<ResultAPIMap> results;
     private final Location userLocation;
     private Context context;
+    private ResultAPIDetails resultAPIDetails;
+    private int distance;
 
     public RestaurantsAdapter(List<ResultAPIMap> results, Location userLocation) {
         this.results = results;
@@ -60,18 +62,19 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     @Override
     public void onBindViewHolder(@NonNull RestaurantsViewHolder holder, int position) {
 
-        float distance = getStraightDistance(results.get(position).getGeometry().getLocation());
+        distance = getStraightDistance(results.get(position).getGeometry().getLocation());
+
+        getPlaceDetails(results.get(position), holder);
 
 
-        holder.updateViewWithRestaurants(results.get(position), distance);
 
-        holder.itemView.setOnClickListener(v -> getPlaceDetails(results.get(position).getPlaceId()));
+        holder.itemView.setOnClickListener(v ->  openDetailsFragment(resultAPIDetails));
 
     }
 
-    public void getPlaceDetails(String placeId) {
+    public void getPlaceDetails(ResultAPIMap resultAPIMap, RestaurantsViewHolder holder) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, context.getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(resultAPIMap.getPlaceId(), FIELDS, context.getResources().getString(R.string.google_maps_key));
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
@@ -80,10 +83,12 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
                 if (response.isSuccessful()) {
                     ResultsAPIDetails body = response.body();
                     if (body != null) {
-                        ResultAPIDetails result = body.getResult();
-                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
+                        resultAPIDetails = body.getResult();
+                        Log.d(TAG, "getPlaceDetails successful response " + resultAPIDetails.getName() + " " + resultAPIDetails.getPlaceId());
 
-                        openDetailsFragment(result);
+
+                        holder.updateViewWithRestaurants(resultAPIMap, resultAPIDetails.getOpening_hours(), distance);
+
                     }
                     // TODO Handle failures, 404 error, etc
                 }
@@ -105,12 +110,12 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
                 .commit();
     }
 
-    private float getStraightDistance(LocationAPIMap r) {
+    private int getStraightDistance(LocationAPIMap r) {
         Location restaurantLocation = new Location("");
         restaurantLocation.setLongitude(r.getLng());
         restaurantLocation.setLatitude(r.getLat());
 
-        return (int) restaurantLocation.distanceTo(userLocation);
+        return Math.round(restaurantLocation.distanceTo(userLocation));
     }
 
     @Override

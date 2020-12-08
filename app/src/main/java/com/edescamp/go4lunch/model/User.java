@@ -11,6 +11,7 @@ public class User {
     private String hasChosenRestaurant;
     @Nullable
     private String urlPicture;
+    private String chosenRestaurantName;
 
     public User() {
     }
@@ -72,5 +73,12 @@ public class User {
 
     public void setUserMail(String userMail) {
         this.userMail = userMail;
+    }
+
+    public void setChosenRestaurantName(String chosenRestaurantName) {
+    }
+
+    public String getChosenRestaurantName() {
+        return chosenRestaurantName;
     }
 }
