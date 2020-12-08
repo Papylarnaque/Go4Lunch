@@ -36,5 +36,12 @@
     <string name="restaurant_details_website">SITE</string>
     <string name="fragment_settings_radius_search">Rayon de recherche: %1$d metres</string>
     <string name="no_picture">Pas de photo</string>
+    <string name="fragment_settings_update_username_text">Modifier votre surnom:</string>
+    <string name="item_workmates_restaurant_text">a choisi le restaurant  %1$s.</string>
+    <string name="item_workmates_restaurant_text_null">n\'a pas encore choisi.</string>
+    <string name="restaurant_Chosen">Vous avez choisi le restaurant %1$s.</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_change_message">Voulez-vous annuler votre precedent choix de restaurant pour le restaurant: %1$s?</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_change_title">Changement de restaurant ?</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Voulez-vous annuler ce choix de restaurant?</string>
 
 </resources>

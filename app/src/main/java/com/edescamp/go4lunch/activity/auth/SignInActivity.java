@@ -193,6 +193,7 @@ public class SignInActivity extends BaseActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
+                        createUserInFirestore();
                         authLogin();
                     } else {
                         // TODO Handle merging users account / linking providers to account
@@ -212,6 +213,7 @@ public class SignInActivity extends BaseActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
+                        createUserInFirestore();
                         authLogin();
                     } else {
                         // TODO Handle merging users account / linking providers to account
@@ -248,6 +250,7 @@ public class SignInActivity extends BaseActivity {
     private void createUserInFirestore() {
         if (this.getCurrentUser() != null) {
             String userId = this.getCurrentUser().getUid();
+
             if (UserHelper.getUser(userId) == null) {
 
                 String userUrlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
@@ -256,10 +259,8 @@ public class SignInActivity extends BaseActivity {
 
                 UserHelper.createUser(userId, userName, userUrlPicture, userMail).addOnFailureListener(this.onFailureListener());
             }
-            else {
-                // User already exist, do nothing => OR Update UI ???
-            }
         }
-    }
 
+
+    }
 }

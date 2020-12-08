@@ -203,13 +203,13 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         // 3. Get the AlertDialog from create()
         AlertDialog dialog = builder.create();
 
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OUI", (dialog1, which) -> {
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
             radius += 1000;
             getPlace(userLocationStr);
             dialog1.dismiss();
         });
 
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NON", (dialog12, which) -> dialog12.dismiss());
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());
 
         dialog.show();
     }

@@ -137,7 +137,6 @@
         android:layout_marginTop="220dp"
         android:layout_marginEnd="35dp"
         android:background="@drawable/button_add_restaurant_background"
-        android:src="@drawable/ic_baseline_add_30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/restaurant_details_cardview"
         app:layout_constraintTop_toTopOf="parent" />

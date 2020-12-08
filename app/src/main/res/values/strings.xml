@@ -61,12 +61,16 @@
     <string name="activity_splash_logo" translatable="false">activity_splash_logo</string>
     <string name="no_picture">No picture</string>
     <string name="error_unknown_error">Unknown error</string>
-    <string name="fragment_settings_backpress_description">fragment_settings_backpress_description</string>
+    <string name="fragment_settings_backpress_description" translatable="false">fragment_settings_backpress_description</string>
     <string name="fragment_settings_update_username_text">Update your username:</string>
-    <string name="activity_main_drawer_logo_description">activity_main_drawer_logo_description</string>
-    <string name="item_workmates_restaurant_text">is joining the restaurant \n %1$s</string>
+    <string name="activity_main_drawer_logo_description" translatable="false">activity_main_drawer_logo_description</string>
     <string name="item_workmates_restaurant_text_null">has\'nt decided yet.</string>
-    <string name="restaurant_Chosen">You chose the restaurant %1$s</string>
+    <string name="restaurant_Chosen">You chose the restaurant %1$s.</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_change_message">Do you want to cancel your previous restaurant choice for the %1$s restaurant ?</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_change_title">Change your restaurant choice ?</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Do you want to cancel this restaurant choice ?</string>
+    <string name="item_workmates_restaurant_text">is joining the restaurant   %1$s.</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title">Cancel this restaurant choice?</string>
 
 
 </resources>
