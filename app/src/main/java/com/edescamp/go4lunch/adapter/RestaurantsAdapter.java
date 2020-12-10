@@ -20,6 +20,8 @@ import com.edescamp.go4lunch.service.entities.LocationAPIMap;
 import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultAPIMap;
 import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
+import com.edescamp.go4lunch.util.UserHelper;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +41,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     private Context context;
     private ResultAPIDetails resultAPIDetails;
     private int distance;
+    private int workmates;
 
     public RestaurantsAdapter(List<ResultAPIMap> results, Location userLocation) {
         this.results = results;
@@ -64,11 +67,94 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
 
         distance = getStraightDistance(results.get(position).getGeometry().getLocation());
 
+        getWorkmates(results.get(position).getPlaceId());
+
         getPlaceDetails(results.get(position), holder);
 
         holder.itemView.setOnClickListener(v -> getPlaceDetails(results.get(position).getPlaceId()));
 
     }
+
+    // ---------------------- WORKMATES DATA request --------------------- //
+
+//    private void getWorkmates(String placeId) {
+//        workmates = 0;
+//        UserHelper.getAllUsers().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+//                    // for each user check if current placeId is chosen by the user
+//                    if (documentSnapshot.toObject(User.class).getHasChosenRestaurant().equals(placeId)) {
+//                        workmates += 1;
+//                    }
+//                }
+//            }
+//        });
+//    }
+
+    // TODO Fix algorithm for workmates calculation
+
+    private void getWorkmates(String placeId) {
+        // reset workmates count at each method call
+        workmates = 0;
+
+        UserHelper.getUsersCollection()
+                .whereEqualTo("hasChosenRestaurant", placeId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            workmates += 1;
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
+
+    }
+
+
+    // --------------------  DETAILS DATA request -------------------- //
+
+    private int getStraightDistance(LocationAPIMap r) {
+        Location restaurantLocation = new Location("");
+        restaurantLocation.setLongitude(r.getLng());
+        restaurantLocation.setLatitude(r.getLat());
+
+        return Math.round(restaurantLocation.distanceTo(userLocation));
+    }
+
+    public void getPlaceDetails(ResultAPIMap resultAPIMap, RestaurantsViewHolder holder) {
+        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(resultAPIMap.getPlaceId(), FIELDS, context.getResources().getString(R.string.google_maps_key));
+
+        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
+            @Override
+            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+                Log.d(TAG, "getPlaceDetails API ");
+                if (response.isSuccessful()) {
+                    ResultsAPIDetails body = response.body();
+                    if (body != null) {
+                        resultAPIDetails = body.getResult();
+                        Log.d(TAG, "getPlaceDetails successful response " + resultAPIDetails.getName() + " " + resultAPIDetails.getPlaceId());
+
+
+                        holder.updateViewWithRestaurants(resultAPIMap, resultAPIDetails.getOpening_hours(), distance, workmates);
+
+                    }
+                    // TODO Handle failures, 404 error, etc
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+                Log.d(TAG, "getPlaceDetails API failure" + t);
+            }
+        });
+    }
+
+    // ------------------ DETAILS FRAGMENT accessibility -------------- //
 
     public void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
@@ -97,36 +183,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
         });
     }
 
-
-    public void getPlaceDetails(ResultAPIMap resultAPIMap, RestaurantsViewHolder holder) {
-        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(resultAPIMap.getPlaceId(), FIELDS, context.getResources().getString(R.string.google_maps_key));
-
-        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
-            @Override
-            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
-                Log.d(TAG, "getPlaceDetails API ");
-                if (response.isSuccessful()) {
-                    ResultsAPIDetails body = response.body();
-                    if (body != null) {
-                        resultAPIDetails = body.getResult();
-                        Log.d(TAG, "getPlaceDetails successful response " + resultAPIDetails.getName() + " " + resultAPIDetails.getPlaceId());
-
-
-                        holder.updateViewWithRestaurants(resultAPIMap, resultAPIDetails.getOpening_hours(), distance);
-
-                    }
-                    // TODO Handle failures, 404 error, etc
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
-                Log.d(TAG, "getPlaceDetails API failure" + t);
-            }
-        });
-    }
-
     private void openDetailsFragment(ResultAPIDetails result) {
         AppCompatActivity activity = (AppCompatActivity) context;
         Fragment fragment = new DetailsFragment(result);
@@ -136,13 +192,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
                 .commit();
     }
 
-    private int getStraightDistance(LocationAPIMap r) {
-        Location restaurantLocation = new Location("");
-        restaurantLocation.setLongitude(r.getLng());
-        restaurantLocation.setLatitude(r.getLat());
-
-        return Math.round(restaurantLocation.distanceTo(userLocation));
-    }
 
     @Override
     public int getItemCount() {

@@ -25,6 +25,7 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
     private final TextView rAddress = itemView.findViewById(R.id.item_restaurant_address);
     private final TextView rDistance = itemView.findViewById(R.id.item_restaurant_distance);
     private final TextView rOpeningHours = itemView.findViewById(R.id.item_restaurant_hours);
+    private final TextView rWorkmates = itemView.findViewById(R.id.item_restaurant_text_number_workmates);
     private final ImageView rPicture = itemView.findViewById(R.id.item_restaurant_picture);
     private final ImageView star1 = itemView.findViewById(R.id.item_restaurant_rating_star1);
     private final ImageView star2 = itemView.findViewById(R.id.item_restaurant_rating_star2);
@@ -36,19 +37,30 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void updateViewWithRestaurants(ResultAPIMap result, OpeningHoursAPIDetails opening_hours, int distance) {
-
-//    public void updateViewWithRestaurants(ResultAPIDetails result, Float distance) {
-        Context context = itemView.getContext();
-        String API_KEY = context.getResources().getString(R.string.google_api_key);
-
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-
+    public void updateViewWithRestaurants(ResultAPIMap result, OpeningHoursAPIDetails opening_hours, int distance, int workmates) {
 
         rName.setText(String.valueOf(result.getName()));
         rAddress.setText(String.valueOf(result.getVicinity()));
         rDistance.setText(new StringBuilder().append(distance).append("m"));
+        if (workmates>0){
+            rWorkmates.setText(String.valueOf(workmates));
+        } else {
+            rWorkmates.setVisibility(View.INVISIBLE);
+        }
+
+        showOpeningHours(opening_hours);
+        showRating(result);
+        showPicture(result);
+
+
+    }
+
+
+    private void showOpeningHours(OpeningHoursAPIDetails opening_hours) {
+
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
         if (opening_hours != null) {
             if (opening_hours.getWeekday_text() != null) {
                 rOpeningHours.setText(opening_hours.getWeekday_text().get(day));
@@ -58,24 +70,6 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
         } else {
             rOpeningHours.setText(R.string.item_restaurant_no_opening_hours);
         }
-        showRating(result);
-
-        if (result.getPhotos() == null) {
-            Log.i(TAG, "result.getPhotos() == null =>  " + result.getPlaceId());
-            rPicture.setVisibility(View.INVISIBLE);
-            TextView noPhoto = itemView.findViewById(R.id.item_restaurant_no_picture_text);
-            noPhoto.setText(R.string.no_picture);
-            noPhoto.setVisibility(View.VISIBLE);
-        } else {
-            PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
-
-            Glide.with(this.itemView.getContext())
-                    .load(photoAttributesAPIMap.getPhoto_URL() + API_KEY)
-                    .apply(new RequestOptions()
-                            .centerCrop())
-                    .into(rPicture);
-        }
-
     }
 
     private void showRating(ResultAPIMap result) {
@@ -97,6 +91,30 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
             star2.setVisibility(View.GONE);
             star3.setVisibility(View.GONE);
         }
+    }
+
+    private void showPicture(ResultAPIMap result) {
+
+        Context context = itemView.getContext();
+        String API_KEY = context.getResources().getString(R.string.google_api_key);
+
+
+        if (result.getPhotos() == null) {
+            Log.i(TAG, "result.getPhotos() == null =>  " + result.getPlaceId());
+            rPicture.setVisibility(View.INVISIBLE);
+            TextView noPhoto = itemView.findViewById(R.id.item_restaurant_no_picture_text);
+            noPhoto.setText(R.string.no_picture);
+            noPhoto.setVisibility(View.VISIBLE);
+        } else {
+            PhotoAttributesAPIMap photoAttributesAPIMap = result.getPhotos().get(0);
+
+            Glide.with(this.itemView.getContext())
+                    .load(photoAttributesAPIMap.getPhoto_URL() + API_KEY)
+                    .apply(new RequestOptions()
+                            .centerCrop())
+                    .into(rPicture);
+        }
+
     }
 
 

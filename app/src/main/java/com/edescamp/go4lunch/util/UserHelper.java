@@ -40,10 +40,11 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).get();
     }
 
-    // --- GET ---
     public static Task<QuerySnapshot> getAllUsers(){
         return UserHelper.getUsersCollection().get();
     }
+
+
 
     // --- UPDATE ---
     public static Task<Void> updateUsername(String username, String uid) {
