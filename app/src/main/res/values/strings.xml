@@ -69,7 +69,7 @@
     <string name="details_fragment_alertdialog_restaurant_choice_change_message">Do you want to cancel your previous restaurant choice for the %1$s restaurant ?</string>
     <string name="details_fragment_alertdialog_restaurant_choice_change_title">Change your restaurant choice ?</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Do you want to cancel this restaurant choice ?</string>
-    <string name="item_workmates_restaurant_text">is joining the restaurant   %1$s.</string>
+    <string name="item_workmates_restaurant_text">is joining the restaurant: \n  %1$s.</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title">Cancel this restaurant choice?</string>
     <string name="item_restaurant_no_opening_hours" type="id">No opening hours available</string>
 

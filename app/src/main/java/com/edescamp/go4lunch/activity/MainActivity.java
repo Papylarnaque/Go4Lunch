@@ -1,6 +1,7 @@
 package com.edescamp.go4lunch.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,10 +25,15 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.auth.SignInActivity;
+import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
 import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
+import com.edescamp.go4lunch.service.APIClient;
+import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
+import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +44,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,8 +66,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "MAIN_ACTIVITY";
     public static int radius = 2500; // radius in meters around user for search
     private DocumentReference docRef;
+    final static String PREFS_NAME = "AUTH";
 
-    public static String uid = null;
+    public static String uid;
     public static String usernameString = null;
 
     // UI
@@ -68,22 +81,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private FirebaseUser firebaseUser;
     private ImageButton logo_button;
     private String restaurantChoice;
+    private String restaurantName;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null)
+            uid = bundle.getString("USER");
 
         configureToolbar();
         configureDrawerLayout();
         configureNavigationMenu();
         configureInitialState();
 
-
+        updateUserSnaptshot();
     }
 
+    // ------------------------ LAYOUT CONFIGURATIONS  -----------------------//
 
     //----- INITIAL STATE -----
     private void configureInitialState() {
@@ -92,8 +109,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         showFragment(fragment);
     }
 
+    // TOOLBAR configuration
+    private void configureToolbar() {
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+
     // BOTTOM NAVIGATION configuration //
-    void configureNavigationMenu() {
+    private void configureNavigationMenu() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.navbar);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             Fragment fragment;
@@ -152,59 +182,61 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startActivity(homeIntent);
         });
 
-        updateUserSnaptshot();
-        // TODO Get updated username from settings to Drawer Textview when changed
-
     }
-
 
     private void updateUserSnaptshot() {
-        if (isCurrentUserLogged()) {
-        uid = getCurrentUser().getUid();
-        docRef = UserHelper.getUsersCollection().document(uid);
+        if (uid != null) {
+            docRef = UserHelper.getUsersCollection().document(uid);
 
-        docRef.addSnapshotListener((snapshot, e) -> {
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e);
-                return;
-            }
+            docRef.addSnapshotListener((snapshot, e) -> {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
 
-            if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, "Current data: " + snapshot.getData());
-                updateUI(snapshot);
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d(TAG, "Current data: " + snapshot.getData());
+                    updateUI(snapshot);
 
-            } else {
-                Log.d(TAG, "Current data: null");
-            }
-        });}
+                } else {
+                    Log.d(TAG, "Current data: null");
+                }
+            });
+        }
     }
 
+    // Handle user data to show in drawer layout
     private void updateUI(DocumentSnapshot result) {
 
         if (result.get("username") != null) {
-            userName.setText(result.get("username").toString());
-            Log.i(TAG, "firebaseUser : " + userName.getText());
+            userName.setText(result.getString("username"));
+            Log.i(TAG, "firebaseUser/username : " + userName.getText());
         }
         if (result.get("mail") != null) {
-            userMail.setText(result.get("mail").toString());
-            Log.i(TAG, "firebaseUser : " + userMail.getText());
+            userMail.setText(result.getString("mail"));
+            Log.i(TAG, "firebaseUser/mail : " + userMail.getText());
         }
         if (result.get("urlPicture") != null) {
             Glide.with(getApplicationContext())
-                    .load(Objects.requireNonNull(result.get("urlPicture")))
+                    .load(Objects.requireNonNull(result.getString("urlPicture")))
                     .circleCrop()
                     .into(userPicture);
         }
 
+        if (result.get("chosenRestaurantName") != null) {
+            restaurantName = result.get("chosenRestaurantName").toString();
+            Log.i(TAG, "firebaseUser/chosenRestaurantName : " + restaurantName);
+        }
+
         if (result.get("hasChosenRestaurant") != null) {
             restaurantChoice = result.get("hasChosenRestaurant").toString();
-            Log.i(TAG, "firebaseUser : " + restaurantChoice);
+            Log.i(TAG, "firebaseUser/hasChosenRestaurant : " + restaurantChoice);
         }
         usernameString = userName.getText().toString();
 
     }
 
-    // DRAWER navigation  //
+    // ------------------------ DRAWER options INTERFACE  -----------------------//
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -215,22 +247,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (id) {
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
-                // TODO Manage YOUR LUNCH
-                Toast toast = Toast.makeText(getApplicationContext(), restaurantChoice, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-//                Fragment fragment = new DetailsFragment();
-//                showFragmentWithBackStack(fragment);
+                this.mDrawerLayout.closeDrawer(GravityCompat.START);
+                getPlaceDetails(restaurantChoice);
                 return true;
             // "SETTINGS"
             case main_drawer_settings_id:
                 this.mDrawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragment = new SettingsFragment();
-                showFragmentWithBackStack(fragment);
+                showFragment(fragment);
                 return true;
             // "LOGOUT"
             case main_drawer_logout_id:
-                logoutToSignInActivity();
+                deleteAuthAndLogOut();
                 return true;
             default:
                 break;
@@ -239,21 +267,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    // TOOLBAR configuration
-    private void configureToolbar() {
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-    }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
-        return true;
-    }
-
-
-    // Manage the click on search button
+    // ---------------------- AUTOCOMPLETE SEARCH -----------------------//
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -268,14 +284,64 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
-    // Log out the User //
-    private void logoutToSignInActivity() {
+
+    // ----------------------------- LOGOUT ----------------------------//
+    private void deleteAuthAndLogOut() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove("USER");
+        editor.apply();
+
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         Intent intent = new Intent(MainActivity.this, SignInActivity.class);
         startActivity(intent);
     }
 
+
+    // ------------------- FRAGMENT Navigations ----------------------//
+    public void showFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void openDetailsFragment(ResultAPIDetails result) {
+        Fragment fragment = new DetailsFragment(result);
+        this.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void getPlaceDetails(String placeId) {
+        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, getResources().getString(R.string.google_maps_key));
+
+        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
+            @Override
+            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+                Log.d(TAG, "getPlaceDetails API ");
+                if (response.isSuccessful()) {
+                    ResultsAPIDetails body = response.body();
+                    if (body != null) {
+                        ResultAPIDetails result = body.getResult();
+                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
+
+                        openDetailsFragment(result);
+                    }
+                    // TODO Handle failures, 404 error, etc
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+                Log.d(TAG, "getPlaceDetails API failure" + t);
+            }
+
+        });
+    }
 
     // DRAWER closed with back button
     @Override
@@ -294,22 +360,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    // FRAGMENT MANAGEMENT //
-    public void showFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
-    }
 
-
-    private void showFragmentWithBackStack(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-
+    // ------------------------ PERMISSIONS -------------------------//
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -346,16 +398,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateUserSnaptshot();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        updateUserSnaptshot();
-    }
 }
 

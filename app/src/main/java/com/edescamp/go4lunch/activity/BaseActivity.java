@@ -26,7 +26,8 @@ public class BaseActivity extends AppCompatActivity {
      * This method allows to know if a user is logged
      * @return true if there is a logged user
      */
-    protected Boolean isCurrentUserLogged(){ return (this.getCurrentUser() != null); }
+    protected Boolean isCurrentUserLogged(){
+        return (this.getCurrentUser() != null); }
 
 
     @Override

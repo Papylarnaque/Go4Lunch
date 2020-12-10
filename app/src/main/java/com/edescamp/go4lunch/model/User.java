@@ -9,27 +9,26 @@ public class User {
     private String username;
     private String userMail;
     private String hasChosenRestaurant;
+
     @Nullable
     private String urlPicture;
-    private String chosenRestaurantName;
+
 
     public User() {
     }
 
-    public User(String uid, String username, @org.jetbrains.annotations.Nullable String urlPicture, String userMail) {
+    public User(String uid, String username, String userMail, String hasChosenRestaurant, @Nullable String urlPicture, String chosenRestaurantName) {
 //        this.uid = uid;
 //        this.username = username;
-//        this.urlPicture = urlPicture;
-//        this.userMail = userMail;
-    }
-
-    public User(String uid, String username, @org.jetbrains.annotations.Nullable String urlPicture, String userMail, String hasChosenRestaurant) {
-//        this.uid = uid;
-//        this.username = username;
-//        this.urlPicture = urlPicture;
 //        this.userMail = userMail;
 //        this.hasChosenRestaurant = hasChosenRestaurant;
+//        this.urlPicture = urlPicture;
+//        this.chosenRestaurantName = chosenRestaurantName;
     }
+
+    private String chosenRestaurantName;
+
+
 
 
     // --- GETTERS ---
@@ -41,6 +40,10 @@ public class User {
         return username;
     }
 
+    public String getUserMail() {
+        return userMail;
+    }
+
     @org.jetbrains.annotations.Nullable
     public String getUrlPicture() {
         return urlPicture;
@@ -48,6 +51,10 @@ public class User {
 
     public String getHasChosenRestaurant() {
         return hasChosenRestaurant;
+    }
+
+    public String getChosenRestaurantName() {
+        return chosenRestaurantName;
     }
 
     // --- SETTERS ---
@@ -67,18 +74,13 @@ public class User {
         hasChosenRestaurant = restaurantId;
     }
 
-    public String getUserMail() {
-        return userMail;
-    }
-
     public void setUserMail(String userMail) {
         this.userMail = userMail;
     }
 
-    public void setChosenRestaurantName(String chosenRestaurantName) {
+    public void setChosenRestaurantName(String restaurantName) {
+        chosenRestaurantName = restaurantName;
+
     }
 
-    public String getChosenRestaurantName() {
-        return chosenRestaurantName;
-    }
 }

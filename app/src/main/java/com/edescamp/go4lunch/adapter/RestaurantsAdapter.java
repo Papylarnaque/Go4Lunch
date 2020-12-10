@@ -66,11 +66,37 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
 
         getPlaceDetails(results.get(position), holder);
 
-
-
-        holder.itemView.setOnClickListener(v ->  openDetailsFragment(resultAPIDetails));
+        holder.itemView.setOnClickListener(v -> getPlaceDetails(results.get(position).getPlaceId()));
 
     }
+
+    public void getPlaceDetails(String placeId) {
+        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, context.getResources().getString(R.string.google_maps_key));
+
+        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
+            @Override
+            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+                Log.d(TAG, "getPlaceDetails API ");
+                if (response.isSuccessful()) {
+                    ResultsAPIDetails body = response.body();
+                    if (body != null) {
+                        ResultAPIDetails result = body.getResult();
+                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
+
+                        openDetailsFragment(result);
+                    }
+                    // TODO Handle failures, 404 error, etc
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+                Log.d(TAG, "getPlaceDetails API failure" + t);
+            }
+        });
+    }
+
 
     public void getPlaceDetails(ResultAPIMap resultAPIMap, RestaurantsViewHolder holder) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);

@@ -41,13 +41,17 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
                         .circleCrop())
                 .into(userPicture);
 
-
         // TODO Handle chosen restaurant
         if (user.getHasChosenRestaurant()==null || user.getHasChosenRestaurant().equals("")){
             userRestaurantChoice.setText(R.string.item_workmates_restaurant_text_null);
         }
         else {
-            userRestaurantChoice.setText(context.getString(R.string.item_workmates_restaurant_text, user.getChosenRestaurantName()));
+            String restaurantName = user.getChosenRestaurantName();
+            userRestaurantChoice.setText(context.getString(R.string.item_workmates_restaurant_text, restaurantName));
         }
+    }
+
+    public void hideViewWithWorkmates() {
+        itemView.setVisibility(View.GONE);
     }
 }

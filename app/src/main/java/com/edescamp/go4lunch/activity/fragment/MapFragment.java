@@ -60,7 +60,7 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
     private static final String TAG = "MapFragment";
-    private static final float INITIAL_ZOOM = 15f;
+    private static final float INITIAL_ZOOM = 12f;
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private GoogleMap mMap;

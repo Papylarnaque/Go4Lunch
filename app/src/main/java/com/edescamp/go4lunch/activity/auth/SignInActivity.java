@@ -1,6 +1,7 @@
 package com.edescamp.go4lunch.activity.auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,9 @@ public class SignInActivity extends BaseActivity {
     // --------------------
 
     private static final String TAG = "SIGN";
+    final static String PREFS_NAME = "AUTH";
+    static String userId;
+    private SharedPreferences settings;
 
     // LOGIN REQUEST CODE
     public static final int LOGIN_FACEBOOK = 2;
@@ -52,8 +56,6 @@ public class SignInActivity extends BaseActivity {
     private CallbackManager facebookCallbackManager;
     private GoogleSignInClient mGoogleSignInClient;
 
-    FirebaseAuth.AuthStateListener mAuthListener = firebaseAuth -> authLogin();
-
     OAuthProvider.Builder provider = OAuthProvider.newBuilder(String.valueOf(R.string.twitter));
 
     // TODO : Fix Token issues for login - Facebook keeps the auth when Firebase is logged out ?
@@ -63,29 +65,20 @@ public class SignInActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         firebaseAuth = FirebaseAuth.getInstance();
+        settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        // check if user is already logged in
+        // i.e. auth token is present or not
+        userId = settings.getString("USER", null);
+        // means user is logged in token was found
+        if (userId != null) {
+            startMainActivity(userId);
+        }
 
         configFacebookAuth();
         configGoogleAuth();
         configTwitterAuth();
 
-        getCurrentUser();
-        authLogin();
-
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            firebaseAuth.removeAuthStateListener(mAuthListener);
-        }
     }
 
 
@@ -94,7 +87,7 @@ public class SignInActivity extends BaseActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    // HANDLE PROVIDER RESULT
+    //--------------------- HANDLE PROVIDER RESULT---------//
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -194,7 +187,7 @@ public class SignInActivity extends BaseActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
                         createUserInFirestore();
-                        authLogin();
+
                     } else {
                         // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
@@ -214,7 +207,7 @@ public class SignInActivity extends BaseActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
                         createUserInFirestore();
-                        authLogin();
+
                     } else {
                         // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
@@ -224,15 +217,40 @@ public class SignInActivity extends BaseActivity {
                 });
     }
 
-    private void authLogin() {
-        if (isCurrentUserLogged()) {
-            launchProgressBar();
-            createUserInFirestore();
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
+
+    //-------------- USER LOGIN -------------------//
+
+    private void createUserInFirestore() {
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        // SAVE THE USER DETAILS OR PART OF IT IN SHARED PREFS
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("USER", userId);
+        editor.apply();
+
+        if (UserHelper.getUser(userId) == null) {
+
+            String userUrlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
+            String userName = this.getCurrentUser().getDisplayName();
+            String userMail = this.getCurrentUser().getEmail();
+
+            UserHelper.createUser(userId, userName, userUrlPicture, userMail).addOnFailureListener(this.onFailureListener());
         }
+
+        startMainActivity(userId);
     }
 
+
+    private void startMainActivity(String userId) {
+        launchProgressBar();
+        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("USER", userId); //Your id
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
+    //-------------- UI -------------------//
 
     private void launchProgressBar() {
         View mainLayout = findViewById(R.id.signin_layout_main);
@@ -247,20 +265,5 @@ public class SignInActivity extends BaseActivity {
         // Do nothing
     }
 
-    private void createUserInFirestore() {
-        if (this.getCurrentUser() != null) {
-            String userId = this.getCurrentUser().getUid();
 
-            if (UserHelper.getUser(userId) == null) {
-
-                String userUrlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
-                String userName = this.getCurrentUser().getDisplayName();
-                String userMail = this.getCurrentUser().getEmail();
-
-                UserHelper.createUser(userId, userName, userUrlPicture, userMail).addOnFailureListener(this.onFailureListener());
-            }
-        }
-
-
-    }
 }

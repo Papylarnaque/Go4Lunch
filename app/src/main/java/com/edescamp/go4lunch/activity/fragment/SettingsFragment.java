@@ -3,6 +3,7 @@ package com.edescamp.go4lunch.activity.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,25 +55,21 @@ public class SettingsFragment extends Fragment {
         validateUsername = view.findViewById(R.id.fragment_settings_validate_username);
 
         validateUsername.setOnClickListener(v -> {
+            Log.i(TAG, "Before username Update request for userId : " + uid + " username was : " + usernameString );
             String usernameString = username.getText().toString();
+            Log.i(TAG, "After username Update request for userId : " + uid + " username is : " + usernameString );
+
             UserHelper.updateUsername(usernameString, uid);
-            // Update UI interface without bother loading user from firestore again
-//            getActivity().recreate();
             //Post it in a handler to make sure it gets called if coming back from a lifecycle method.
-            new Handler().post(new Runnable() {
+            new Handler().post(() -> {
+                Intent intent = getActivity().getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                getActivity().overridePendingTransition(0, 0);
+                getActivity().finish();
 
-                @Override
-                public void run()
-                {
-                    Intent intent = getActivity().getIntent();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    getActivity().overridePendingTransition(0, 0);
-                    getActivity().finish();
-
-                    getActivity().overridePendingTransition(0, 0);
-                    startActivity(intent);
-                }
+                getActivity().overridePendingTransition(0, 0);
+                startActivity(intent);
             });
         });
 

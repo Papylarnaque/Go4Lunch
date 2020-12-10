@@ -30,6 +30,7 @@ public class UserHelper {
         userToCreate.put("urlPicture", userUrlPicture);
         userToCreate.put("mail", userMail);
         userToCreate.put("hasChosenRestaurant", "");
+        userToCreate.put("chosenRestaurantName", "");
         Log.i(TAG, "userId: "+userId + " username: "+userName);
         return UserHelper.getUsersCollection().document(userId).set(userToCreate);
     }
@@ -49,8 +50,11 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).update("username", username);
     }
 
-    public static Task<Void> updateRestaurantChoice(String placeId, String uid) {
-        return UserHelper.getUsersCollection().document(uid).update("hasChosenRestaurant", placeId);
+    public static Task<Void> updateRestaurantChoice(String placeId, String restaurantName, String uid) {
+        Map<String, Object> userToUpdateWithRestaurantChoice = new HashMap<>();
+        userToUpdateWithRestaurantChoice.put("hasChosenRestaurant", placeId);
+        userToUpdateWithRestaurantChoice.put("chosenRestaurantName", restaurantName);
+        return UserHelper.getUsersCollection().document(uid).update(userToUpdateWithRestaurantChoice);
     }
 
 

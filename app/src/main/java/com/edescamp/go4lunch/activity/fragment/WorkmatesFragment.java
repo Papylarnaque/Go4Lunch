@@ -17,9 +17,7 @@ import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
 import com.edescamp.go4lunch.adapter.WorkmatesAdapter;
 import com.edescamp.go4lunch.util.UserHelper;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,28 +52,28 @@ public class WorkmatesFragment extends BaseFragment {
     }
 
     private void getWorkmates() {
-        UserHelper.getAllUsers().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                        progressBar.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        if (queryDocumentSnapshots.getDocuments() == null) {
-                            noWorkmates.setText(R.string.workmates_list_no_workmates_to_show);
-                            noWorkmates.setVisibility(View.VISIBLE);
-                        } else {
-                            sendResultsToAdapter(queryDocumentSnapshots.getDocuments(), MainActivity.uid);
-                            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        }
-                    }
+        UserHelper.getAllUsers().addOnSuccessListener(queryDocumentSnapshots -> {
+            launchProgressBar();
+            if (queryDocumentSnapshots.getDocuments() == null) {
+                noWorkmates.setText(R.string.workmates_list_no_workmates_to_show);
+                noWorkmates.setVisibility(View.VISIBLE);
+            } else {
+                sendResultsToAdapter(queryDocumentSnapshots.getDocuments(), MainActivity.uid);
+                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+            }
         });
     }
 
 
     private void sendResultsToAdapter(List<DocumentSnapshot> documents, String uid) {
         recyclerView.setAdapter(new WorkmatesAdapter(documents, uid));
+    }
+
+    private void launchProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
 

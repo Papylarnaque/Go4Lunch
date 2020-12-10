@@ -196,7 +196,8 @@ public class DetailsFragment extends Fragment {
             if (restaurantChoice.equals("")) {
                 // if no choice has been made
                 restaurantChoice = resultAPIDetails.getPlaceId();
-                UserHelper.updateRestaurantChoice(restaurantChoice, MainActivity.uid);
+
+                UserHelper.updateRestaurantChoice(restaurantChoice, resultAPIDetails.getName(), MainActivity.uid);
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
                 Toast.makeText(getContext(), getString(R.string.restaurant_Chosen, restaurantName.getText()), Toast.LENGTH_SHORT).show();
             } else if (restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
@@ -223,7 +224,7 @@ public class DetailsFragment extends Fragment {
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
             restaurantChoice = "";
-            UserHelper.updateRestaurantChoice(restaurantChoice, uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+            UserHelper.updateRestaurantChoice(restaurantChoice, restaurantChoice, uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
         });
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());
@@ -244,7 +245,7 @@ public class DetailsFragment extends Fragment {
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
             restaurantChoice = resultAPIDetails.getPlaceId();
-            UserHelper.updateRestaurantChoice(restaurantChoice, uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+            UserHelper.updateRestaurantChoice(restaurantChoice, resultAPIDetails.getName(), uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
         });
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());
