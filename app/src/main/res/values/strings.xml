@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- SignIN -->
     <string name="appName" translatable="false">Go4Lunch</string>
     <string name="appSentence">Find a nice restaurant and invite your co-workers for lunch!</string>
@@ -60,7 +60,7 @@
     <string name="fragment_settings_radius_search">Radius search: %1$d meters</string>
     <string name="activity_splash_logo" translatable="false">activity_splash_logo</string>
     <string name="no_picture">No picture</string>
-    <string name="error_unknown_error">Unknown error</string>
+    <string name="error_unknown_error" translatable="false" tools:ignore="MissingTranslation">Unknown error while creating user</string>
     <string name="fragment_settings_backpress_description" translatable="false">fragment_settings_backpress_description</string>
     <string name="fragment_settings_update_username_text">Update your username:</string>
     <string name="activity_main_drawer_logo_description" translatable="false">activity_main_drawer_logo_description</string>
@@ -70,8 +70,12 @@
     <string name="details_fragment_alertdialog_restaurant_choice_change_title">Change your restaurant choice ?</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Do you want to cancel this restaurant choice ?</string>
     <string name="item_workmates_restaurant_text">is joining the restaurant: \n  %1$s.</string>
-    <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title">Cancel this restaurant choice?</string>
+    <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title" tools:ignore="MissingTranslation">Cancel this restaurant choice?</string>
     <string name="item_restaurant_no_opening_hours" type="id">No opening hours available</string>
+    <string name="restaurant_details_picture_description">restaurant_details_picture</string>
+    <string name="restaurant_details_star1_description">restaurant_details_star1</string>
+    <string name="restaurant_details_star2_description">restaurant_details_star2</string>
+    <string name="restaurant_details_star3_description">restaurant_details_star3</string>
 
 
 </resources>

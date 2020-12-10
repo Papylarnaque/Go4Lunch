@@ -44,7 +44,11 @@ public class UserHelper {
         return UserHelper.getUsersCollection().get();
     }
 
-
+    public static Task<QuerySnapshot> getAllUsersExceptCurrent(String userId){
+        return UserHelper.getUsersCollection()
+                .whereNotEqualTo("uid", userId)
+                .get();
+    }
 
     // --- UPDATE ---
     public static Task<Void> updateUsername(String username, String uid) {

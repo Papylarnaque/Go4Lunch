@@ -1,7 +1,6 @@
 package com.edescamp.go4lunch.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,17 +45,8 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull WorkmatesViewHolder holder, int position) {
 
-        if (documents.get(position).get("uid").toString().equals(userid)) {
-            // hide the current logged user in the workmates recyclerview
-            Log.i(TAG, "userid: " + userid + " skipped from the recyclerview");
-            holder.hideViewWithWorkmates();
-        } else {
             documentUser = documents.get(position).toObject(User.class);
             holder.updateViewWithWorkmates(documentUser);
-
-        }
-
-//        holder.itemView.setOnClickListener(v ->  openDetailsFragment(resultAPIDetails));
 
     }
 

@@ -44,6 +44,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         // TODO Handle chosen restaurant
         if (user.getHasChosenRestaurant()==null || user.getHasChosenRestaurant().equals("")){
             userRestaurantChoice.setText(R.string.item_workmates_restaurant_text_null);
+            userRestaurantChoice.setTextColor(context.getResources().getColor(R.color.quantum_grey));
         }
         else {
             String restaurantName = user.getChosenRestaurantName();
@@ -51,7 +52,4 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void hideViewWithWorkmates() {
-        itemView.setVisibility(View.GONE);
-    }
 }

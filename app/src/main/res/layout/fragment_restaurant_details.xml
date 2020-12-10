@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--Picture of the neighbour-->
+    <!--Picture of the restaurant-->
     <ImageView
         android:id="@+id/restaurant_details_picture"
         android:layout_width="0dp"
@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars[2]" />
+        tools:srcCompat="@tools:sample/avatars[2]"
+        android:contentDescription="@string/restaurant_details_picture_description" />
 
 
     <!--  Description details of the restaurant  -->
@@ -49,7 +50,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star"
-            app:tint="@color/quantum_yellow" />
+            app:tint="@color/quantum_yellow"
+            android:contentDescription="@string/restaurant_details_star1_description" />
 
         <ImageView
             android:id="@+id/restaurant_details_star2"
@@ -60,7 +62,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star"
-            app:tint="@color/quantum_yellow" />
+            app:tint="@color/quantum_yellow"
+            android:contentDescription="@string/restaurant_details_star2_description" />
 
         <ImageView
             android:id="@+id/restaurant_details_star3"
@@ -71,7 +74,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star"
-            app:tint="@color/quantum_yellow" />
+            app:tint="@color/quantum_yellow"
+            android:contentDescription="@string/restaurant_details_star3_description" />
 
         <TextView
             android:id="@+id/restaurant_details_address"
@@ -158,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
-        android:text="No Picture"
+        tools:text="No Picture"
         android:textSize="30sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

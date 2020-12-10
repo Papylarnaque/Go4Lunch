@@ -45,14 +45,14 @@ public class WorkmatesFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         progressBar.setVisibility(View.VISIBLE);
-        getWorkmates();
+        getWorkmatesExceptCurrentUser();
 
         return view;
 
     }
 
-    private void getWorkmates() {
-        UserHelper.getAllUsers().addOnSuccessListener(queryDocumentSnapshots -> {
+    private void getWorkmatesExceptCurrentUser() {
+        UserHelper.getAllUsersExceptCurrent(MainActivity.uid).addOnSuccessListener(queryDocumentSnapshots -> {
             launchProgressBar();
             if (queryDocumentSnapshots.getDocuments() == null) {
                 noWorkmates.setText(R.string.workmates_list_no_workmates_to_show);
