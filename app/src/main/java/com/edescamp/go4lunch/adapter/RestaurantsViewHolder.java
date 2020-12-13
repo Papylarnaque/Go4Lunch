@@ -17,6 +17,7 @@ import com.edescamp.go4lunch.service.entities.PhotoAttributesAPIMap;
 import com.edescamp.go4lunch.service.entities.ResultAPIMap;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
 
@@ -42,7 +43,7 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
         rName.setText(String.valueOf(result.getName()));
         rAddress.setText(String.valueOf(result.getVicinity()));
         rDistance.setText(new StringBuilder().append(distance).append("m"));
-        if (workmates>0){
+        if (workmates > 0) {
             rWorkmates.setText(String.valueOf(workmates));
         } else {
             rWorkmates.setVisibility(View.INVISIBLE);
@@ -58,17 +59,22 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
 
     private void showOpeningHours(OpeningHoursAPIDetails opening_hours) {
 
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date()); // yourdate is an object of type Date
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK); // this will for example return 3 for tuesday
+        Log.i(TAG, "DAY_OF_WEEK = " + dayOfWeek);
 
         if (opening_hours != null) {
             if (opening_hours.getWeekday_text() != null) {
-                rOpeningHours.setText(opening_hours.getWeekday_text().get(day));
-            } else {
-                rOpeningHours.setText(R.string.item_restaurant_no_opening_hours);
+                // manag
+                if (dayOfWeek == 1) {
+                    rOpeningHours.setText(opening_hours.getWeekday_text().get(6));
+                } else if (dayOfWeek > 1) {
+                    rOpeningHours.setText(opening_hours.getWeekday_text().get(dayOfWeek - 2));
+                } else {
+                    rOpeningHours.setText(R.string.item_restaurant_no_opening_hours);
+                }
             }
-        } else {
-            rOpeningHours.setText(R.string.item_restaurant_no_opening_hours);
         }
     }
 

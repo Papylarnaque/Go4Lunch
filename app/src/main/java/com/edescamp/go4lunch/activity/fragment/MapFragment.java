@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,6 +56,7 @@ import static com.edescamp.go4lunch.activity.MainActivity.FIELDS;
 import static com.edescamp.go4lunch.activity.MainActivity.keyword;
 import static com.edescamp.go4lunch.activity.MainActivity.language;
 import static com.edescamp.go4lunch.activity.MainActivity.radius;
+import static com.edescamp.go4lunch.activity.MainActivity.workmates;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
@@ -67,7 +69,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private SupportMapFragment mMapFragment;
     private String userLocationStr;
     private LatLng oldUserLatLng;
-
 
     public MapFragment() {
     }
@@ -91,6 +92,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         return v;
     }
 
+
+
     // UI MAP //
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -105,6 +108,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
 // TODO Fix second call to getLocationPermission
         getLocationPermission();
+
+        mMap.setOnMarkerClickListener(marker -> {
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+            return false;
+        });
 
         // Handle click on marker info
         mMap.setOnInfoWindowClickListener(marker -> {
@@ -216,17 +224,37 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     // + show the marker of the restaurant on the map
     private void addMarkerResult(List<ResultAPIMap> results) {
+
         for (ResultAPIMap result : results) {
             Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
+            if (workmates != null)
+                for (DocumentSnapshot workmate : workmates){
+                if (workmate.get("hasChosenRestaurant").equals(result.getPlaceId())) {
 
-            Marker markerRestaurant = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(
-                            result.getGeometry().getLocation().getLat(),
-                            result.getGeometry().getLocation().getLng()))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                    .title(result.getName())
-                    .snippet(result.getVicinity()));
-            markerRestaurant.setTag(result.getPlaceId());
+                    Marker markerRestaurant = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(
+                                    result.getGeometry().getLocation().getLat(),
+                                    result.getGeometry().getLocation().getLng()))
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                            .title(result.getName())
+                            .snippet(result.getVicinity()));
+
+                    markerRestaurant.setTag(result.getPlaceId());
+                } else {
+                    Marker markerRestaurant = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(
+                                    result.getGeometry().getLocation().getLat(),
+                                    result.getGeometry().getLocation().getLng()))
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                            .title(result.getName())
+                            .snippet(result.getVicinity()));
+
+                    markerRestaurant.setTag(result.getPlaceId());
+                }
+
+
+            }
+
         }
 
 

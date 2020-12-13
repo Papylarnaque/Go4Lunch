@@ -36,6 +36,7 @@ import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -43,9 +44,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -82,7 +85,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ImageButton logo_button;
     private String restaurantChoice;
     private String restaurantName;
-
+    public static List<DocumentSnapshot> workmates;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,9 +98,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         configureToolbar();
         configureDrawerLayout();
         configureNavigationMenu();
+
+        getWorkmates();
+
         configureInitialState();
 
         updateUserSnaptshot();
+
     }
 
     // ------------------------ LAYOUT CONFIGURATIONS  -----------------------//
@@ -184,6 +191,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+    // ----------- DATA -------------------- //
+
     private void updateUserSnaptshot() {
         if (uid != null) {
             docRef = UserHelper.getUsersCollection().document(uid);
@@ -235,6 +244,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         usernameString = userName.getText().toString();
 
     }
+
+    private void getWorkmates() {
+        UserHelper.getUsersWithChosenRestaurant().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                workmates = queryDocumentSnapshots.getDocuments();
+            }
+        });
+
+    }
+
 
     // ------------------------ DRAWER options INTERFACE  -----------------------//
     @Override

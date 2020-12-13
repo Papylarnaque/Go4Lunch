@@ -50,6 +50,12 @@ public class UserHelper {
                 .get();
     }
 
+    public static Task<QuerySnapshot> getUsersWithChosenRestaurant(){
+        return UserHelper.getUsersCollection()
+                .whereGreaterThan("hasChosenRestaurant", "")
+                .get();
+    }
+
     // --- UPDATE ---
     public static Task<Void> updateUsername(String username, String uid) {
         return UserHelper.getUsersCollection().document(uid).update("username", username);
