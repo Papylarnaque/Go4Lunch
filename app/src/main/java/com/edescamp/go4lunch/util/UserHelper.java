@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Collections;
@@ -52,9 +53,21 @@ public class UserHelper {
                 .get();
     }
 
+    public static Task<QuerySnapshot> getAllUsersOrderByRestaurant(String userId) {
+        return UserHelper.getUsersCollection()
+                .orderBy("hasChosenRestaurant", Query.Direction.DESCENDING )
+                .get();
+    }
+
     public static Task<QuerySnapshot> getUsersWithChosenRestaurant() {
         return UserHelper.getUsersCollection()
                 .whereGreaterThan("hasChosenRestaurant", "")
+                .get();
+    }
+
+    public static Task<QuerySnapshot> getUsersWhoChoseThisRestaurant(String placeId) {
+        return UserHelper.getUsersCollection()
+                .whereEqualTo("hasChosenRestaurant", placeId)
                 .get();
     }
 

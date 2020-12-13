@@ -29,9 +29,9 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         context = itemView.getContext();
     }
 
+    // ------------ RecyclerView for WorkmatesFragment ---------- //
 
     public void updateViewWithWorkmates(User user) {
-
 
         userName.setText(user.getUsername());
 
@@ -41,7 +41,6 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
                         .circleCrop())
                 .into(userPicture);
 
-        // TODO Handle chosen restaurant
         if (user.getHasChosenRestaurant()==null || user.getHasChosenRestaurant().equals("")){
             userRestaurantChoice.setText(R.string.item_workmates_restaurant_text_null);
             userRestaurantChoice.setTextColor(context.getResources().getColor(R.color.quantum_grey));
@@ -52,4 +51,20 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    // ------------ RecyclerView for DetailsFragment ---------- //
+
+    public void updateViewWithWorkmatesForDetailsFragment(User user) {
+
+        userName.setText(user.getUsername());
+
+        Glide.with(context)
+                .load(user.getUrlPicture())
+                .apply(new RequestOptions()
+                        .circleCrop())
+                .into(userPicture);
+
+            userRestaurantChoice.setText(R.string.item_workmates_restaurant_text_detailsFragment);
+
+
+    }
 }

@@ -20,7 +20,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 
@@ -55,22 +57,30 @@ public class WorkmatesFragment extends BaseFragment {
 
 
     private void getWorkmatesExceptCurrentUser() {
-        UserHelper.getAllUsersExceptCurrent(uid).addOnSuccessListener(queryDocumentSnapshots -> {
+//        UserHelper.getAllUsersExceptCurrent(uid).addOnSuccessListener(queryDocumentSnapshots -> {
+        UserHelper.getAllUsersOrderByRestaurant(uid).addOnSuccessListener(queryDocumentSnapshots -> {
             launchProgressBar();
-            if (queryDocumentSnapshots.getDocuments() == null) {
+            if (queryDocumentSnapshots == null) {
                 noWorkmates.setText(R.string.workmates_list_no_workmates_to_show);
                 noWorkmates.setVisibility(View.VISIBLE);
             } else {
-                sendResultsToAdapter(queryDocumentSnapshots.getDocuments(), uid);
-                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                    Log.d(TAG, document.getId() + " => " + document.getData());
+                Log.d(TAG, "getWorkmatesExceptCurrentUser passed");
+
+                List<DocumentSnapshot> documents = new ArrayList<>();
+                // Handle removing current user from the list in the fragment
+                // as firebase does not support double where queries
+                for (DocumentSnapshot user : queryDocumentSnapshots.getDocuments()){
+                    if(!Objects.equals(user.get("uid"), uid)){
+                        documents.add(user);
+                    }
                 }
+                sendResultsToAdapter(documents);
             }
         });
     }
 
-    private void sendResultsToAdapter(List<DocumentSnapshot> documents, String uid) {
-        recyclerView.setAdapter(new WorkmatesAdapter(documents, uid));
+    private void sendResultsToAdapter(List<DocumentSnapshot> documents) {
+        recyclerView.setAdapter(new WorkmatesAdapter(documents));
     }
 
     private void launchProgressBar() {

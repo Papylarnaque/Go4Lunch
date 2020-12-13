@@ -19,6 +19,10 @@ import com.edescamp.go4lunch.service.entities.ResultAPIMap;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.edescamp.go4lunch.activity.MainActivity.RATING_MAX;
+import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIDDLE;
+import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIN;
+
 public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
 
     private static final String TAG = "RestaurantViewHolder";
@@ -66,7 +70,6 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
 
         if (opening_hours != null) {
             if (opening_hours.getWeekday_text() != null) {
-                // manag
                 if (dayOfWeek == 1) {
                     rOpeningHours.setText(opening_hours.getWeekday_text().get(6));
                 } else if (dayOfWeek > 1) {
@@ -78,17 +81,18 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    // Handles Rating calculation
     private void showRating(ResultAPIMap result) {
         if (result.getRating() == null) {
-        } else if (result.getRating() >= 4.5) {
+        } else if (result.getRating() >= RATING_MAX) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
             star3.setVisibility(View.VISIBLE);
-        } else if (result.getRating() >= 2.5 && result.getRating() < 4.5) {
+        } else if (result.getRating() >= RATING_MIDDLE && result.getRating() < RATING_MAX) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.VISIBLE);
             star3.setVisibility(View.GONE);
-        } else if (result.getRating() >= 1 && result.getRating() < 2.5) {
+        } else if (result.getRating() >= RATING_MIN && result.getRating() < RATING_MIDDLE) {
             star1.setVisibility(View.VISIBLE);
             star2.setVisibility(View.GONE);
             star3.setVisibility(View.GONE);

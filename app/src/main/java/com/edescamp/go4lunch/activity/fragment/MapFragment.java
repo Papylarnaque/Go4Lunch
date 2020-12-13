@@ -224,6 +224,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     // + show the marker of the restaurant on the map
     private void addMarkerResult(List<ResultAPIMap> results) {
 
+
+        // TODO fix bug when resuming app workmates is empty
+
         for (ResultAPIMap result : results) {
             Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
             boolean bChosen = false;

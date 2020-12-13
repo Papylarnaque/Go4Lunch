@@ -73,10 +73,11 @@
     <string name="item_workmates_restaurant_text">is joining the restaurant: \n  %1$s.</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title" tools:ignore="MissingTranslation">Cancel this restaurant choice?</string>
     <string name="item_restaurant_no_opening_hours" type="id">No opening hours available</string>
-    <string name="restaurant_details_picture_description">restaurant_details_picture</string>
-    <string name="restaurant_details_star1_description">restaurant_details_star1</string>
-    <string name="restaurant_details_star2_description">restaurant_details_star2</string>
-    <string name="restaurant_details_star3_description">restaurant_details_star3</string>
+    <string name="restaurant_details_picture_description" translatable="false">restaurant_details_picture</string>
+    <string name="restaurant_details_star1_description" translatable="false">restaurant_details_star1</string>
+    <string name="restaurant_details_star2_description" translatable="false">restaurant_details_star2</string>
+    <string name="restaurant_details_star3_description" translatable="false">restaurant_details_star3</string>
+    <string name="item_workmates_restaurant_text_detailsFragment">is joining !</string>
 
 
 </resources>

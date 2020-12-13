@@ -64,6 +64,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final String FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
+    public static final double RATING_MAX = 4.5;
+    public static final double RATING_MIDDLE = 2.5;
+    public static final double RATING_MIN = 1;
+
     private static final String TAG = "MAIN_ACTIVITY";
     public static int radius = 2500; // radius in meters around user for search
     private DocumentReference docRef;
@@ -101,7 +105,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         configureInitialState();
 
-        updateUserSnaptshot();
+        updateUserSnapshot();
 
     }
 
@@ -191,7 +195,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // ----------- DATA -------------------- //
 
-    private void updateUserSnaptshot() {
+    private void updateUserSnapshot() {
         if (uid != null) {
             docRef = UserHelper.getUsersCollection().document(uid);
 
@@ -279,7 +283,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
     // ---------------------- AUTOCOMPLETE SEARCH -----------------------//
@@ -411,6 +414,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWorkmates();
+    }
 }
 

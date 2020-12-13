@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.R;
+import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
 import com.edescamp.go4lunch.model.User;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -16,18 +17,21 @@ import java.util.List;
 
 public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> {
 
-    private static final String TAG = "WorkmatesAdapter";
     private final List<DocumentSnapshot> documents;
-    private String userid;
     private User documentUser;
+    private String tag;
 
     private Context context;
 
-
-    public WorkmatesAdapter(List<DocumentSnapshot> documents, String userid) {
+    public WorkmatesAdapter(List<DocumentSnapshot> documents, String tag) {
         this.documents = documents;
-        this.userid = userid;
+        this.tag = tag;
     }
+
+    public WorkmatesAdapter(List<DocumentSnapshot> documents) {
+        this.documents = documents;
+    }
+
 
     @Override
     public int getItemViewType(final int position) {
@@ -45,9 +49,13 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull WorkmatesViewHolder holder, int position) {
 
+        if (tag == DetailsFragment.TAG) {
+            documentUser = documents.get(position).toObject(User.class);
+            holder.updateViewWithWorkmatesForDetailsFragment(documentUser);
+        } else {
             documentUser = documents.get(position).toObject(User.class);
             holder.updateViewWithWorkmates(documentUser);
-
+        }
     }
 
 

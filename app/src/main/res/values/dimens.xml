@@ -15,7 +15,7 @@
        <!-- text-->
     <dimen name="restaurant_text_height">33dp</dimen>
        <!-- pics-->
-    <dimen name="picture_restaurant">75dp</dimen>
+    <dimen name="picture_restaurant">60dp</dimen>
 
     <!-- RESTAURANT DETAILS -->
     <dimen name="restaurant_details_picture_height">250dp</dimen>

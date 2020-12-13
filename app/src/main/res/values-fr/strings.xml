@@ -46,5 +46,6 @@
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Voulez-vous annuler ce choix de restaurant?</string>
     <string name="item_restaurant_no_opening_hours">Aucun horaire connu</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title">Annuler ce choix de restaurant?</string>
+    <string name="item_workmates_restaurant_text_detailsFragment">vient !</string>
 
 </resources>

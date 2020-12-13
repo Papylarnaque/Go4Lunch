@@ -19,24 +19,32 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
+import com.edescamp.go4lunch.adapter.WorkmatesAdapter;
 import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.edescamp.go4lunch.activity.MainActivity.RATING_MAX;
+import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIDDLE;
+import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIN;
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 
 public class DetailsFragment extends Fragment {
 
-    private static final String TAG = "DetailsFragment";
+    public static final String TAG = "DetailsFragment";
     private final ResultAPIDetails resultAPIDetails;
 
     private TextView restaurantName;
@@ -50,6 +58,7 @@ public class DetailsFragment extends Fragment {
     private Button buttonPhone;
     private Button buttonLike;
     private Button buttonWebsite;
+    private RecyclerView recyclerView;
 
     private String restaurantChoice;
     private List<String> likesChoice;
@@ -83,8 +92,128 @@ public class DetailsFragment extends Fragment {
 
     }
 
-    // -------------------- CONFIG CLICK RESPONSE ------------------ //
 
+    // -------------------- CONFIG User Interface LAYOUT ------------------ //
+
+    private void configureView(View view) {
+        Context context = view.getContext();
+        String API_KEY = context.getResources().getString(R.string.google_api_key);
+
+        // View
+        restaurantName = view.findViewById(R.id.restaurant_details_name);
+        restaurantAddress = view.findViewById(R.id.restaurant_details_address);
+        restaurantPicture = view.findViewById(R.id.restaurant_details_picture);
+        buttonPhone = view.findViewById(R.id.restaurant_details_phone_call);
+        buttonLike = view.findViewById(R.id.restaurant_details_like);
+        buttonWebsite = view.findViewById(R.id.restaurant_details_website);
+        buttonBack = view.findViewById(R.id.fragment_restaurant_details_button_backpress);
+        buttonRestaurantChoice = view.findViewById(R.id.fragment_restaurant_details_button_restaurant_choice);
+
+        recyclerView = view.findViewById(R.id.restaurant_details_workmates_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        buttonPhone.setText(R.string.restaurant_details_phone_call);
+        buttonLike.setText(R.string.restaurant_details_like);
+        buttonWebsite.setText(R.string.restaurant_details_website);
+
+        restaurantName.setText(resultAPIDetails.getName());
+        restaurantAddress.setText(resultAPIDetails.getFormatted_address());
+
+        star1 = view.findViewById(R.id.restaurant_details_star1);
+        star2 = view.findViewById(R.id.restaurant_details_star2);
+        star3 = view.findViewById(R.id.restaurant_details_star3);
+
+
+        if (resultAPIDetails.getPhotos() == null) {
+            Log.i(TAG, "result.getPhotos() == null =>  " + resultAPIDetails.getPlaceId());
+            restaurantPicture.setVisibility(View.INVISIBLE);
+            TextView noPhoto = view.findViewById(R.id.restaurant_details_no_picture_text);
+            noPhoto.setText(R.string.no_picture);
+            noPhoto.setVisibility(View.VISIBLE);
+        } else {
+            Glide.with(view)
+                    .load(resultAPIDetails.getPhotos().get(0).getPhoto_URL() + API_KEY)
+                    .apply(new RequestOptions()
+                            .fitCenter())
+                    .into(restaurantPicture);
+            restaurantPicture.setVisibility(View.VISIBLE);
+        }
+
+        restaurantChoiceLayout();
+        showRating();
+        populateWorkmates();
+
+    }
+
+    // Handles DetailsFragment custom user choices layout
+    private void restaurantChoiceLayout() {
+        UserHelper.getUser(MainActivity.uid).addOnSuccessListener(documentUserSnapshot -> {
+            // Handles buttonRestaurantChoice layout
+            restaurantChoice = (String) documentUserSnapshot.get("hasChosenRestaurant");
+            if (restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
+                buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
+            } else {
+                buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_add_30);
+            }
+
+            // Handles buttonLike layout
+
+            likesChoice = (List<String>) documentUserSnapshot.get("likes");
+            if (likesChoice != null) {
+                if (likesChoice.contains(resultAPIDetails.getPlaceId())) {
+                    buttonLike.setText(R.string.restaurant_details_unlike);
+                } else {
+                    buttonLike.setText(R.string.restaurant_details_like);
+                }
+            }
+
+        });
+    }
+
+    // Handles Rating calculation
+    private void showRating() {
+        if (resultAPIDetails.getRating() == null) {
+        } else if (resultAPIDetails.getRating() >= RATING_MAX) {
+            star1.setVisibility(View.VISIBLE);
+            star2.setVisibility(View.VISIBLE);
+            star3.setVisibility(View.VISIBLE);
+        } else if (resultAPIDetails.getRating() >= RATING_MIDDLE && resultAPIDetails.getRating() < RATING_MAX) {
+            star1.setVisibility(View.VISIBLE);
+            star2.setVisibility(View.VISIBLE);
+            star3.setVisibility(View.INVISIBLE);
+        } else if (resultAPIDetails.getRating() >= RATING_MIN && resultAPIDetails.getRating() < RATING_MIDDLE) {
+            star1.setVisibility(View.VISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+            star3.setVisibility(View.INVISIBLE);
+        } else {
+            star1.setVisibility(View.INVISIBLE);
+            star2.setVisibility(View.INVISIBLE);
+            star3.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    // Populates Workmates who choose this restaurant
+    private void populateWorkmates() {
+        UserHelper.getUsersWhoChoseThisRestaurant(resultAPIDetails.getPlaceId()).addOnSuccessListener(queryDocumentSnapshots -> {
+            List<DocumentSnapshot> documents = new ArrayList<>();
+            // Handle removing current user from the list in the fragment
+            // as firebase does not support double where queries
+            for (DocumentSnapshot user : queryDocumentSnapshots.getDocuments()){
+                if(!Objects.equals(user.get("uid"), uid)){
+                    documents.add(user);
+                }
+            }
+            sendResultsToAdapter(documents);
+        });
+    }
+
+    private void sendResultsToAdapter(List<DocumentSnapshot> documents) {
+        recyclerView.setAdapter(new WorkmatesAdapter(documents, TAG));
+    }
+
+    // -------------- Handles USER INTERACTIONS -------------- //
+
+    // CONFIG CLICK LISTENERS
     private void setClickableFunctionality() {
         buttonPhone.setOnClickListener(v -> {
             if (resultAPIDetails.getInternational_phone_number() == null) {
@@ -117,115 +246,25 @@ public class DetailsFragment extends Fragment {
         buttonRestaurantChoice.setOnClickListener(v -> buttonRestaurantChoiceResponse());
     }
 
-
-    // -------------------- CONFIG User Interface LAYOUT ------------------ //
-
-    private void configureView(View view) {
-        Context context = view.getContext();
-        String API_KEY = context.getResources().getString(R.string.google_api_key);
-
-        // View
-        restaurantName = view.findViewById(R.id.restaurant_details_name);
-        restaurantAddress = view.findViewById(R.id.restaurant_details_address);
-        restaurantPicture = view.findViewById(R.id.restaurant_details_picture);
-        buttonPhone = view.findViewById(R.id.restaurant_details_phone_call);
-        buttonLike = view.findViewById(R.id.restaurant_details_like);
-        buttonWebsite = view.findViewById(R.id.restaurant_details_website);
-        buttonBack = view.findViewById(R.id.fragment_restaurant_details_button_backpress);
-        buttonRestaurantChoice = view.findViewById(R.id.fragment_restaurant_details_button_restaurant_choice);
-
-        buttonPhone.setText(R.string.restaurant_details_phone_call);
-        buttonLike.setText(R.string.restaurant_details_like);
-        buttonWebsite.setText(R.string.restaurant_details_website);
-
-        restaurantName.setText(resultAPIDetails.getName());
-        restaurantAddress.setText(resultAPIDetails.getFormatted_address());
-
-        star1 = view.findViewById(R.id.restaurant_details_star1);
-        star2 = view.findViewById(R.id.restaurant_details_star2);
-        star3 = view.findViewById(R.id.restaurant_details_star3);
-
-
-        if (resultAPIDetails.getPhotos() == null) {
-            Log.i(TAG, "result.getPhotos() == null =>  " + resultAPIDetails.getPlaceId());
-            restaurantPicture.setVisibility(View.INVISIBLE);
-            TextView noPhoto = view.findViewById(R.id.restaurant_details_no_picture_text);
-            noPhoto.setText(R.string.no_picture);
-            noPhoto.setVisibility(View.VISIBLE);
-        } else {
-            Glide.with(view)
-                    .load(resultAPIDetails.getPhotos().get(0).getPhoto_URL() + API_KEY)
-                    .apply(new RequestOptions()
-                            .fitCenter())
-                    .into(restaurantPicture);
-            restaurantPicture.setVisibility(View.VISIBLE);
-        }
-
-        restaurantChoiceLayout();
-        showRating();
-    }
-
-    // Handles DetailsFragment custom user choices layout
-    private void restaurantChoiceLayout() {
-        UserHelper.getUser(MainActivity.uid).addOnSuccessListener(documentUserSnapshot -> {
-            // Handles buttonRestaurantChoice layout
-            restaurantChoice = (String) documentUserSnapshot.get("hasChosenRestaurant");
-            if (restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
-                buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
-            } else {
-                buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_add_30);
-            }
-
-            // Handles buttonLike layout
-
-            likesChoice = (List<String>) documentUserSnapshot.get("likes");
-            if (likesChoice != null) {
-                if (likesChoice.contains(resultAPIDetails.getPlaceId())) {
-                    buttonLike.setText(R.string.restaurant_details_unlike);
-                } else {
-                    buttonLike.setText(R.string.restaurant_details_like);
-                }
-            }
-
-        });
-    }
-
-    private void showRating() {
-        if (resultAPIDetails.getRating() == null) {
-        } else if (resultAPIDetails.getRating() >= 4.5) {
-            star1.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.VISIBLE);
-            star3.setVisibility(View.VISIBLE);
-        } else if (resultAPIDetails.getRating() >= 2.5 && resultAPIDetails.getRating() < 4.5) {
-            star1.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.VISIBLE);
-            star3.setVisibility(View.INVISIBLE);
-        } else if (resultAPIDetails.getRating() >= 1 && resultAPIDetails.getRating() < 2.5) {
-            star1.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.INVISIBLE);
-            star3.setVisibility(View.INVISIBLE);
-        } else {
-            star1.setVisibility(View.INVISIBLE);
-            star2.setVisibility(View.INVISIBLE);
-            star3.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    // Handles the response to RESTAURANT CHOICE BUTTON CLICK
+    // RESTAURANT LIKE BUTTON
     private void buttonLikeResponse() {
         if (likesChoice != null) {
             if (likesChoice.contains(resultAPIDetails.getPlaceId())) {
                 // if restaurant is liked
-                UserHelper.updateLikesDeleteRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
-                Toast.makeText(getContext(), "restaurant unliked", Toast.LENGTH_SHORT).show();
+                UserHelper.updateLikesDeleteRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
+                        .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+                Toast.makeText(getContext(), "restaurant unliked", Toast.LENGTH_SHORT)
+                        .show();
             } else {
-                UserHelper.updateLikesAddRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
-                Toast.makeText(getContext(), "restaurant LIKED", Toast.LENGTH_SHORT).show();
+                UserHelper.updateLikesAddRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
+                        .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+                Toast.makeText(getContext(), "restaurant LIKED", Toast.LENGTH_SHORT)
+                        .show();
             }
         }
     }
 
-    // Handles the response to RESTAURANT CHOICE BUTTON CLICK
+    // RESTAURANT CHOICE BUTTON
     private void buttonRestaurantChoiceResponse() {
         if (restaurantChoice != null) {
             if (restaurantChoice.equals("")) {
@@ -247,7 +286,6 @@ public class DetailsFragment extends Fragment {
     }
 
     // Action on buttonRestaurantChoice click
-    // if restaurant chosen = restaurant details
     private void alertRestaurantCancel() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -290,6 +328,8 @@ public class DetailsFragment extends Fragment {
 
     }
 
+
+    // ---------------- HIDE TOOLBAR AND NAVBAR ------------------ //
 
     @Override
     public void onResume() {
