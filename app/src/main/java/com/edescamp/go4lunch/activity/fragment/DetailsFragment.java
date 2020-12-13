@@ -29,6 +29,7 @@ import com.edescamp.go4lunch.util.UserHelper;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
@@ -51,6 +52,7 @@ public class DetailsFragment extends Fragment {
     private Button buttonWebsite;
 
     private String restaurantChoice;
+    private List<String> likesChoice;
 
 
     public DetailsFragment(ResultAPIDetails resultAPIDetails) {
@@ -71,9 +73,17 @@ public class DetailsFragment extends Fragment {
 
         setClickableFunctionality();
 
+        getLikes();
 
         return view;
     }
+
+    private void getLikes() {
+
+
+    }
+
+    // -------------------- CONFIG CLICK RESPONSE ------------------ //
 
     private void setClickableFunctionality() {
         buttonPhone.setOnClickListener(v -> {
@@ -100,16 +110,15 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-        buttonLike.setOnClickListener(v -> {
-            // TODO : implement like functionnality
-            Toast.makeText(getContext(), "TODO : implement like functionality", Toast.LENGTH_SHORT).show();
-        });
+        buttonLike.setOnClickListener(v -> buttonLikeResponse());
 
         buttonBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        buttonRestaurantChoice.setOnClickListener(v -> restaurantChoiceResponse());
+        buttonRestaurantChoice.setOnClickListener(v -> buttonRestaurantChoiceResponse());
     }
 
+
+    // -------------------- CONFIG User Interface LAYOUT ------------------ //
 
     private void configureView(View view) {
         Context context = view.getContext();
@@ -156,15 +165,28 @@ public class DetailsFragment extends Fragment {
         showRating();
     }
 
-    // Handles buttonRestaurantChoice layout
+    // Handles DetailsFragment custom user choices layout
     private void restaurantChoiceLayout() {
         UserHelper.getUser(MainActivity.uid).addOnSuccessListener(documentUserSnapshot -> {
+            // Handles buttonRestaurantChoice layout
             restaurantChoice = (String) documentUserSnapshot.get("hasChosenRestaurant");
             if (restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
             } else {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_add_30);
             }
+
+            // Handles buttonLike layout
+
+            likesChoice = (List<String>) documentUserSnapshot.get("likes");
+            if (likesChoice != null) {
+                if (likesChoice.contains(resultAPIDetails.getPlaceId())) {
+                    buttonLike.setText(R.string.restaurant_details_unlike);
+                } else {
+                    buttonLike.setText(R.string.restaurant_details_like);
+                }
+            }
+
         });
     }
 
@@ -189,9 +211,22 @@ public class DetailsFragment extends Fragment {
         }
     }
 
+    // Handles the response to RESTAURANT CHOICE BUTTON CLICK
+    private void buttonLikeResponse() {
+        if (likesChoice != null) {
+            if (likesChoice.contains(resultAPIDetails.getPlaceId())) {
+                // if restaurant is liked
+                UserHelper.updateLikesDeleteRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+                Toast.makeText(getContext(), "restaurant unliked", Toast.LENGTH_SHORT).show();
+            } else {
+                UserHelper.updateLikesAddRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+                Toast.makeText(getContext(), "restaurant LIKED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     // Handles the response to RESTAURANT CHOICE BUTTON CLICK
-    private void restaurantChoiceResponse() {
+    private void buttonRestaurantChoiceResponse() {
         if (restaurantChoice != null) {
             if (restaurantChoice.equals("")) {
                 // if no choice has been made
@@ -232,6 +267,7 @@ public class DetailsFragment extends Fragment {
         dialogRestaurantChosen.show();
 
     }
+
     // Action on buttonRestaurantChoice click
     // if restaurant chosen != restaurant details
     private void alertRestaurantChange() {

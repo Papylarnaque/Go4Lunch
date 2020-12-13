@@ -32,7 +32,8 @@
     <string name="no_website">Pas de site internet</string>
     <string name="fragment_settings_title">Reglages</string>
     <string name="restaurant_details_phone_call">APPELER</string>
-    <string name="restaurant_details_like">FAVORIS</string>
+    <string name="restaurant_details_like">Ajouter \n aux favoris</string>
+    <string name="restaurant_details_unlike">Retirer \n des favoris</string>
     <string name="restaurant_details_website">SITE</string>
     <string name="fragment_settings_radius_search">Rayon de recherche: %1$d metres</string>
     <string name="no_picture">Pas de photo</string>

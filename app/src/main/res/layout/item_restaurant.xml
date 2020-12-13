@@ -14,12 +14,12 @@
         android:layout_marginEnd="10dp"
         android:gravity="center_vertical"
         android:maxLength="33"
+        android:scrollHorizontally="true"
         android:text="@string/text_restaurant_first_line"
         android:textColor="@color/colorTextBlack"
         android:textSize="20sp"
-        android:scrollHorizontally="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/item_restaurant_address"
@@ -82,7 +82,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/item_restaurant_picture"
         app:layout_constraintStart_toEndOf="@id/item_restaurant_address"
-        app:layout_constraintTop_toBottomOf="@id/item_restaurant_text_number_workmates" />
+        app:layout_constraintTop_toBottomOf="@id/item_restaurant_text_number_workmates"
+        app:tint="@color/quantum_yellow" />
 
     <ImageView
         android:id="@+id/item_restaurant_rating_star2"
@@ -93,7 +94,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/item_restaurant_picture"
         app:layout_constraintStart_toEndOf="@id/item_restaurant_address"
-        app:layout_constraintTop_toBottomOf="@id/item_restaurant_text_number_workmates" />
+        app:layout_constraintTop_toBottomOf="@id/item_restaurant_text_number_workmates"
+        app:tint="@color/quantum_yellow" />
 
     <ImageView
         android:id="@+id/item_restaurant_rating_star3"
@@ -105,9 +107,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/item_restaurant_picture"
         app:layout_constraintStart_toEndOf="@id/item_restaurant_address"
-        app:layout_constraintTop_toBottomOf="@id/item_restaurant_text_number_workmates" />
-
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+        app:layout_constraintTop_toBottomOf="@id/item_restaurant_text_number_workmates"
+        app:tint="@color/quantum_yellow" />
 
     <TextView
         android:id="@+id/item_restaurant_no_picture_text"

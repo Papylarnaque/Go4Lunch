@@ -56,6 +56,7 @@
     <string name="no_website">No website</string>
     <string name="website_image" translatable="false">website_image</string>
     <string name="restaurant_details_like">LIKE</string>
+    <string name="restaurant_details_unlike">UNLIKE</string>
     <string name="restaurant_details_website">WEBSITE</string>
     <string name="fragment_settings_radius_search">Radius search: %1$d meters</string>
     <string name="activity_splash_logo" translatable="false">activity_splash_logo</string>

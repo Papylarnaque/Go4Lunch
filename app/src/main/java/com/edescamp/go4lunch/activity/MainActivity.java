@@ -36,7 +36,6 @@ import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -44,7 +43,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -246,12 +244,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void getWorkmates() {
-        UserHelper.getUsersWithChosenRestaurant().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                workmates = queryDocumentSnapshots.getDocuments();
-            }
-        });
+        UserHelper.getUsersWithChosenRestaurant().addOnSuccessListener(queryDocumentSnapshots -> workmates = queryDocumentSnapshots.getDocuments());
 
     }
 

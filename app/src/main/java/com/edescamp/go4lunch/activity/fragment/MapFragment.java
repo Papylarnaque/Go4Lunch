@@ -93,7 +93,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     }
 
 
-
     // UI MAP //
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -227,36 +226,40 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         for (ResultAPIMap result : results) {
             Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
+            boolean bChosen = false;
             if (workmates != null)
-                for (DocumentSnapshot workmate : workmates){
-                if (workmate.get("hasChosenRestaurant").equals(result.getPlaceId())) {
-
-                    Marker markerRestaurant = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(
-                                    result.getGeometry().getLocation().getLat(),
-                                    result.getGeometry().getLocation().getLng()))
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                            .title(result.getName())
-                            .snippet(result.getVicinity()));
-
-                    markerRestaurant.setTag(result.getPlaceId());
-                } else {
-                    Marker markerRestaurant = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(
-                                    result.getGeometry().getLocation().getLat(),
-                                    result.getGeometry().getLocation().getLng()))
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                            .title(result.getName())
-                            .snippet(result.getVicinity()));
-
-                    markerRestaurant.setTag(result.getPlaceId());
+                for (DocumentSnapshot workmate : workmates) {
+                    if (workmate.get("hasChosenRestaurant").equals(result.getPlaceId())) {
+                        bChosen = true;
+                        break;
+                    }
                 }
 
+            Marker markerRestaurant;
+            if (bChosen) {
+
+                markerRestaurant = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(
+                                result.getGeometry().getLocation().getLat(),
+                                result.getGeometry().getLocation().getLng()))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                        .title(result.getName())
+                        .snippet(result.getVicinity()));
+
+            } else {
+                markerRestaurant = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(
+                                result.getGeometry().getLocation().getLat(),
+                                result.getGeometry().getLocation().getLng()))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        .title(result.getName())
+                        .snippet(result.getVicinity()));
 
             }
+            markerRestaurant.setTag(result.getPlaceId());
+
 
         }
-
 
     }
 

@@ -11,12 +11,12 @@
         android:id="@+id/restaurant_details_picture"
         android:layout_width="0dp"
         android:layout_height="@dimen/restaurant_details_picture_height"
+        android:contentDescription="@string/restaurant_details_picture_description"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars[2]"
-        android:contentDescription="@string/restaurant_details_picture_description" />
+        tools:srcCompat="@tools:sample/avatars[2]" />
 
 
     <!--  Description details of the restaurant  -->
@@ -46,36 +46,36 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginStart="80dp"
+            android:contentDescription="@string/restaurant_details_star1_description"
+            android:src="@drawable/ic_baseline_star_24"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_star"
-            app:tint="@color/quantum_yellow"
-            android:contentDescription="@string/restaurant_details_star1_description" />
+            app:tint="@color/quantum_yellow" />
 
         <ImageView
             android:id="@+id/restaurant_details_star2"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginStart="100dp"
+            android:contentDescription="@string/restaurant_details_star2_description"
+            android:src="@drawable/ic_baseline_star_24"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_star"
-            app:tint="@color/quantum_yellow"
-            android:contentDescription="@string/restaurant_details_star2_description" />
+            app:tint="@color/quantum_yellow" />
 
         <ImageView
             android:id="@+id/restaurant_details_star3"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginStart="120dp"
+            android:contentDescription="@string/restaurant_details_star3_description"
+            android:src="@drawable/ic_baseline_star_24"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_star"
-            app:tint="@color/quantum_yellow"
-            android:contentDescription="@string/restaurant_details_star3_description" />
+            app:tint="@color/quantum_yellow" />
 
         <TextView
             android:id="@+id/restaurant_details_address"
@@ -104,7 +104,7 @@
         <Button
             android:id="@+id/restaurant_details_phone_call"
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawableTop="@drawable/ic_baseline_phone_24"
@@ -114,17 +114,17 @@
         <Button
             android:id="@+id/restaurant_details_like"
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:drawableTop="@drawable/ic_star"
+            android:drawableTop="@drawable/ic_baseline_star_24"
             android:textColor="@color/colorPrimary"
             tools:text="LIKE" />
 
         <Button
             android:id="@+id/restaurant_details_website"
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawableTop="@drawable/ic_baseline_website_24"
@@ -162,12 +162,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
-        tools:text="No Picture"
         android:textSize="30sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="No Picture" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

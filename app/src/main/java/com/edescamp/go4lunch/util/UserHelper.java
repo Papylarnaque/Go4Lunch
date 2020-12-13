@@ -9,7 +9,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserHelper {
@@ -18,7 +20,7 @@ public class UserHelper {
     private static final String COLLECTION_NAME = "user";
 
     // --- COLLECTION REFERENCE ---
-    public static CollectionReference getUsersCollection(){
+    public static CollectionReference getUsersCollection() {
         return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
     }
 
@@ -31,30 +33,31 @@ public class UserHelper {
         userToCreate.put("mail", userMail);
         userToCreate.put("hasChosenRestaurant", "");
         userToCreate.put("chosenRestaurantName", "");
-        Log.i(TAG, "userId: "+userId + " username: "+userName);
+        Log.i(TAG, "userId: " + userId + " username: " + userName);
         return UserHelper.getUsersCollection().document(userId).set(userToCreate);
     }
 
     // --- GET ---
-    public static Task<DocumentSnapshot> getUser(String uid){
+    public static Task<DocumentSnapshot> getUser(String uid) {
         return UserHelper.getUsersCollection().document(uid).get();
     }
 
-    public static Task<QuerySnapshot> getAllUsers(){
+    public static Task<QuerySnapshot> getAllUsers() {
         return UserHelper.getUsersCollection().get();
     }
 
-    public static Task<QuerySnapshot> getAllUsersExceptCurrent(String userId){
+    public static Task<QuerySnapshot> getAllUsersExceptCurrent(String userId) {
         return UserHelper.getUsersCollection()
                 .whereNotEqualTo("uid", userId)
                 .get();
     }
 
-    public static Task<QuerySnapshot> getUsersWithChosenRestaurant(){
+    public static Task<QuerySnapshot> getUsersWithChosenRestaurant() {
         return UserHelper.getUsersCollection()
                 .whereGreaterThan("hasChosenRestaurant", "")
                 .get();
     }
+
 
     // --- UPDATE ---
     public static Task<Void> updateUsername(String username, String uid) {
@@ -68,12 +71,24 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).update(userToUpdateWithRestaurantChoice);
     }
 
+    public static Task<Void> updateLikesAddRestaurant(List<String> likes, String placeId, String uid) {
+        if (likes == null) {
+            likes = Collections.singletonList(placeId);
+        } else {
+            likes.add(placeId);
+        }
+        return UserHelper.getUsersCollection().document(uid).update("likes", likes);
+    }
+
+    public static Task<Void> updateLikesDeleteRestaurant(List<String> likes, String placeId, String uid) {
+        likes.remove(placeId);
+        return UserHelper.getUsersCollection().document(uid).update("likes", likes);
+    }
 
     // --- DELETE ---
     public static Task<Void> deleteUser(String uid) {
         return UserHelper.getUsersCollection().document(uid).delete();
     }
-
 
 
 }
