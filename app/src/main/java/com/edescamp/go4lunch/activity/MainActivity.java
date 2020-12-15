@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,15 +35,15 @@ import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
 import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.service.entities.PredictionAPIAutocomplete;
+import com.edescamp.go4lunch.service.entities.PredictionsAPIAutocomplete;
 import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -53,23 +56,28 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.edescamp.go4lunch.activity.fragment.MapFragment.userLocationStr;
+
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //
+    // STATIC PARAMETERS
+    private static final String TAG = "MAIN_ACTIVITY";
+    public static int RADIUS_INIT = 2500; // radius in meters around user for search
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
+    public static final int RADIUS_MIN = 2500; // MAX Radius distance in meters
     public static final int RADIUS_STEP = 500; // STEP Radius for slider
-    public static final String language = "en";
-    public static final String keyword = "restaurant";
-    public static final String FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
+    public static final String API_MAP_LANGUAGE = "en";
+    public static final String API_MAP_KEYWORD = "restaurant";
+    public static final String API_AUTOCOMPLETE_KEYWORD = "establishment";
+    public static final String API_MAP_FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     public static final double RATING_MAX = 4.5;
     public static final double RATING_MIDDLE = 2.5;
     public static final double RATING_MIN = 1;
 
-    private static final String TAG = "MAIN_ACTIVITY";
-    public static int radius = 2500; // radius in meters around user for search
+
     private DocumentReference docRef;
     final static String PREFS_NAME = "AUTH";
 
@@ -82,12 +90,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private TextView userMail;
     private TextView userName;
     private ImageView userPicture;
-    private Task<DocumentSnapshot> user;
-    private FirebaseUser firebaseUser;
     private ImageButton logo_button;
+    private AutoCompleteTextView autoCompleteTextView;
+
     private String restaurantChoice;
     private String restaurantName;
+    private static String[] RESTAURANTS = new String[1];
+
     public static List<DocumentSnapshot> workmates;
+//    private static final Integer AUTOCOMPLETE_OFFSET = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,7 +118,80 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         updateUserSnapshot();
 
+        autoCompleteTextListener();
+
     }
+
+    private void autoCompleteTextListener() {
+
+        // call APIAutocomplete when typing in search
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 3) {
+                    getAutocompleteSearch(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+//                android.R.layout.simple_dropdown_item_1line);
+//        autoCompleteTextView.setAdapter(adapter);
+//        autoCompleteTextView.setThreshold(1);
+
+    }
+
+    private void getAutocompleteSearch(String input) {
+        APIRequest apiAutocompleteSearch = APIClient.getClient().create(APIRequest.class);
+        Call<PredictionsAPIAutocomplete> autocompleteSearch = apiAutocompleteSearch.getAutocomplete(
+                userLocationStr,
+                RADIUS_MAX,
+                input,
+                API_AUTOCOMPLETE_KEYWORD,
+                "",
+                getResources().getString(R.string.google_maps_key));
+        autocompleteSearch.enqueue(new Callback<PredictionsAPIAutocomplete>() {
+            @Override
+            public void onResponse(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Response<PredictionsAPIAutocomplete> response) {
+                if (response.isSuccessful()) {
+                    PredictionsAPIAutocomplete predictionsAPIAutocomplete = response.body();
+                    if (predictionsAPIAutocomplete != null) {
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),
+                            android.R.layout.simple_dropdown_item_1line);
+                    adapter.setNotifyOnChange(true);
+                    //attach the adapter to textview
+                    autoCompleteTextView.setAdapter(adapter);
+                    for (PredictionAPIAutocomplete prediction : predictionsAPIAutocomplete.getPredictions()) {
+                        Log.d("PlacesListActivity", "onPostExecute : result = " + prediction.getDescription());
+                        adapter.add(prediction.getDescription());
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                }
+                // TODO Handle failures, 404 error, etc
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Throwable t) {
+
+                Log.d(TAG, "getPlace API failure" + t);
+            }
+
+        });
+    }
+
 
     // ------------------------ LAYOUT CONFIGURATIONS  -----------------------//
 
@@ -122,6 +206,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void configureToolbar() {
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
+        autoCompleteTextView = findViewById(R.id.autoCompleteTextViewPlace);
     }
 
     @Override
@@ -142,18 +228,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             switch (item.getItemId()) {
                 case navigation_mapview_id:
+                    showSearch();
                     mToolbar.setTitle(R.string.title_mapview);
                     fragment = new MapFragment();
                     showFragment(fragment);
                     break;
 
                 case navigation_listview_id:
+                    showSearch();
                     mToolbar.setTitle(R.string.title_listview);
                     fragment = new RestaurantsFragment();
                     showFragment(fragment);
                     break;
 
                 case navigation_workmates_id:
+                    hideSearch();
                     fragment = new WorkmatesFragment();
                     showFragment(fragment);
                     mToolbar.setTitle(R.string.title_workmates);
@@ -161,6 +250,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
             return true;
         });
+    }
+
+    private void showSearch() {
+        findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
+    }
+
+    private void hideSearch() {
+        if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
+            autoCompleteTextView.setVisibility(View.GONE);
+        }
+        findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
     }
 
     // DRAWER configuration //
@@ -290,16 +390,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.main_activity_menu_search) {
-            // TODO Manage AUTOCOMPLETE SEARCH
-            Toast toast = Toast.makeText(getApplicationContext(), "Manage AUTOCOMPLETE SEARCH", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+
+            if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
+                autoCompleteTextView.setVisibility(View.GONE);
+            } else {
+                autoCompleteTextView.setVisibility(View.VISIBLE);
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
 
     }
-
 
     // ----------------------------- LOGOUT ----------------------------//
     private void deleteAuthAndLogOut() {
@@ -333,7 +435,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, getResources().getString(R.string.google_maps_key));
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override

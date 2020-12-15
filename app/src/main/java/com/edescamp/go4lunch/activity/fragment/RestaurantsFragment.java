@@ -40,9 +40,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.edescamp.go4lunch.activity.MainActivity.keyword;
-import static com.edescamp.go4lunch.activity.MainActivity.language;
-import static com.edescamp.go4lunch.activity.MainActivity.radius;
+import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_KEYWORD;
+import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_LANGUAGE;
+import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class RestaurantsFragment extends BaseFragment {
@@ -131,9 +131,9 @@ public class RestaurantsFragment extends BaseFragment {
         APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
         Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(
                 userLocationStr,
-                radius,
-                language,
-                keyword,
+                RADIUS_INIT,
+                API_MAP_LANGUAGE,
+                API_MAP_KEYWORD,
                 getResources().getString(R.string.google_maps_key)
         );
         progressBar.setVisibility(View.VISIBLE);
@@ -147,7 +147,7 @@ public class RestaurantsFragment extends BaseFragment {
                     if (body != null) {
                         List<ResultAPIMap> results = body.getResults();
                         if (results.size() == 0) {
-                            noRestaurants.setText(getString(R.string.restaurant_List_no_restaurants_to_show, radius));
+                            noRestaurants.setText(getString(R.string.restaurant_List_no_restaurants_to_show, RADIUS_INIT));
                             noRestaurants.setVisibility(View.VISIBLE);
                         } else {
                             sendResultsToAdapter(results);

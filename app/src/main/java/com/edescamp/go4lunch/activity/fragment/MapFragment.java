@@ -52,10 +52,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.edescamp.go4lunch.activity.MainActivity.FIELDS;
-import static com.edescamp.go4lunch.activity.MainActivity.keyword;
-import static com.edescamp.go4lunch.activity.MainActivity.language;
-import static com.edescamp.go4lunch.activity.MainActivity.radius;
+import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_FIELDS;
+import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_KEYWORD;
+import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_LANGUAGE;
+import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.activity.MainActivity.workmates;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
@@ -67,7 +67,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
-    private String userLocationStr;
+    public static String userLocationStr;
     private LatLng oldUserLatLng;
 
     public MapFragment() {
@@ -107,11 +107,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
 // TODO Fix second call to getLocationPermission
         getLocationPermission();
-
-        mMap.setOnMarkerClickListener(marker -> {
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-            return false;
-        });
 
         // Handle click on marker info
         mMap.setOnInfoWindowClickListener(marker -> {
@@ -172,7 +167,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private void getPlace(String userLocationStr) {
         APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(userLocationStr, radius, language, keyword, getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(userLocationStr, RADIUS_INIT, API_MAP_LANGUAGE, API_MAP_KEYWORD, getResources().getString(R.string.google_maps_key));
 
         nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
@@ -205,13 +200,13 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // 2. Chain together various setter methods to set the dialog characteristics
-        builder.setMessage(getString(R.string.alertdialog_extendradius_message, radius))
+        builder.setMessage(getString(R.string.alertdialog_extendradius_message, RADIUS_INIT))
                 .setTitle(R.string.alertdialog_extendradius_title);
         // 3. Get the AlertDialog from create()
         AlertDialog dialog = builder.create();
 
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
-            radius += 1000;
+            RADIUS_INIT += 1000;
             getPlace(userLocationStr);
             dialog1.dismiss();
         });
@@ -224,15 +219,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     // + show the marker of the restaurant on the map
     private void addMarkerResult(List<ResultAPIMap> results) {
 
-
-        // TODO fix bug when resuming app workmates is empty
-
         for (ResultAPIMap result : results) {
             Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
             boolean bChosen = false;
             if (workmates != null)
                 for (DocumentSnapshot workmate : workmates) {
-                    if (workmate.get("hasChosenRestaurant").equals(result.getPlaceId())) {
+                    if (Objects.equals(workmate.get("hasChosenRestaurant"), result.getPlaceId())) {
                         bChosen = true;
                         break;
                     }
@@ -269,7 +261,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, getResources().getString(R.string.google_maps_key));
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override

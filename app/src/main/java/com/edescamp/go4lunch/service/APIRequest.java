@@ -1,5 +1,6 @@
 package com.edescamp.go4lunch.service;
 
+import com.edescamp.go4lunch.service.entities.PredictionsAPIAutocomplete;
 import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
 
@@ -28,5 +29,14 @@ public interface APIRequest {
 
 
 
+    @GET("place/autocomplete/json")
+    Call<PredictionsAPIAutocomplete> getAutocomplete(
+            @Query("location") String location,
+            @Query("radius") Integer radius,
+            @Query("input") String input,
+            @Query("types") String types,
+            @Query("strictbounds") String strictbounds,
+            @Query("key") String key
 
+    );
 }

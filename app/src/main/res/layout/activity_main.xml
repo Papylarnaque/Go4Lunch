@@ -13,9 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+<!--        <AutoCompleteTextView-->
+<!--            android:id="@+id/autoCompleteTextViewPlace"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="@string/input_your_place"-->
+<!--            android:maxLines="1"-->
+<!--            android:textColorHighlight="@color/tw__solid_white"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
+
+
 
 
         <FrameLayout
@@ -56,10 +69,9 @@
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="20dp"
             android:background="@null"
-            android:src="@drawable/logo_g4l"
-            android:contentDescription="@string/activity_main_drawer_logo_description" />
+            android:contentDescription="@string/activity_main_drawer_logo_description"
+            android:src="@drawable/logo_g4l" />
     </com.google.android.material.navigation.NavigationView>
-
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

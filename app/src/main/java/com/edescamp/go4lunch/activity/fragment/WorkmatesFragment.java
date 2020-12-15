@@ -57,7 +57,6 @@ public class WorkmatesFragment extends BaseFragment {
 
 
     private void getWorkmatesExceptCurrentUser() {
-//        UserHelper.getAllUsersExceptCurrent(uid).addOnSuccessListener(queryDocumentSnapshots -> {
         UserHelper.getAllUsersOrderByRestaurant(uid).addOnSuccessListener(queryDocumentSnapshots -> {
             launchProgressBar();
             if (queryDocumentSnapshots == null) {

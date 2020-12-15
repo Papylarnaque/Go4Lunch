@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.edescamp.go4lunch.activity.MainActivity.FIELDS;
+import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_FIELDS;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHolder> {
 
@@ -127,7 +127,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
 
     public void getPlaceDetails(ResultAPIMap resultAPIMap, RestaurantsViewHolder holder) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(resultAPIMap.getPlaceId(), FIELDS, context.getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(resultAPIMap.getPlaceId(), API_MAP_FIELDS, context.getResources().getString(R.string.google_maps_key));
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
@@ -158,7 +158,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
 
     public void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, FIELDS, context.getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, context.getResources().getString(R.string.google_maps_key));
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override

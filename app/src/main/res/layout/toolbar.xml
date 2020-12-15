@@ -6,17 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:elevation="10dp"
     android:minHeight="?attr/actionBarSize"
     android:theme="@style/AppTheme"
     app:titleTextAppearance="@style/TextAppearance.AppCompat.Title">
 
 
-<!--    <AutoCompleteTextView-->
-<!--        android:id="@+id/autoCompleteTextViewPlace"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="@string/input_your_place"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/toolbar"/>-->
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextViewPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_your_place"
+        android:textColorHighlight="@color/tw__solid_white"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.appcompat.widget.Toolbar>

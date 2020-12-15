@@ -24,8 +24,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MAX;
+import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MIN;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_STEP;
-import static com.edescamp.go4lunch.activity.MainActivity.radius;
+import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.usernameString;
 
@@ -62,13 +63,13 @@ public class SettingsFragment extends Fragment {
             UserHelper.updateUsername(usernameString, uid);
             //Post it in a handler to make sure it gets called if coming back from a lifecycle method.
             new Handler().post(() -> {
-                Intent intent = getActivity().getIntent();
+                Intent intent = requireActivity().getIntent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                getActivity().overridePendingTransition(0, 0);
-                getActivity().finish();
+                requireActivity().overridePendingTransition(0, 0);
+                requireActivity().finish();
 
-                getActivity().overridePendingTransition(0, 0);
+                requireActivity().overridePendingTransition(0, 0);
                 startActivity(intent);
             });
         });
@@ -86,8 +87,8 @@ public class SettingsFragment extends Fragment {
 
     private void radiusSliderListener() {
         radiusSlider.addOnChangeListener((slider, value, fromUser) -> {
-            radius = (int) value;
-            radiusSearch.setText(getString(R.string.fragment_settings_radius_search, radius));
+            RADIUS_INIT = (int) value;
+            radiusSearch.setText(getString(R.string.fragment_settings_radius_search, RADIUS_INIT));
         });
     }
 
@@ -102,12 +103,13 @@ public class SettingsFragment extends Fragment {
         username = view.findViewById(R.id.fragment_settings_update_username_textbox);
 
         title.setText(R.string.fragment_settings_title);
-        radiusSearch.setText(getString(R.string.fragment_settings_radius_search, radius));
+        radiusSearch.setText(getString(R.string.fragment_settings_radius_search, RADIUS_INIT));
 
         radiusSlider = view.findViewById(R.id.fragment_settings_radius_slider);
-        radiusSlider.setValue(radius);
+        radiusSlider.setValue(RADIUS_INIT);
         radiusSlider.setValueTo(RADIUS_MAX);
-        radiusSlider.setLabelFormatter(value -> String.valueOf(radius));
+        radiusSlider.setValueFrom(RADIUS_MIN);
+        radiusSlider.setLabelFormatter(value -> String.valueOf(RADIUS_INIT));
         radiusSlider.setStepSize(RADIUS_STEP);
     }
 

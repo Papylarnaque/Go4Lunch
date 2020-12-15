@@ -79,18 +79,11 @@ public class DetailsFragment extends Fragment {
         hideActivityViews();
         configureView(view);
 
-
         setClickableFunctionality();
-
-        getLikes();
 
         return view;
     }
 
-    private void getLikes() {
-
-
-    }
 
 
     // -------------------- CONFIG User Interface LAYOUT ------------------ //
