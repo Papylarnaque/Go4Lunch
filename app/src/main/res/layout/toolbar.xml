@@ -10,7 +10,6 @@
     android:theme="@style/AppTheme"
     app:titleTextAppearance="@style/TextAppearance.AppCompat.Title">
 
-
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextViewPlace"
         android:layout_width="match_parent"
