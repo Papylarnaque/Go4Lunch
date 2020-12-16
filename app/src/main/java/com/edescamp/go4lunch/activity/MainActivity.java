@@ -144,11 +144,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void afterTextChanged(Editable s) {
                 if (s.length() != 0) {
                     clearButton.setVisible(true);
-//                    findViewById(R.id.main_activity_menu_clear).setVisibility(View.VISIBLE);
                     findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
                 } else {
                     clearButton.setVisible(false);
-//                    findViewById(R.id.main_activity_menu_clear).setVisibility(View.GONE);
                     findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
                 }
 
@@ -158,19 +156,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-            // Handles click on an autocomplete search dropdown result
-            String placeId = null;
-            for (PredictionAPIAutocomplete prediction : predictions) {
-                if (parent.getItemAtPosition(position) == prediction.getStructured_formatting().getMain_text()) {
-                    placeId = prediction.getPlace_id();
+            // Handles no results click
+            if (parent.getItemAtPosition(position) == getResources().getString(R.string.autoCompleteTextView_noresult)) {
+                autoCompleteTextView.setText("");
+            } else {
+
+                // Handles click on an autocomplete search dropdown result
+                String placeId = null;
+                for (PredictionAPIAutocomplete prediction : predictions) {
+                    if (parent.getItemAtPosition(position) == prediction.getStructured_formatting().getMain_text()) {
+                        placeId = prediction.getPlace_id();
+                    }
                 }
+                getPlaceDetails(placeId);
             }
-            getPlaceDetails(placeId);
 
         });
 
     }
-
 
 
     private void getAutocompleteSearch(String input) {
@@ -199,10 +202,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         for (PredictionAPIAutocomplete prediction : predictionsAPIAutocomplete.getPredictions()) {
                             if (prediction.getTypes().contains("food")) {
                                 // only return places as establishment of type "food"
-                                Log.d("PlacesListActivity", "onPostExecute : result = " + prediction.getDescription());
+                                Log.d(TAG, "getAutocompleteSearch : prediction = " + prediction.getDescription());
                                 adapter.add(prediction.getStructured_formatting().getMain_text());
                                 adapter.notifyDataSetChanged();
                             }
+                        }
+                        if (adapter.getCount() == 0) {
+                            adapter.add(getResources().getString(R.string.autoCompleteTextView_noresult));
+                            adapter.notifyDataSetChanged();
                         }
                     }
 
@@ -242,7 +249,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
 
-        clearButton =  menu.findItem(R.id.main_activity_menu_clear);
+        clearButton = menu.findItem(R.id.main_activity_menu_clear);
         clearButton.setVisible(false);
         return true;
     }
