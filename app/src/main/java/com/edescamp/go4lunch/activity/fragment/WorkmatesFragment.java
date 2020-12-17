@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.adapter.WorkmatesAdapter;
+import com.edescamp.go4lunch.view.WorkmatesAdapter;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.google.firebase.firestore.DocumentSnapshot;
 

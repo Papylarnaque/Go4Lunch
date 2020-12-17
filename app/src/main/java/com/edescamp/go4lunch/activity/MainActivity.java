@@ -26,19 +26,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.activity.auth.SignInActivity;
 import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
 import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
-import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.APIRequest;
-import com.edescamp.go4lunch.service.entities.PredictionAPIAutocomplete;
-import com.edescamp.go4lunch.service.entities.PredictionsAPIAutocomplete;
-import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
-import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.api.APIClient;
+import com.edescamp.go4lunch.model.api.APIRequest;
+import com.edescamp.go4lunch.model.entities.PredictionAPIAutocomplete;
+import com.edescamp.go4lunch.model.entities.PredictionsAPIAutocomplete;
+import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
+import com.edescamp.go4lunch.model.entities.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -77,8 +77,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final double RATING_MIDDLE = 2.5;
     public static final double RATING_MIN = 1;
 
-
-    private DocumentReference docRef;
     final static String PREFS_NAME = "AUTH";
 
     public static String uid;
@@ -90,17 +88,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private TextView userMail;
     private TextView userName;
     private ImageView userPicture;
-    private ImageButton logo_button;
     private AutoCompleteTextView autoCompleteTextView;
     private MenuItem clearButton;
 
     // DATA
     private String restaurantChoice;
-    private String restaurantName;
     private List<PredictionAPIAutocomplete> predictions;
 
     public static List<DocumentSnapshot> workmates;
-//    private static final Integer AUTOCOMPLETE_OFFSET = 3;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,108 +118,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         autoCompleteTextListener();
 
-    }
-
-    private void autoCompleteTextListener() {
-
-        // call APIAutocomplete when typing in search
-        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 3) {
-                    getAutocompleteSearch(s.toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() != 0) {
-                    clearButton.setVisible(true);
-                    findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
-                } else {
-                    clearButton.setVisible(false);
-                    findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
-                }
-
-
-            }
-        });
-
-
-        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-            // Handles no results click
-            if (parent.getItemAtPosition(position) == getResources().getString(R.string.autoCompleteTextView_noresult)) {
-                autoCompleteTextView.setText("");
-            } else {
-
-                // Handles click on an autocomplete search dropdown result
-                String placeId = null;
-                for (PredictionAPIAutocomplete prediction : predictions) {
-                    if (parent.getItemAtPosition(position) == prediction.getStructured_formatting().getMain_text()) {
-                        placeId = prediction.getPlace_id();
-                    }
-                }
-                getPlaceDetails(placeId);
-            }
-
-        });
-
-    }
-
-
-    private void getAutocompleteSearch(String input) {
-        APIRequest apiAutocompleteSearch = APIClient.getClient().create(APIRequest.class);
-        Call<PredictionsAPIAutocomplete> autocompleteSearch = apiAutocompleteSearch.getAutocomplete(
-                userLocationStr,
-                RADIUS_MAX,
-                input,
-                API_AUTOCOMPLETE_KEYWORD,
-                "",
-                getResources().getString(R.string.google_maps_key));
-        autocompleteSearch.enqueue(new Callback<PredictionsAPIAutocomplete>() {
-            @Override
-            public void onResponse(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Response<PredictionsAPIAutocomplete> response) {
-                if (response.isSuccessful()) {
-                    PredictionsAPIAutocomplete predictionsAPIAutocomplete = response.body();
-                    if (predictionsAPIAutocomplete != null) {
-
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),
-                                android.R.layout.simple_dropdown_item_1line);
-                        adapter.setNotifyOnChange(true);
-                        //attach the adapter to textview
-                        autoCompleteTextView.setAdapter(adapter);
-
-                        predictions = predictionsAPIAutocomplete.getPredictions();
-                        for (PredictionAPIAutocomplete prediction : predictionsAPIAutocomplete.getPredictions()) {
-                            if (prediction.getTypes().contains("food")) {
-                                // only return places as establishment of type "food"
-                                Log.d(TAG, "getAutocompleteSearch : prediction = " + prediction.getDescription());
-                                adapter.add(prediction.getStructured_formatting().getMain_text());
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                        if (adapter.getCount() == 0) {
-                            adapter.add(getResources().getString(R.string.autoCompleteTextView_noresult));
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-
-                }
-                // TODO Handle failures, 404 error, etc
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Throwable t) {
-
-                Log.d(TAG, "getPlace API failure" + t);
-            }
-
-        });
     }
 
 
@@ -253,7 +147,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         clearButton.setVisible(false);
         return true;
     }
-
 
     // BOTTOM NAVIGATION configuration //
     private void configureNavigationMenu() {
@@ -319,7 +212,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         userName = header.findViewById(R.id.drawer_user_name);
         userPicture = header.findViewById(R.id.drawer_user_picture);
 
-        logo_button = findViewById(R.id.activity_main_drawer_logo);
+        ImageButton logo_button = findViewById(R.id.activity_main_drawer_logo);
 
         logo_button.setOnClickListener(v -> {
             // quit the app
@@ -335,7 +228,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateUserSnapshot() {
         if (uid != null) {
-            docRef = UserHelper.getUsersCollection().document(uid);
+            DocumentReference docRef = UserHelper.getUsersCollection().document(uid);
 
             docRef.addSnapshotListener((snapshot, e) -> {
                 if (e != null) {
@@ -373,12 +266,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
 
         if (result.get("chosenRestaurantName") != null) {
-            restaurantName = result.get("chosenRestaurantName").toString();
+            String restaurantName = Objects.requireNonNull(result.get("chosenRestaurantName")).toString();
             Log.i(TAG, "firebaseUser/chosenRestaurantName : " + restaurantName);
         }
 
         if (result.get("hasChosenRestaurant") != null) {
-            restaurantChoice = result.get("hasChosenRestaurant").toString();
+            restaurantChoice = Objects.requireNonNull(result.get("hasChosenRestaurant")).toString();
             Log.i(TAG, "firebaseUser/hasChosenRestaurant : " + restaurantChoice);
         }
         usernameString = userName.getText().toString();
@@ -444,6 +337,111 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+    private void autoCompleteTextListener() {
+
+        // call APIAutocomplete when typing in search
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 3) {
+                    getAutocompleteSearch(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() != 0) {
+                    clearButton.setVisible(true);
+                    findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
+                } else {
+                    clearButton.setVisible(false);
+                    findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
+                }
+
+
+            }
+        });
+
+        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+            // Handles no results click
+            if (parent.getItemAtPosition(position) == getResources().getString(R.string.autoCompleteTextView_noresult)) {
+                autoCompleteTextView.setText("");
+            } else {
+
+                // Handles click on an autocomplete search dropdown result
+                String placeId = null;
+                for (PredictionAPIAutocomplete prediction : predictions) {
+                    if (parent.getItemAtPosition(position) == prediction.getStructured_formatting().getMain_text()) {
+                        placeId = prediction.getPlace_id();
+                    }
+                }
+                getPlaceDetails(placeId);
+            }
+
+        });
+
+    }
+
+    private void getAutocompleteSearch(String input) {
+        APIRequest apiAutocompleteSearch = APIClient.getClient().create(APIRequest.class);
+        Call<PredictionsAPIAutocomplete> autocompleteSearch = apiAutocompleteSearch.getAutocomplete(
+                userLocationStr,
+                RADIUS_MAX,
+                input,
+                API_AUTOCOMPLETE_KEYWORD,
+                "",
+                getResources().getString(R.string.google_maps_key));
+        autocompleteSearch.enqueue(new Callback<PredictionsAPIAutocomplete>() {
+            @Override
+            public void onResponse(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Response<PredictionsAPIAutocomplete> response) {
+                if (response.isSuccessful()) {
+                    PredictionsAPIAutocomplete predictionsAPIAutocomplete = response.body();
+                    if (predictionsAPIAutocomplete != null) {
+                        predictions = predictionsAPIAutocomplete.getPredictions();
+                        filterAutocompleteResults();
+                    }
+                }
+                // TODO Handle failures, 404 error, etc
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Throwable t) {
+
+                Log.d(TAG, "getPlace API failure" + t);
+            }
+
+        });
+    }
+
+    private void filterAutocompleteResults() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),
+                android.R.layout.simple_dropdown_item_1line);
+        adapter.setNotifyOnChange(true);
+        //attach the adapter to textview
+        autoCompleteTextView.setAdapter(adapter);
+
+        for (PredictionAPIAutocomplete prediction : predictions) {
+            if (prediction.getTypes().contains("food")) {
+                // only return places as establishment of type "food"
+                Log.d(TAG, "getAutocompleteSearch : prediction = " + prediction.getDescription());
+                adapter.add(prediction.getStructured_formatting().getMain_text());
+                adapter.notifyDataSetChanged();
+            }
+        }
+        if (adapter.getCount() == 0) {
+            adapter.add(getResources().getString(R.string.autoCompleteTextView_noresult));
+            adapter.notifyDataSetChanged();
+        }
+
+
+    }
+
+
     // ----------------------------- LOGOUT ----------------------------//
     private void deleteAuthAndLogOut() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -476,7 +474,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
@@ -519,7 +517,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-
     // ------------------------ PERMISSIONS -------------------------//
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -561,6 +558,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onResume() {
         super.onResume();
         getWorkmates();
+
     }
 }
 

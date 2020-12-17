@@ -18,12 +18,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.adapter.RestaurantsAdapter;
-import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.APIRequest;
-import com.edescamp.go4lunch.service.entities.ResultAPIMap;
-import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
+import com.edescamp.go4lunch.model.api.APIClient;
+import com.edescamp.go4lunch.model.api.APIRequest;
+import com.edescamp.go4lunch.model.entities.ResultAPIMap;
+import com.edescamp.go4lunch.model.entities.ResultsAPIMap;
+import com.edescamp.go4lunch.view.RestaurantsAdapter;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -54,7 +55,6 @@ public class RestaurantsFragment extends BaseFragment {
     // UI parameters
     private Location userLocation;
     private LatLng oldUserLatLng;
-    private String userLocationStr;
     private ProgressBar progressBar;
     private TextView noRestaurants;
 
@@ -118,7 +118,7 @@ public class RestaurantsFragment extends BaseFragment {
         LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         // Userlocation for API request
-        userLocationStr = location.getLatitude() + "," + location.getLongitude();
+        String userLocationStr = location.getLatitude() + "," + location.getLongitude();
         // Check location update to avoid unnecessary api calls
         if (userLatLng != oldUserLatLng) {
             getPlace(userLocationStr);
@@ -134,14 +134,11 @@ public class RestaurantsFragment extends BaseFragment {
                 RADIUS_INIT,
                 API_MAP_LANGUAGE,
                 API_MAP_KEYWORD,
-                getResources().getString(R.string.google_maps_key)
-        );
+                BuildConfig.GOOGLE_MAPS_KEY);
         progressBar.setVisibility(View.VISIBLE);
         nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
             public void onResponse(@NotNull Call<ResultsAPIMap> call, @NotNull Response<ResultsAPIMap> response) {
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
@@ -154,6 +151,8 @@ public class RestaurantsFragment extends BaseFragment {
                         }
                     }
                 }
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override

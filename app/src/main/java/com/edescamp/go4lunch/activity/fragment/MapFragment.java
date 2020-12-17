@@ -20,13 +20,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.APIRequest;
-import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
-import com.edescamp.go4lunch.service.entities.ResultAPIMap;
-import com.edescamp.go4lunch.service.entities.ResultsAPIDetails;
-import com.edescamp.go4lunch.service.entities.ResultsAPIMap;
+import com.edescamp.go4lunch.model.api.APIClient;
+import com.edescamp.go4lunch.model.api.APIRequest;
+import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
+import com.edescamp.go4lunch.model.entities.ResultAPIMap;
+import com.edescamp.go4lunch.model.entities.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.entities.ResultsAPIMap;
+import com.edescamp.go4lunch.util.RestaurantHelper;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -105,7 +107,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         View mapView = mMapFragment.getView();
         moveCompassButton(mapView);
 
-// TODO Fix second call to getLocationPermission
         getLocationPermission();
 
         // Handle click on marker info
@@ -167,7 +168,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private void getPlace(String userLocationStr) {
         APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(userLocationStr, RADIUS_INIT, API_MAP_LANGUAGE, API_MAP_KEYWORD, getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(userLocationStr, RADIUS_INIT, API_MAP_LANGUAGE, API_MAP_KEYWORD, BuildConfig.GOOGLE_MAPS_KEY);
 
         nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
@@ -230,6 +231,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     }
                 }
 
+
             Marker markerRestaurant;
             if (bChosen) {
 
@@ -253,6 +255,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
             markerRestaurant.setTag(result.getPlaceId());
 
+            // Add restaurant to Firestore
+            RestaurantHelper.createRestaurant(result);
+
 
         }
 
@@ -261,7 +266,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, getResources().getString(R.string.google_maps_key));
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
@@ -274,6 +279,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                         Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
 
                         openDetailsFragment(result);
+
+                        RestaurantHelper.setRestaurantDetails(placeId, result);
+
+
+
                     }
                     // TODO Handle failures, 404 error, etc
                 }
@@ -349,4 +359,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             ex.printStackTrace();
         }
     }
+
+
 }

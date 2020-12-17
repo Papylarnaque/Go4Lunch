@@ -23,7 +23,7 @@
 
         <!-- Splash Activity theme -->
         <activity
-            android:name=".activity.auth.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +32,7 @@
         </activity>
 
         <activity
-            android:name=".activity.auth.SignInActivity"
+            android:name=".activity.SignInActivity"
             android:theme="@style/AppTheme_SignIn"
             >
         </activity>
@@ -40,7 +40,7 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:parentActivityName=".activity.auth.SignInActivity"
+            android:parentActivityName=".activity.SignInActivity"
             android:theme="@style/AppTheme">
         </activity>
 

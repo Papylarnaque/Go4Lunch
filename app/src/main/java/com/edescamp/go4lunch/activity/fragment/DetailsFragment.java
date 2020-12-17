@@ -1,7 +1,6 @@
 package com.edescamp.go4lunch.activity.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,11 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
-import com.edescamp.go4lunch.adapter.WorkmatesAdapter;
-import com.edescamp.go4lunch.service.entities.ResultAPIDetails;
+import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
+import com.edescamp.go4lunch.view.WorkmatesAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +48,6 @@ public class DetailsFragment extends Fragment {
     private final ResultAPIDetails resultAPIDetails;
 
     private TextView restaurantName;
-    private TextView restaurantAddress;
     private ImageView restaurantPicture;
     private ImageView star1;
     private ImageView star2;
@@ -69,6 +68,7 @@ public class DetailsFragment extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container,
@@ -79,22 +79,24 @@ public class DetailsFragment extends Fragment {
         hideActivityViews();
         configureView(view);
 
+        setPicture(view);
+
+        restaurantChoiceLayout();
+        showRating();
+        populateWorkmates();
+
         setClickableFunctionality();
 
         return view;
     }
 
 
-
     // -------------------- CONFIG User Interface LAYOUT ------------------ //
 
     private void configureView(View view) {
-        Context context = view.getContext();
-        String API_KEY = context.getResources().getString(R.string.google_api_key);
-
         // View
         restaurantName = view.findViewById(R.id.restaurant_details_name);
-        restaurantAddress = view.findViewById(R.id.restaurant_details_address);
+        TextView restaurantAddress = view.findViewById(R.id.restaurant_details_address);
         restaurantPicture = view.findViewById(R.id.restaurant_details_picture);
         buttonPhone = view.findViewById(R.id.restaurant_details_phone_call);
         buttonLike = view.findViewById(R.id.restaurant_details_like);
@@ -116,7 +118,10 @@ public class DetailsFragment extends Fragment {
         star2 = view.findViewById(R.id.restaurant_details_star2);
         star3 = view.findViewById(R.id.restaurant_details_star3);
 
+    }
 
+
+    private void setPicture(View view) {
         if (resultAPIDetails.getPhotos() == null) {
             Log.i(TAG, "result.getPhotos() == null =>  " + resultAPIDetails.getPlaceId());
             restaurantPicture.setVisibility(View.INVISIBLE);
@@ -125,25 +130,21 @@ public class DetailsFragment extends Fragment {
             noPhoto.setVisibility(View.VISIBLE);
         } else {
             Glide.with(view)
-                    .load(resultAPIDetails.getPhotos().get(0).getPhoto_URL() + API_KEY)
+                    .load(resultAPIDetails.getPhotos().get(0).getPhoto_URL() + BuildConfig.GOOGLE_MAPS_KEY)
                     .apply(new RequestOptions()
                             .fitCenter())
                     .into(restaurantPicture);
             restaurantPicture.setVisibility(View.VISIBLE);
         }
-
-        restaurantChoiceLayout();
-        showRating();
-        populateWorkmates();
-
     }
+
 
     // Handles DetailsFragment custom user choices layout
     private void restaurantChoiceLayout() {
         UserHelper.getUser(MainActivity.uid).addOnSuccessListener(documentUserSnapshot -> {
             // Handles buttonRestaurantChoice layout
             restaurantChoice = (String) documentUserSnapshot.get("hasChosenRestaurant");
-            if (restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
+            if (Objects.equals(restaurantChoice, resultAPIDetails.getPlaceId())) {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
             } else {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_add_30);
@@ -246,13 +247,9 @@ public class DetailsFragment extends Fragment {
                 // if restaurant is liked
                 UserHelper.updateLikesDeleteRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
                         .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
-                Toast.makeText(getContext(), "restaurant unliked", Toast.LENGTH_SHORT)
-                        .show();
             } else {
                 UserHelper.updateLikesAddRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
                         .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
-                Toast.makeText(getContext(), "restaurant LIKED", Toast.LENGTH_SHORT)
-                        .show();
             }
         }
     }
@@ -299,13 +296,12 @@ public class DetailsFragment extends Fragment {
 
     }
 
-    // Action on buttonRestaurantChoice click
-    // if restaurant chosen != restaurant details
+    // Action on buttonRestaurantChoice click -- if restaurant chosen != restaurant details
     private void alertRestaurantChange() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setMessage(getContext().getString(R.string.details_fragment_alertdialog_restaurant_choice_change_message, resultAPIDetails.getName()))
+        builder.setMessage(requireContext().getString(R.string.details_fragment_alertdialog_restaurant_choice_change_message, resultAPIDetails.getName()))
                 .setTitle(R.string.details_fragment_alertdialog_restaurant_choice_change_title);
 
         AlertDialog dialogRestaurantChosen = builder.create();
@@ -322,7 +318,7 @@ public class DetailsFragment extends Fragment {
     }
 
 
-    // ---------------- HIDE TOOLBAR AND NAVBAR ------------------ //
+    // ---------------- HIDE TOOLBAR AND NAVIGATION BAR ------------------ //
 
     @Override
     public void onResume() {
