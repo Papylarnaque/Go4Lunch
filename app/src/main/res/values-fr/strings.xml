@@ -49,7 +49,12 @@
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Voulez-vous annuler ce choix de restaurant?</string>
     <string name="item_restaurant_no_opening_hours">Aucun horaire connu</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title">Annuler ce choix de restaurant?</string>
-
+    <string name="autoCompleteTextView_noresult_toast">Pas de resultats pour %1$s</string>
+    <string name="fragment_settings_update_notifications_text">Notifications</string>
+    <string name="fragment_setting_validate_username_text">Valider</string>
+    <string name="main_activity_lunch_no_restaurant_chosen">Vous n\'avez pas encore choisi de restaurant!</string>
+    <string name="fragment_settings_update_dark_mode_text">Mode Sombre</string>
+    <string name="fragment_settings_update_notifications_hint">Une notification sera envoyee tous les jours a midi</string>
 
 
 </resources>

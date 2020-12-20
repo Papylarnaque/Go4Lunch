@@ -18,8 +18,6 @@ import com.edescamp.go4lunch.view.WorkmatesAdapter;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +34,7 @@ public class WorkmatesFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NotNull @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_workmates, container, false);
 

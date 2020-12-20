@@ -48,6 +48,8 @@
     <string name="your_lunch">YOUR LUNCH</string>
     <string name="settings">SETTINGS</string>
     <string name="logout">LOGOUT</string>
+    <string name="main_activity_lunch_no_restaurant_chosen">You have not chosen a restaurant yet !</string>
+
 
     <string name="account_name" translatable="false">Account_Name</string>
     <string name="account_mail" translatable="false">Account Mail</string>
@@ -93,6 +95,11 @@
     <string name="item_restaurant_no_opening_hours" type="id">No opening hours available</string>
     <string name="item_workmates_restaurant_text_detailsFragment">is joining !</string>
     <string name="autoCompleteTextView_noresult_toast">No results for %1$s</string>
+    <string name="fragment_settings_update_notifications_text">Notifications</string>
+    <string name="fragment_setting_validate_username_text">Validate</string>
+    <string name="fragment_settings_update_notifications_hint">A notification will be sent everyday at noon</string>
+    <string name="fragment_settings_update_dark_mode_text">Dark Mode</string>
+    <string name="notification_message">You chose the restaurant %1$s. \n You will lunch with %2$s</string>
 
 
 </resources>

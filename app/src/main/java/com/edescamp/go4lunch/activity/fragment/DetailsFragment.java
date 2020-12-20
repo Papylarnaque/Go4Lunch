@@ -26,12 +26,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
-import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
+import com.edescamp.go4lunch.model.ResultAPIDetails;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.edescamp.go4lunch.view.WorkmatesAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +69,7 @@ public class DetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container,
+            LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
@@ -264,6 +262,9 @@ public class DetailsFragment extends Fragment {
                 UserHelper.updateRestaurantChoice(restaurantChoice, resultAPIDetails.getName(), MainActivity.uid);
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
                 Toast.makeText(getContext(), getString(R.string.restaurant_Chosen, restaurantName.getText()), Toast.LENGTH_SHORT).show();
+
+                // update Alarm Notification with last choice
+
             } else if (restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
                 // if restaurant chosen = restaurant details
                 alertRestaurantCancel();

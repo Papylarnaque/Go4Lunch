@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.model.api.APIClient;
-import com.edescamp.go4lunch.model.api.APIRequest;
-import com.edescamp.go4lunch.model.entities.ResultAPIMap;
-import com.edescamp.go4lunch.model.entities.ResultsAPIMap;
+import com.edescamp.go4lunch.service.APIClient;
+import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.model.ResultAPIMap;
+import com.edescamp.go4lunch.model.ResultsAPIMap;
 import com.edescamp.go4lunch.view.RestaurantsAdapter;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -32,8 +32,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.model.LatLng;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class RestaurantsFragment extends BaseFragment {
 
     @Override
     public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container,
+            LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
@@ -138,7 +136,7 @@ public class RestaurantsFragment extends BaseFragment {
         progressBar.setVisibility(View.VISIBLE);
         nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
-            public void onResponse(@NotNull Call<ResultsAPIMap> call, @NotNull Response<ResultsAPIMap> response) {
+            public void onResponse( Call<ResultsAPIMap> call,  Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
@@ -156,7 +154,7 @@ public class RestaurantsFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<ResultsAPIMap> call, @NotNull Throwable t) {
+            public void onFailure( Call<ResultsAPIMap> call,  Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 Log.d(TAG, "getPlace failure" + t);
             }

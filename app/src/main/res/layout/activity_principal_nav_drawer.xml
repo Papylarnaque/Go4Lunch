@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/appName"
-        android:textColor="@color/colorText"
+        android:textColor="@color/colorWhite"
         android:textSize="30sp"
         android:layout_gravity="top|center"
         android:layout_marginTop="50dp"/>
@@ -46,14 +46,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/account_name"
-                android:textColor="@color/colorText"/>
+                android:textColor="@color/colorWhite"/>
 
             <TextView
                 android:id="@+id/drawer_user_mail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/account_mail"
-                android:textColor="@color/colorText"/>
+                android:textColor="@color/colorWhite"/>
 
         </LinearLayout>
 

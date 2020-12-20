@@ -22,12 +22,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.model.api.APIClient;
-import com.edescamp.go4lunch.model.api.APIRequest;
-import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
-import com.edescamp.go4lunch.model.entities.ResultAPIMap;
-import com.edescamp.go4lunch.model.entities.ResultsAPIDetails;
-import com.edescamp.go4lunch.model.entities.ResultsAPIMap;
+import com.edescamp.go4lunch.service.APIClient;
+import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.model.ResultAPIDetails;
+import com.edescamp.go4lunch.model.ResultAPIMap;
+import com.edescamp.go4lunch.model.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.ResultsAPIMap;
 import com.edescamp.go4lunch.util.RestaurantHelper;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -44,8 +44,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -76,7 +74,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     }
 
     @Override
-    public View onCreateView(@NotNull @NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_map, container, false);
@@ -172,7 +170,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
             @Override
-            public void onResponse(@NotNull Call<ResultsAPIMap> call, @NotNull Response<ResultsAPIMap> response) {
+            public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
@@ -189,7 +187,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
 
             @Override
-            public void onFailure(@NotNull Call<ResultsAPIMap> call, @NotNull Throwable t) {
+            public void onFailure(Call<ResultsAPIMap> call,Throwable t) {
 
                 Log.d(TAG, "getPlace API failure" + t);
             }
@@ -270,7 +268,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
-            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+            public void onResponse(Call<ResultsAPIDetails> call,  Response<ResultsAPIDetails> response) {
                 Log.d(TAG, "getPlaceDetails API ");
                 if (response.isSuccessful()) {
                     ResultsAPIDetails body = response.body();
@@ -290,7 +288,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             }
 
             @Override
-            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+            public void onFailure( Call<ResultsAPIDetails> call,  Throwable t) {
                 Log.d(TAG, "getPlaceDetails API failure" + t);
             }
 
@@ -353,7 +351,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             layoutParams.setMargins(0, 0, 150, 30);
 
             view.setLayoutParams(layoutParams);
-            view.setBackgroundColor(getResources().getColor(R.color.colorText));
+            view.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         } catch (Exception ex) {
             Log.e(TAG, "MoveCompassButton() - failed: " + ex.getLocalizedMessage());
             ex.printStackTrace();

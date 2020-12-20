@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,12 +34,12 @@ import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
-import com.edescamp.go4lunch.model.api.APIClient;
-import com.edescamp.go4lunch.model.api.APIRequest;
-import com.edescamp.go4lunch.model.entities.PredictionAPIAutocomplete;
-import com.edescamp.go4lunch.model.entities.PredictionsAPIAutocomplete;
-import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
-import com.edescamp.go4lunch.model.entities.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.PredictionAPIAutocomplete;
+import com.edescamp.go4lunch.model.PredictionsAPIAutocomplete;
+import com.edescamp.go4lunch.model.ResultAPIDetails;
+import com.edescamp.go4lunch.model.ResultsAPIDetails;
+import com.edescamp.go4lunch.service.APIClient;
+import com.edescamp.go4lunch.service.APIRequest;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,8 +47,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +62,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // STATIC PARAMETERS
     private static final String TAG = "MAIN_ACTIVITY";
+    public static boolean USER_NOTIFICATIONS = true;
     public static int RADIUS_INIT = 2500; // radius in meters around user for search
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
     public static final int RADIUS_MIN = 2500; // MAX Radius distance in meters
@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final double RATING_MIDDLE = 2.5;
     public static final double RATING_MIN = 1;
 
-    final static String PREFS_NAME = "AUTH";
+    public final static String PREFS_NAME = "AUTH";
 
     public static String uid;
     public static String usernameString = null;
@@ -103,8 +103,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
+        if (bundle != null) {
             uid = bundle.getString("USER");
+            USER_NOTIFICATIONS = bundle.getBoolean("USER_NOTIFICATIONS");
+        }
 
         configureToolbar();
         configureDrawerLayout();
@@ -117,6 +119,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateUserSnapshot();
 
         autoCompleteTextListener();
+
+//        MyNotificationPublisher.setAlarmForNotifications(getApplicationContext());
 
     }
 
@@ -296,7 +300,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
                 this.mDrawerLayout.closeDrawer(GravityCompat.START);
-                getPlaceDetails(restaurantChoice);
+                if (restaurantChoice == null || restaurantChoice.equals("")) {
+                    Toast toast = Toast.makeText(getBaseContext(), R.string.main_activity_lunch_no_restaurant_chosen, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return false;
+                } else {
+                    getPlaceDetails(restaurantChoice);
+                }
                 return true;
             // "SETTINGS"
             case main_drawer_settings_id:
@@ -398,7 +409,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 getResources().getString(R.string.google_maps_key));
         autocompleteSearch.enqueue(new Callback<PredictionsAPIAutocomplete>() {
             @Override
-            public void onResponse(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Response<PredictionsAPIAutocomplete> response) {
+            public void onResponse(Call<PredictionsAPIAutocomplete> call, Response<PredictionsAPIAutocomplete> response) {
                 if (response.isSuccessful()) {
                     PredictionsAPIAutocomplete predictionsAPIAutocomplete = response.body();
                     if (predictionsAPIAutocomplete != null) {
@@ -410,7 +421,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
 
             @Override
-            public void onFailure(@NotNull Call<PredictionsAPIAutocomplete> call, @NotNull Throwable t) {
+            public void onFailure(Call<PredictionsAPIAutocomplete> call, Throwable t) {
 
                 Log.d(TAG, "getPlace API failure" + t);
             }
@@ -478,7 +489,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
-            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+            public void onResponse(Call<ResultsAPIDetails> call, Response<ResultsAPIDetails> response) {
                 Log.d(TAG, "getPlaceDetails API ");
                 if (response.isSuccessful()) {
                     ResultsAPIDetails body = response.body();
@@ -493,7 +504,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
 
             @Override
-            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+            public void onFailure(Call<ResultsAPIDetails> call, Throwable t) {
                 Log.d(TAG, "getPlaceDetails API failure" + t);
             }
 
@@ -560,5 +571,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         getWorkmates();
 
     }
+
+
 }
 

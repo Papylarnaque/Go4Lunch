@@ -15,16 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
-import com.edescamp.go4lunch.model.api.APIClient;
-import com.edescamp.go4lunch.model.api.APIRequest;
-import com.edescamp.go4lunch.model.entities.LocationAPIMap;
-import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
-import com.edescamp.go4lunch.model.entities.ResultAPIMap;
-import com.edescamp.go4lunch.model.entities.ResultsAPIDetails;
+import com.edescamp.go4lunch.service.APIClient;
+import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.model.LocationAPIMap;
+import com.edescamp.go4lunch.model.ResultAPIDetails;
+import com.edescamp.go4lunch.model.ResultAPIMap;
+import com.edescamp.go4lunch.model.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.RestaurantHelper;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_FIELDS;
+import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.workmates;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHolder> {
@@ -81,7 +81,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     private void getWorkmates(int position, RestaurantsViewHolder holder) {
         workmatesCount = 0;
         for (DocumentSnapshot workmate : workmates){
-            if (Objects.equals(workmate.get("hasChosenRestaurant"), results.get(position).getPlaceId()))
+            if (Objects.equals(workmate.get("hasChosenRestaurant"), results.get(position).getPlaceId())
+            && !workmate.get("uid").equals(uid))
                 workmatesCount +=1;
         }
 
@@ -106,7 +107,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
-            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+            public void onResponse( Call<ResultsAPIDetails> call,  Response<ResultsAPIDetails> response) {
                 Log.d(TAG, "getPlaceDetails API ");
                 if (response.isSuccessful()) {
                     ResultsAPIDetails body = response.body();
@@ -123,7 +124,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             }
 
             @Override
-            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+            public void onFailure( Call<ResultsAPIDetails> call,  Throwable t) {
                 Log.d(TAG, "getPlaceDetails API failure" + t);
             }
         });
@@ -139,7 +140,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
-            public void onResponse(@NotNull Call<ResultsAPIDetails> call, @NotNull Response<ResultsAPIDetails> response) {
+            public void onResponse( Call<ResultsAPIDetails> call,  Response<ResultsAPIDetails> response) {
                 Log.d(TAG, "getPlaceDetails API ");
                 if (response.isSuccessful()) {
                     ResultsAPIDetails body = response.body();
@@ -155,7 +156,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             }
 
             @Override
-            public void onFailure(@NotNull Call<ResultsAPIDetails> call, @NotNull Throwable t) {
+            public void onFailure( Call<ResultsAPIDetails> call,  Throwable t) {
                 Log.d(TAG, "getPlaceDetails API failure" + t);
             }
         });

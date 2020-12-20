@@ -50,6 +50,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation "com.google.firebase:firebase-core"
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
 
     // AUTHENTICATION
     // FirebaseUI for Firebase Auth
@@ -71,8 +73,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
-    implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    implementation 'androidx.navigation:navigation-ui:2.3.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
     implementation 'androidx.viewpager:viewpager:1.0.0'
@@ -89,9 +91,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 
-
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    // Okhttp 3.11.0 for API 19 support
+//    implementation("com.squareup.retrofit2:retrofit:2.7.1")
+    implementation("com.squareup.okhttp3:okhttp:3.12.8")
+    implementation "com.squareup.okhttp3:logging-interceptor:3.12.8"
+//    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+//    implementation 'com.squareup.okhttp3:okhttp:3.11.0' // 3.11.0 for API 19 support
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -108,4 +113,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.9.0@aar") {
         transitive = true
     }
+
+//    implementation "com.android.support:support-compat:28.0.0"
 }

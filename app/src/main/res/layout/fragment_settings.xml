@@ -51,6 +51,7 @@
         android:layout_marginTop="175dp"
         android:valueFrom="0.0"
         android:valueTo="5000.0"
+        android:theme="@style/AppTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_settings_radius_text"
         app:layout_constraintTop_toTopOf="parent" />
@@ -92,9 +93,36 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="11dp"
         android:layout_marginTop="16dp"
-        android:text="Valider"
+        android:text="@string/fragment_setting_validate_username_text"
         app:layout_constraintStart_toEndOf="@+id/fragment_settings_update_username_textbox"
         app:layout_constraintTop_toBottomOf="@+id/fragment_settings_update_username_textbox" />
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/fragment_settings_update_notifications_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="28dp"
+        android:textSize="20sp"
+        android:text="@string/fragment_settings_update_notifications_text"
+        app:theme="@style/AppTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_validate_username" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/fragment_settings_update_dark_mode_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="28dp"
+        android:textSize="20sp"
+        android:text="@string/fragment_settings_update_dark_mode_text"
+        app:theme="@style/AppTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_update_notifications_switch" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

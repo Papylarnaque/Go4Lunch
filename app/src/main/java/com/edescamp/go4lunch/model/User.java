@@ -44,7 +44,6 @@ public class User {
         return userMail;
     }
 
-    @org.jetbrains.annotations.Nullable
     public String getUrlPicture() {
         return urlPicture;
     }
@@ -66,7 +65,7 @@ public class User {
         this.uid = uid;
     }
 
-    public void setUrlPicture(@org.jetbrains.annotations.Nullable String urlPicture) {
+    public void setUrlPicture(String urlPicture) {
         this.urlPicture = urlPicture;
     }
 

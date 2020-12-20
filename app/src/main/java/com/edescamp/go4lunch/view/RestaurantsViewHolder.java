@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.model.entities.OpeningHoursAPIDetails;
-import com.edescamp.go4lunch.model.entities.PhotoAttributesAPIMap;
-import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
-import com.edescamp.go4lunch.model.entities.ResultAPIMap;
+import com.edescamp.go4lunch.model.OpeningHoursAPIDetails;
+import com.edescamp.go4lunch.model.PhotoAttributesAPIMap;
+import com.edescamp.go4lunch.model.ResultAPIDetails;
+import com.edescamp.go4lunch.model.ResultAPIMap;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -59,6 +59,7 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
 
     public void updateRestaurantsWithDetails(ResultAPIDetails resultAPIDetails) {
         OpeningHoursAPIDetails opening_hours = resultAPIDetails.getOpening_hours();
+        rOpeningHours.setSelected(true);
         showOpeningHours(opening_hours);
     }
 

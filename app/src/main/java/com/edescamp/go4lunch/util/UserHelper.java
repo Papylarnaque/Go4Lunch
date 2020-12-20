@@ -47,12 +47,6 @@ public class UserHelper {
         return UserHelper.getUsersCollection().get();
     }
 
-    public static Task<QuerySnapshot> getAllUsersExceptCurrent(String userId) {
-        return UserHelper.getUsersCollection()
-                .whereNotEqualTo("uid", userId)
-                .get();
-    }
-
     public static Task<QuerySnapshot> getAllUsersOrderByRestaurant(String userId) {
         return UserHelper.getUsersCollection()
                 .orderBy("hasChosenRestaurant", Query.Direction.DESCENDING )

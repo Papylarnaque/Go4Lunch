@@ -36,7 +36,7 @@
         android:gravity="center_vertical"
         android:clickable="true"
         android:text="@string/text_workmate"
-        android:textColor="@color/colorTextBlack"
+        android:textColor="@color/colorText"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/item_workmates_picture"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +50,7 @@
         android:maxLines="2"
         android:lineSpacingMultiplier="1.2"
         android:text="@string/item_workmates_restaurant_text_null"
-        android:textColor="@color/colorTextBlack"
+        android:textColor="@color/colorText"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/item_workmates_picture"
         app:layout_constraintTop_toBottomOf="@id/item_workmates_name"

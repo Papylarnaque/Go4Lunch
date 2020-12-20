@@ -3,8 +3,8 @@ package com.edescamp.go4lunch.util;
 
 import android.util.Log;
 
-import com.edescamp.go4lunch.model.entities.ResultAPIDetails;
-import com.edescamp.go4lunch.model.entities.ResultAPIMap;
+import com.edescamp.go4lunch.model.ResultAPIDetails;
+import com.edescamp.go4lunch.model.ResultAPIMap;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.model.OpeningHours;
 import com.google.firebase.firestore.CollectionReference;

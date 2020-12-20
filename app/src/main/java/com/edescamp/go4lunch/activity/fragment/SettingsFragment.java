@@ -13,20 +13,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.google.android.material.slider.Slider;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
+import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MAX;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MIN;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_STEP;
-import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
+import static com.edescamp.go4lunch.activity.MainActivity.USER_NOTIFICATIONS;
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.usernameString;
 
@@ -34,31 +34,35 @@ public class SettingsFragment extends Fragment {
 
     private static final String TAG = "SettingsFragment";
 
-    private TextView radiusSearch;
-    private Slider radiusSlider;
-    private ImageButton backPress;
-    private EditText username;
-    private Button validateUsername;
-    private TextView usernameDrawer;
+    private TextView textRadius;
+    private Slider sliderRadius;
+    private ImageButton buttonBackPress;
+    private EditText textUsername;
+    private Button buttonUsername;
+    private SwitchCompat switchNotifications;
+    private SwitchCompat switchDarkMode;
 
     @Override
     public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container,
+            LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         configureView(view);
+        setClickHandler(view);
 
-        usernameDrawer = view.findViewById(R.id.drawer_user_name);
-        username.setText(usernameString);
+        radiusSliderListener();
+        backPressHandler();
 
-        validateUsername = view.findViewById(R.id.fragment_settings_validate_username);
+        return view;
+    }
 
-        validateUsername.setOnClickListener(v -> {
-            Log.i(TAG, "Before username Update request for userId : " + uid + " username was : " + usernameString );
-            String usernameString = username.getText().toString();
-            Log.i(TAG, "After username Update request for userId : " + uid + " username is : " + usernameString );
+    private void setClickHandler(View view) {
+        buttonUsername.setOnClickListener(v -> {
+            Log.i(TAG, "Before username Update request for userId : " + uid + " username was : " + usernameString);
+            String usernameString = textUsername.getText().toString();
+            Log.i(TAG, "After username Update request for userId : " + uid + " username is : " + usernameString);
 
             UserHelper.updateUsername(usernameString, uid);
             //Post it in a handler to make sure it gets called if coming back from a lifecycle method.
@@ -74,45 +78,55 @@ public class SettingsFragment extends Fragment {
             });
         });
 
+        //Set a CheckedChange Listener for Switch Button
+        switchNotifications.setOnCheckedChangeListener((cb, on) -> {
+//                NotificationHelper.setNotifications(view.getContext(), on);
 
-        radiusSliderListener();
-        backPressHandler();
+        });
 
 
-        return view;
     }
 
 
-
-
     private void radiusSliderListener() {
-        radiusSlider.addOnChangeListener((slider, value, fromUser) -> {
+        sliderRadius.addOnChangeListener((slider, value, fromUser) -> {
             RADIUS_INIT = (int) value;
-            radiusSearch.setText(getString(R.string.fragment_settings_radius_search, RADIUS_INIT));
+            textRadius.setText(getString(R.string.fragment_settings_radius_search, RADIUS_INIT));
         });
     }
 
     private void backPressHandler() {
-        backPress.setOnClickListener(v -> requireActivity().onBackPressed());
+        buttonBackPress.setOnClickListener(v -> requireActivity().onBackPressed());
     }
 
     private void configureView(View view) {
         TextView title = view.findViewById(R.id.fragment_settings_title);
-        radiusSearch = view.findViewById(R.id.fragment_settings_radius_text);
-        backPress = view.findViewById(R.id.fragment_settings_backpress);
-        username = view.findViewById(R.id.fragment_settings_update_username_textbox);
+        textRadius = view.findViewById(R.id.fragment_settings_radius_text);
+        buttonBackPress = view.findViewById(R.id.fragment_settings_backpress);
+        textUsername = view.findViewById(R.id.fragment_settings_update_username_textbox);
+        buttonUsername = view.findViewById(R.id.fragment_settings_validate_username);
+        switchNotifications = view.findViewById(R.id.fragment_settings_update_notifications_switch);
+        switchDarkMode = view.findViewById(R.id.fragment_settings_update_dark_mode_switch);
+        sliderRadius = view.findViewById(R.id.fragment_settings_radius_slider);
 
+        textUsername.setText(usernameString);
         title.setText(R.string.fragment_settings_title);
-        radiusSearch.setText(getString(R.string.fragment_settings_radius_search, RADIUS_INIT));
+        textRadius.setText(getString(R.string.fragment_settings_radius_search, RADIUS_INIT));
 
-        radiusSlider = view.findViewById(R.id.fragment_settings_radius_slider);
-        radiusSlider.setValue(RADIUS_INIT);
-        radiusSlider.setValueTo(RADIUS_MAX);
-        radiusSlider.setValueFrom(RADIUS_MIN);
-        radiusSlider.setLabelFormatter(value -> String.valueOf(RADIUS_INIT));
-        radiusSlider.setStepSize(RADIUS_STEP);
+
+        sliderRadius.setValue(RADIUS_INIT);
+        sliderRadius.setValueTo(RADIUS_MAX);
+        sliderRadius.setValueFrom(RADIUS_MIN);
+        sliderRadius.setLabelFormatter(value -> String.valueOf(RADIUS_INIT));
+        sliderRadius.setStepSize(RADIUS_STEP);
+
+        switchDarkMode.setVisibility(View.GONE);
+
+        switchNotifications.setChecked(USER_NOTIFICATIONS);
+
     }
 
+    // ---------------- HIDE TOOLBAR AND NAVIGATION BAR ------------------ //
 
     @Override
     public void onResume() {
