@@ -55,6 +55,15 @@
     <string name="main_activity_lunch_no_restaurant_chosen">Vous n\'avez pas encore choisi de restaurant!</string>
     <string name="fragment_settings_update_dark_mode_text">Mode Sombre</string>
     <string name="fragment_settings_update_notifications_hint">Une notification sera envoyee tous les jours a midi</string>
+    <string name="notification_message">Vous avez choisi le restaurant: %1$s.  Vous dejeunerez avec: %2$s</string>
+    <string name="notification_no_lunch_chosen">Malheureusement, vous n\'avez pas choisi de restaurant aujourd\'hui!</string>
+    <string name="notification_lunch_alone">Vous avez choisi le restauant: %1$s. \\n Maheureusement, vous mangerez seul...</string>
+    <string name="notification_lunch_with_one_workmate">Vous avez choisi le restauant: %1$s. Vous dejeunerez avec un collegue : %2$s.</string>
+    <string name="notification_lunch_with_few_workmate">Vous avez choisir le restaurant: %1$s. \\n  Vous dejeunerez avec %2$d collegues: %3$s.</string>
+    <string name="notification_lunch_title">Votre dejeuner du jour!</string>
+    <string name="notifications_no_internet_connection">Veuillez vous connecter a Internet pour connaitre les details de votre dejeuner.</string>
+    <string name="notifications_firebase_failure">Veuillez rejoindre l\'application pour connaitre les details de votre dejeuner.</string>
+    <string name="item_restaurant_no_picture_no_text">Pas de photo</string>
 
 
 </resources>

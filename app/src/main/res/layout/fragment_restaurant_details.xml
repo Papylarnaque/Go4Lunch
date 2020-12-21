@@ -144,7 +144,8 @@
         android:background="@drawable/button_add_restaurant_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/restaurant_details_cardview"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="TODO" />
 
     <ImageButton
         android:id="@+id/fragment_restaurant_details_button_backpress"
@@ -156,7 +157,8 @@
         android:src="@drawable/ic_baseline_arrow_back_24"
         android:tint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/restaurant_details_no_picture_text"

@@ -29,7 +29,7 @@ import com.edescamp.go4lunch.activity.MainActivity;
 import com.edescamp.go4lunch.model.apidetails.ResultAPIDetails;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
-import com.edescamp.go4lunch.view.WorkmatesAdapter;
+import com.edescamp.go4lunch.activity.fragment.view.WorkmatesAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;

@@ -99,16 +99,17 @@
     <string name="fragment_setting_validate_username_text">Validate</string>
     <string name="fragment_settings_update_notifications_hint">A notification will be sent everyday at noon</string>
     <string name="fragment_settings_update_dark_mode_text">Dark Mode</string>
-    <string name="notification_message">You chose the restaurant %1$s. \n You will lunch with %2$s</string>
-    <string name="notification_no_lunch_chosen">Unfortunately, you did not chose a restaurant today! \</string>
-    <string name="notification_lunch_alone">You chose the restaurant: %1$s. \n Unfortunately, you will eat alone…</string>
-    <string name="notification_lunch_with_one_workmate">You chose the restaurant: %1$s. \n You will eat with one workmate: %2$s.</string>
-    <string name="notification_lunch_with_few_workmate">You chose the restaurant: %1$s. \n You will be joined by %2$d workmates: %3$s.</string>
+    <string name="notification_no_lunch_chosen">"Unfortunately, you did not chose a restaurant today! "</string>
+    <string name="notification_lunch_alone">You chose the restaurant: %1$s.   Unfortunately, you will eat alone…</string>
+    <string name="notification_lunch_with_one_workmate">You chose the restaurant: %1$s.   You will lunch with one workmate: %2$s.</string>
+    <string name="notification_lunch_with_few_workmate">You chose the restaurant: %1$s. \\n  You will lunch with %2$d workmates: %3$s.</string>
     <string name="notification_lunch_title">Your lunch for today!</string>
-    <string name="channel_name">notifications_chanel_name</string>
-    <string name="channel_description">notifications_channel_description</string>
-    <string name="notifications_no_internet_connection">\"Please connect to the network to know the details of your lunch. \"</string>
-    <string name="notifications_firebase_failure">\"Please tap the notification to see further details about your today lunch \"</string>
+    <string name="channel_name" translatable="false">notifications_chanel_name</string>
+    <string name="channel_description" translatable="false">notifications_channel_description</string>
+    <string name="notifications_no_internet_connection">Please connect to the network to know the details of your lunch.</string>
+    <string name="notifications_firebase_failure">Please tap the notification to see further details about your today lunch.</string>
+    <string name="notification_message">You chose the restaurant %1$s.  You will lunch with %2$s</string>
+    <string name="item_restaurant_no_picture_no_text">No Pic</string>
 
 
 </resources>

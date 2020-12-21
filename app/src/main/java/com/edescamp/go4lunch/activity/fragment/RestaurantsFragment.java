@@ -24,7 +24,7 @@ import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
 import com.edescamp.go4lunch.model.apimap.ResultAPIMap;
 import com.edescamp.go4lunch.model.apimap.ResultsAPIMap;
-import com.edescamp.go4lunch.view.RestaurantsAdapter;
+import com.edescamp.go4lunch.activity.fragment.view.RestaurantsAdapter;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
