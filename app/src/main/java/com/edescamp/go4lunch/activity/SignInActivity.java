@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
+import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -35,6 +36,8 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import static com.edescamp.go4lunch.activity.MainActivity.PREFS_NAME;
+
 public class SignInActivity extends BaseActivity {
 
     // --------------------
@@ -42,7 +45,6 @@ public class SignInActivity extends BaseActivity {
     // --------------------
 
     private static final String TAG = "SIGN";
-    final static String PREFS_NAME = "AUTH";
     static String userId;
     private SharedPreferences settings;
 
@@ -67,7 +69,8 @@ public class SignInActivity extends BaseActivity {
 
         // check if user is already logged in
         // i.e. auth token is present or not
-        userId = settings.getString("USER", null);
+//        userId = settings.getString("USER", null);
+        userId = SharedPrefs.getUserId(getApplicationContext());
         // means user is logged in token was found
         if (userId != null) {
             startMainActivity(userId);
@@ -221,18 +224,18 @@ public class SignInActivity extends BaseActivity {
     private void createUserInFirestore() {
         String userId = firebaseAuth.getCurrentUser().getUid();
         // SAVE THE USER DETAILS OR PART OF IT IN SHARED PREFS
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("USER", userId);
-        editor.apply();
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString("USER", userId);
+//        editor.apply();
+        SharedPrefs.saveUserId(getApplicationContext(), userId);
 
-        if (UserHelper.getUser(userId) == null) {
 
-            String userUrlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
-            String userName = this.getCurrentUser().getDisplayName();
-            String userMail = this.getCurrentUser().getEmail();
+        String userUrlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
+        String userName = this.getCurrentUser().getDisplayName();
+        String userMail = this.getCurrentUser().getEmail();
 
-            UserHelper.createUser(userId, userName, userUrlPicture, userMail).addOnFailureListener(this.onFailureListener());
-        }
+        UserHelper.createUser(userId, userName, userUrlPicture, userMail).addOnFailureListener(this.onFailureListener());
+
 
         startMainActivity(userId);
     }

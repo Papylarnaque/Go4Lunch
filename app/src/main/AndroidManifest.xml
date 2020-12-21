@@ -4,6 +4,7 @@
     package="com.edescamp.go4lunch">
 
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -41,8 +42,11 @@
         <activity
             android:name=".activity.MainActivity"
             android:parentActivityName=".activity.SignInActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:configChanges="uiMode">
         </activity>
+
+        <receiver android:name=".util.MyReceiver" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

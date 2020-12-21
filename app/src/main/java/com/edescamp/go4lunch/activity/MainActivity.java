@@ -34,12 +34,14 @@ import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
-import com.edescamp.go4lunch.model.PredictionAPIAutocomplete;
-import com.edescamp.go4lunch.model.PredictionsAPIAutocomplete;
-import com.edescamp.go4lunch.model.ResultAPIDetails;
-import com.edescamp.go4lunch.model.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.apiautocomplete.PredictionAPIAutocomplete;
+import com.edescamp.go4lunch.model.apiautocomplete.PredictionsAPIAutocomplete;
+import com.edescamp.go4lunch.model.apidetails.ResultAPIDetails;
+import com.edescamp.go4lunch.model.apidetails.ResultsAPIDetails;
 import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.util.NotificationHelper;
+import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -77,7 +79,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final double RATING_MIDDLE = 2.5;
     public static final double RATING_MIN = 1;
 
-    public final static String PREFS_NAME = "AUTH";
+    public final static String PREFS_NAME = "PREFS";
 
     public static String uid;
     public static String usernameString = null;
@@ -105,7 +107,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             uid = bundle.getString("USER");
-            USER_NOTIFICATIONS = bundle.getBoolean("USER_NOTIFICATIONS");
         }
 
         configureToolbar();
@@ -120,7 +121,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         autoCompleteTextListener();
 
-//        MyNotificationPublisher.setAlarmForNotifications(getApplicationContext());
+        NotificationHelper.setAlarmForNotifications(
+                getApplicationContext(),
+                SharedPrefs.getNotifications(getApplicationContext()));
 
     }
 
@@ -283,8 +286,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void getWorkmates() {
-        UserHelper.getUsersWithChosenRestaurant().addOnSuccessListener(queryDocumentSnapshots -> workmates = queryDocumentSnapshots.getDocuments());
-
+        UserHelper.getUsersWithChosenRestaurant()
+                .addOnSuccessListener(queryDocumentSnapshots -> workmates = queryDocumentSnapshots.getDocuments());
+// TODO live update workmates selections
     }
 
 

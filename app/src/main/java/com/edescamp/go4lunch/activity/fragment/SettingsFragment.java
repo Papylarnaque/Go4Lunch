@@ -17,6 +17,8 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.edescamp.go4lunch.R;
+import com.edescamp.go4lunch.util.NotificationHelper;
+import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.google.android.material.slider.Slider;
 
@@ -26,7 +28,6 @@ import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MAX;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MIN;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_STEP;
-import static com.edescamp.go4lunch.activity.MainActivity.USER_NOTIFICATIONS;
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.usernameString;
 
@@ -80,7 +81,7 @@ public class SettingsFragment extends Fragment {
 
         //Set a CheckedChange Listener for Switch Button
         switchNotifications.setOnCheckedChangeListener((cb, on) -> {
-//                NotificationHelper.setNotifications(view.getContext(), on);
+                NotificationHelper.setAlarmForNotifications(view.getContext(), on);
 
         });
 
@@ -122,7 +123,7 @@ public class SettingsFragment extends Fragment {
 
         switchDarkMode.setVisibility(View.GONE);
 
-        switchNotifications.setChecked(USER_NOTIFICATIONS);
+        switchNotifications.setChecked(SharedPrefs.getNotifications(requireContext()));
 
     }
 

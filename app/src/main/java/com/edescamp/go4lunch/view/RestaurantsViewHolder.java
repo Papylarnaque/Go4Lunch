@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.model.OpeningHoursAPIDetails;
-import com.edescamp.go4lunch.model.PhotoAttributesAPIMap;
-import com.edescamp.go4lunch.model.ResultAPIDetails;
-import com.edescamp.go4lunch.model.ResultAPIMap;
+import com.edescamp.go4lunch.model.apidetails.OpeningHoursAPIDetails;
+import com.edescamp.go4lunch.model.apimap.PhotoAttributesAPIMap;
+import com.edescamp.go4lunch.model.apidetails.ResultAPIDetails;
+import com.edescamp.go4lunch.model.apimap.ResultAPIMap;
 
 import java.util.Calendar;
 import java.util.Date;

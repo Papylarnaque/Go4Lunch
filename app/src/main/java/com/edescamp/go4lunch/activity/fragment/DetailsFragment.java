@@ -26,7 +26,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
-import com.edescamp.go4lunch.model.ResultAPIDetails;
+import com.edescamp.go4lunch.model.apidetails.ResultAPIDetails;
+import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.edescamp.go4lunch.view.WorkmatesAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -57,14 +58,13 @@ public class DetailsFragment extends Fragment {
     private Button buttonWebsite;
     private RecyclerView recyclerView;
 
-    private String restaurantChoice;
+    private String chosenRestaurantId;
     private List<String> likesChoice;
 
 
     public DetailsFragment(ResultAPIDetails resultAPIDetails) {
         this.resultAPIDetails = resultAPIDetails;
     }
-
 
 
     @Override
@@ -141,8 +141,8 @@ public class DetailsFragment extends Fragment {
     private void restaurantChoiceLayout() {
         UserHelper.getUser(MainActivity.uid).addOnSuccessListener(documentUserSnapshot -> {
             // Handles buttonRestaurantChoice layout
-            restaurantChoice = (String) documentUserSnapshot.get("hasChosenRestaurant");
-            if (Objects.equals(restaurantChoice, resultAPIDetails.getPlaceId())) {
+            chosenRestaurantId = (String) documentUserSnapshot.get("hasChosenRestaurant");
+            if (Objects.equals(chosenRestaurantId, resultAPIDetails.getPlaceId())) {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
             } else {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_add_30);
@@ -190,8 +190,8 @@ public class DetailsFragment extends Fragment {
             List<DocumentSnapshot> documents = new ArrayList<>();
             // Handle removing current user from the list in the fragment
             // as firebase does not support double where queries
-            for (DocumentSnapshot user : queryDocumentSnapshots.getDocuments()){
-                if(!Objects.equals(user.get("uid"), uid)){
+            for (DocumentSnapshot user : queryDocumentSnapshots.getDocuments()) {
+                if (!Objects.equals(user.get("uid"), uid)) {
                     documents.add(user);
                 }
             }
@@ -240,35 +240,37 @@ public class DetailsFragment extends Fragment {
 
     // RESTAURANT LIKE BUTTON
     private void buttonLikeResponse() {
-        if (likesChoice != null) {
-            if (likesChoice.contains(resultAPIDetails.getPlaceId())) {
-                // if restaurant is liked
-                UserHelper.updateLikesDeleteRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
-                        .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
-            } else {
-                UserHelper.updateLikesAddRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
-                        .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
-            }
+
+        if (likesChoice != null && likesChoice.contains(resultAPIDetails.getPlaceId())) {
+            // if restaurant is liked
+            UserHelper.updateLikesDeleteRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
+                    .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+        } else {
+            UserHelper.updateLikesAddRestaurant(likesChoice, resultAPIDetails.getPlaceId(), MainActivity.uid)
+                    .addOnSuccessListener(aVoid -> restaurantChoiceLayout());
         }
+
     }
 
     // RESTAURANT CHOICE BUTTON
     private void buttonRestaurantChoiceResponse() {
-        if (restaurantChoice != null) {
-            if (restaurantChoice.equals("")) {
+        if (chosenRestaurantId != null) {
+            if (chosenRestaurantId.equals("")) {
                 // if no choice has been made
-                restaurantChoice = resultAPIDetails.getPlaceId();
+                chosenRestaurantId = resultAPIDetails.getPlaceId();
 
-                UserHelper.updateRestaurantChoice(restaurantChoice, resultAPIDetails.getName(), MainActivity.uid);
+                UserHelper.updateRestaurantChoice(chosenRestaurantId, resultAPIDetails.getName(), MainActivity.uid);
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
                 Toast.makeText(getContext(), getString(R.string.restaurant_Chosen, restaurantName.getText()), Toast.LENGTH_SHORT).show();
 
                 // update Alarm Notification with last choice
+                SharedPrefs.saveRestaurantId(requireContext(), chosenRestaurantId);
+                SharedPrefs.saveRestaurantName(requireContext(), resultAPIDetails.getName());
 
-            } else if (restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
+            } else if (chosenRestaurantId.equals(resultAPIDetails.getPlaceId())) {
                 // if restaurant chosen = restaurant details
                 alertRestaurantCancel();
-            } else if (!restaurantChoice.equals(resultAPIDetails.getPlaceId())) {
+            } else if (!chosenRestaurantId.equals(resultAPIDetails.getPlaceId())) {
                 // if restaurant chosen != restaurant details
                 alertRestaurantChange();
 
@@ -287,8 +289,8 @@ public class DetailsFragment extends Fragment {
         AlertDialog dialogRestaurantChosen = builder.create();
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
-            restaurantChoice = "";
-            UserHelper.updateRestaurantChoice(restaurantChoice, restaurantChoice, uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+            chosenRestaurantId = "";
+            UserHelper.updateRestaurantChoice(chosenRestaurantId, chosenRestaurantId, uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
         });
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());
@@ -308,8 +310,10 @@ public class DetailsFragment extends Fragment {
         AlertDialog dialogRestaurantChosen = builder.create();
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
-            restaurantChoice = resultAPIDetails.getPlaceId();
-            UserHelper.updateRestaurantChoice(restaurantChoice, resultAPIDetails.getName(), uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+            chosenRestaurantId = resultAPIDetails.getPlaceId();
+            UserHelper.updateRestaurantChoice(chosenRestaurantId, resultAPIDetails.getName(), uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+            SharedPrefs.saveRestaurantId(requireContext(), chosenRestaurantId);
+            SharedPrefs.saveRestaurantName(requireContext(), resultAPIDetails.getName());
         });
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());

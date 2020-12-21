@@ -17,10 +17,10 @@ import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
 import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
-import com.edescamp.go4lunch.model.LocationAPIMap;
-import com.edescamp.go4lunch.model.ResultAPIDetails;
-import com.edescamp.go4lunch.model.ResultAPIMap;
-import com.edescamp.go4lunch.model.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.apimap.LocationAPIMap;
+import com.edescamp.go4lunch.model.apidetails.ResultAPIDetails;
+import com.edescamp.go4lunch.model.apimap.ResultAPIMap;
+import com.edescamp.go4lunch.model.apidetails.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.RestaurantHelper;
 import com.google.firebase.firestore.DocumentSnapshot;
 
