@@ -3,6 +3,7 @@ package com.edescamp.go4lunch.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +45,7 @@ import com.edescamp.go4lunch.util.NotificationHelper;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,10 +71,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
     public static final int RADIUS_MIN = 2500; // MAX Radius distance in meters
     public static final int RADIUS_STEP = 500; // STEP Radius for slider
+
     public static final String API_MAP_LANGUAGE = "en";
     public static final String API_MAP_KEYWORD = "restaurant";
     public static final String API_AUTOCOMPLETE_KEYWORD = "establishment";
     public static final String API_MAP_FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
+
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     public static final double RATING_MAX = 4.5;
@@ -83,6 +87,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public static String uid;
     public static String usernameString = null;
+
+    public static Location userLocation;
+    public static LatLng oldUserLatLng;
 
     // UI
     public Toolbar mToolbar;
@@ -236,7 +243,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void updateUserSnapshot() {
         if (uid != null) {
             DocumentReference docRef = UserHelper.getUsersCollection().document(uid);
-
             docRef.addSnapshotListener((snapshot, e) -> {
                 if (e != null) {
                     Log.w(TAG, "Listen failed.", e);

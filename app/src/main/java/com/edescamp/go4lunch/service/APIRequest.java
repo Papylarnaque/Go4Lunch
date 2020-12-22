@@ -28,7 +28,6 @@ public interface APIRequest {
     );
 
 
-
     @GET("place/autocomplete/json")
     Call<PredictionsAPIAutocomplete> getAutocomplete(
             @Query("location") String location,

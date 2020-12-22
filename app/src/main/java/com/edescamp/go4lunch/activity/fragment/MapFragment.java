@@ -65,6 +65,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     private static final float INITIAL_ZOOM = 12f;
     private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
+
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
     public static String userLocationStr;
@@ -157,14 +158,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         userLocationStr = userLatLng.latitude + "," + userLatLng.longitude;
         // Check location update to avoid unnecessary api calls
         if (userLatLng != oldUserLatLng) {
-            getPlace(userLocationStr);
+            getNearbyPlaces(userLocationStr);
         }
 
         oldUserLatLng = userLatLng;
 
     }
 
-    private void getPlace(String userLocationStr) {
+    private void getNearbyPlaces(String userLocationStr) {
         APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
         Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(userLocationStr, RADIUS_INIT, API_MAP_LANGUAGE, API_MAP_KEYWORD, BuildConfig.GOOGLE_MAPS_KEY);
 
@@ -206,7 +207,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
             RADIUS_INIT += 1000;
-            getPlace(userLocationStr);
+            getNearbyPlaces(userLocationStr);
             dialog1.dismiss();
         });
 

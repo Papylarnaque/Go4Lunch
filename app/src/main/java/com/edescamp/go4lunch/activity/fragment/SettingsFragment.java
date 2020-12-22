@@ -81,7 +81,8 @@ public class SettingsFragment extends Fragment {
 
         //Set a CheckedChange Listener for Switch Button
         switchNotifications.setOnCheckedChangeListener((cb, on) -> {
-                NotificationHelper.setAlarmForNotifications(view.getContext(), on);
+            NotificationHelper.setAlarmForNotifications(view.getContext(), on);
+            SharedPrefs.saveNotifications(view.getContext(), on);
 
         });
 

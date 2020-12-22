@@ -1,11 +1,6 @@
 package com.edescamp.go4lunch.activity.fragment;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,25 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.activity.fragment.view.RestaurantsAdapter;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
 import com.edescamp.go4lunch.model.map.ResultsAPIMap;
-import com.edescamp.go4lunch.activity.fragment.view.RestaurantsAdapter;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.model.LatLng;
+import com.edescamp.go4lunch.service.LocationService;
+import com.edescamp.go4lunch.service.RetrofitService;
 
 import java.util.List;
 
@@ -39,22 +25,47 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_KEYWORD;
-import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_LANGUAGE;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
-import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+import static com.edescamp.go4lunch.activity.MainActivity.userLocation;
 
 public class RestaurantsFragment extends BaseFragment {
 
     private static final String TAG = "RestaurantFragment";
-    private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
+    public static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private RecyclerView recyclerView;
 
     // UI parameters
-    private Location userLocation;
-    private LatLng oldUserLatLng;
     private ProgressBar progressBar;
     private TextView noRestaurants;
+
+    // Data
+    private List<ResultAPIMap> results;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+        if (results == null) {
+            RetrofitService.listen.observe(requireActivity(), new Observer<Call<ResultsAPIMap>>() {
+                @Override
+                public void onChanged(Call<ResultsAPIMap> changedValue) {
+                    //Do something with the changed value
+                if ( changedValue!=null) {
+                    getNearbyPlaces(changedValue);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+                }
+            });
+        } else {
+            // do nothing but update recyclerview
+            sendResultsToAdapter(results);
+        }
+
+
+    }
 
     @Override
     public View onCreateView(
@@ -71,76 +82,27 @@ public class RestaurantsFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.restaurants_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        getLocationPermission();
+//        getLocationPermission();
+        LocationService locationService = new LocationService(requireActivity());
+        locationService.getLocationPermission();
+
+
+        progressBar.setVisibility(View.VISIBLE);
+
 
         return view;
     }
 
 
-    // USER LOCATION updates listener service //
-    @SuppressLint("MissingPermission")
-    protected void startLocationUpdates() {
-        // Create the location request to start receiving updates
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        // Create LocationSettingsRequest object using location request
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(mLocationRequest);
-        LocationSettingsRequest locationSettingsRequest = builder.build();
-
-        // Check whether location settings are satisfied
-        SettingsClient settingsClient = LocationServices.getSettingsClient(requireActivity());
-        settingsClient.checkLocationSettings(locationSettingsRequest);
-
-        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        getFusedLocationProviderClient(requireActivity()).requestLocationUpdates(mLocationRequest, new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        onLocationChanged(locationResult.getLastLocation());
-                    }
-                },
-                Looper.myLooper());
-    }
-
-    private void onLocationChanged(Location location) {
-        userLocation = location;
-
-        // New location has now been determined
-        LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        // Userlocation for API request
-        String userLocationStr = location.getLatitude() + "," + location.getLongitude();
-        // Check location update to avoid unnecessary api calls
-        if (userLatLng != oldUserLatLng) {
-            getPlace(userLocationStr);
-        }
-        oldUserLatLng = userLatLng;
-    }
-
     // ---------------------------- Get places for markers----
-    private void getPlace(String userLocationStr) {
-        APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(
-                userLocationStr,
-                RADIUS_INIT,
-                API_MAP_LANGUAGE,
-                API_MAP_KEYWORD,
-                BuildConfig.GOOGLE_MAPS_KEY);
-        progressBar.setVisibility(View.VISIBLE);
-        nearbyPlaces.enqueue(new Callback<ResultsAPIMap>() {
+    private void getNearbyPlaces(Call<ResultsAPIMap> nearbyPlaces) {
+        nearbyPlaces.clone().enqueue(new Callback<ResultsAPIMap>() {
             @Override
-            public void onResponse( Call<ResultsAPIMap> call,  Response<ResultsAPIMap> response) {
+            public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
-                        List<ResultAPIMap> results = body.getResults();
+                        results = body.getResults();
                         if (results.size() == 0) {
                             noRestaurants.setText(getString(R.string.restaurant_List_no_restaurants_to_show, RADIUS_INIT));
                             noRestaurants.setVisibility(View.VISIBLE);
@@ -149,12 +111,12 @@ public class RestaurantsFragment extends BaseFragment {
                         }
                     }
                 }
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.GONE);
+//                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onFailure( Call<ResultsAPIMap> call,  Throwable t) {
+            public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 Log.d(TAG, "getPlace failure" + t);
             }
@@ -162,23 +124,10 @@ public class RestaurantsFragment extends BaseFragment {
         });
     }
 
-
     private void sendResultsToAdapter(List<ResultAPIMap> results) {
         recyclerView.setAdapter(new RestaurantsAdapter(results, userLocation));
-    }
-
-
-    // Request localisation
-    public void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            startLocationUpdates();
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
 
