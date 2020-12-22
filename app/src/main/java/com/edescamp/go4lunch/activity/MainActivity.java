@@ -34,10 +34,10 @@ import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
-import com.edescamp.go4lunch.model.apiautocomplete.PredictionAPIAutocomplete;
-import com.edescamp.go4lunch.model.apiautocomplete.PredictionsAPIAutocomplete;
-import com.edescamp.go4lunch.model.apidetails.ResultAPIDetails;
-import com.edescamp.go4lunch.model.apidetails.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.autocomplete.PredictionAPIAutocomplete;
+import com.edescamp.go4lunch.model.autocomplete.PredictionsAPIAutocomplete;
+import com.edescamp.go4lunch.model.details.ResultAPIDetails;
+import com.edescamp.go4lunch.model.details.ResultsAPIDetails;
 import com.edescamp.go4lunch.service.APIClient;
 import com.edescamp.go4lunch.service.APIRequest;
 import com.edescamp.go4lunch.util.NotificationHelper;
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // STATIC PARAMETERS
     private static final String TAG = "MAIN_ACTIVITY";
-    public static boolean USER_NOTIFICATIONS = true;
+
     public static int RADIUS_INIT = 2500; // radius in meters around user for search
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
     public static final int RADIUS_MIN = 2500; // MAX Radius distance in meters

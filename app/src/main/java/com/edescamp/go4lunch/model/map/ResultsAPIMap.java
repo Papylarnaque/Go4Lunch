@@ -1,4 +1,4 @@
-package com.edescamp.go4lunch.model.apimap;
+package com.edescamp.go4lunch.model.map;
 
 
 import com.google.gson.annotations.SerializedName;

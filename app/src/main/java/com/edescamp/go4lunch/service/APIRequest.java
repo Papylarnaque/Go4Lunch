@@ -1,8 +1,8 @@
 package com.edescamp.go4lunch.service;
 
-import com.edescamp.go4lunch.model.apiautocomplete.PredictionsAPIAutocomplete;
-import com.edescamp.go4lunch.model.apidetails.ResultsAPIDetails;
-import com.edescamp.go4lunch.model.apimap.ResultsAPIMap;
+import com.edescamp.go4lunch.model.autocomplete.PredictionsAPIAutocomplete;
+import com.edescamp.go4lunch.model.details.ResultsAPIDetails;
+import com.edescamp.go4lunch.model.map.ResultsAPIMap;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

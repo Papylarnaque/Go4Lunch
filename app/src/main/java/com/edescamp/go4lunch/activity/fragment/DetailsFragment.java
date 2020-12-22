@@ -26,7 +26,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
-import com.edescamp.go4lunch.model.apidetails.ResultAPIDetails;
+import com.edescamp.go4lunch.model.details.ResultAPIDetails;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.edescamp.go4lunch.activity.fragment.view.WorkmatesAdapter;

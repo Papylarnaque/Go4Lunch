@@ -1,4 +1,4 @@
-package com.edescamp.go4lunch.model.apiautocomplete;
+package com.edescamp.go4lunch.model.autocomplete;
 
 import com.google.gson.annotations.SerializedName;
 

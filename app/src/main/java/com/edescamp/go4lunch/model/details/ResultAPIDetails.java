@@ -1,7 +1,7 @@
-package com.edescamp.go4lunch.model.apidetails;
+package com.edescamp.go4lunch.model.details;
 
-import com.edescamp.go4lunch.model.apimap.GeometryAPIMap;
-import com.edescamp.go4lunch.model.apimap.PhotoAttributesAPIMap;
+import com.edescamp.go4lunch.model.map.GeometryAPIMap;
+import com.edescamp.go4lunch.model.map.PhotoAttributesAPIMap;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
