@@ -33,6 +33,13 @@ public class SharedPrefs {
         editor.apply();
     }
 
+    public static void saveRestaurantAddress(Context context, String restaurantAddress){
+        settings = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("ChosenRestaurantAddress", restaurantAddress);
+        editor.apply();
+    }
+
     public static void saveNotifications(Context context, Boolean notifications){
         settings = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
@@ -55,6 +62,11 @@ public class SharedPrefs {
     public static String getRestaurantName(Context context){
         settings = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return settings.getString("ChosenRestaurantName", null);
+    }
+
+    public static String getRestaurantAddress(Context context){
+        settings = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        return settings.getString("ChosenRestaurantAddress", null);
     }
 
     public static Boolean getNotifications(Context context){

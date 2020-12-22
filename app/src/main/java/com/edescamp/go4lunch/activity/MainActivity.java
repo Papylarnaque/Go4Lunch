@@ -277,9 +277,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Log.i(TAG, "firebaseUser/chosenRestaurantName : " + restaurantName);
         }
 
-        if (result.get("hasChosenRestaurant") != null) {
-            restaurantChoice = Objects.requireNonNull(result.get("hasChosenRestaurant")).toString();
-            Log.i(TAG, "firebaseUser/hasChosenRestaurant : " + restaurantChoice);
+        if (result.get("chosenRestaurantId") != null) {
+            restaurantChoice = Objects.requireNonNull(result.get("chosenRestaurantId")).toString();
+            Log.i(TAG, "firebaseUser/chosenRestaurantId : " + restaurantChoice);
         }
         usernameString = userName.getText().toString();
 

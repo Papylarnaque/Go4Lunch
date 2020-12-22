@@ -141,7 +141,7 @@ public class DetailsFragment extends Fragment {
     private void restaurantChoiceLayout() {
         UserHelper.getUser(MainActivity.uid).addOnSuccessListener(documentUserSnapshot -> {
             // Handles buttonRestaurantChoice layout
-            chosenRestaurantId = (String) documentUserSnapshot.get("hasChosenRestaurant");
+            chosenRestaurantId = (String) documentUserSnapshot.get("chosenRestaurantId");
             if (Objects.equals(chosenRestaurantId, resultAPIDetails.getPlaceId())) {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
             } else {
@@ -257,16 +257,9 @@ public class DetailsFragment extends Fragment {
         if (chosenRestaurantId != null) {
             if (chosenRestaurantId.equals("")) {
                 // if no choice has been made
-                chosenRestaurantId = resultAPIDetails.getPlaceId();
-
-                UserHelper.updateRestaurantChoice(chosenRestaurantId, resultAPIDetails.getName(), MainActivity.uid);
+                saveRestaurantChoice();
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
                 Toast.makeText(getContext(), getString(R.string.restaurant_Chosen, restaurantName.getText()), Toast.LENGTH_SHORT).show();
-
-                // update Alarm Notification with last choice
-                SharedPrefs.saveRestaurantId(requireContext(), chosenRestaurantId);
-                SharedPrefs.saveRestaurantName(requireContext(), resultAPIDetails.getName());
-
             } else if (chosenRestaurantId.equals(resultAPIDetails.getPlaceId())) {
                 // if restaurant chosen = restaurant details
                 alertRestaurantCancel();
@@ -290,7 +283,7 @@ public class DetailsFragment extends Fragment {
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
             chosenRestaurantId = "";
-            UserHelper.updateRestaurantChoice(chosenRestaurantId, chosenRestaurantId, uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+            UserHelper.updateRestaurantChoice(chosenRestaurantId, chosenRestaurantId, chosenRestaurantId, uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
         });
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());
@@ -310,16 +303,21 @@ public class DetailsFragment extends Fragment {
         AlertDialog dialogRestaurantChosen = builder.create();
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
-            chosenRestaurantId = resultAPIDetails.getPlaceId();
-            UserHelper.updateRestaurantChoice(chosenRestaurantId, resultAPIDetails.getName(), uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
-            SharedPrefs.saveRestaurantId(requireContext(), chosenRestaurantId);
-            SharedPrefs.saveRestaurantName(requireContext(), resultAPIDetails.getName());
+            saveRestaurantChoice();
         });
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());
 
         dialogRestaurantChosen.show();
 
+    }
+
+    private void saveRestaurantChoice() {
+        chosenRestaurantId = resultAPIDetails.getPlaceId();
+        UserHelper.updateRestaurantChoice(chosenRestaurantId, resultAPIDetails.getName(), resultAPIDetails.getFormatted_address(), uid).addOnSuccessListener(aVoid -> restaurantChoiceLayout());
+        SharedPrefs.saveRestaurantId(requireContext(), chosenRestaurantId);
+        SharedPrefs.saveRestaurantName(requireContext(), resultAPIDetails.getName());
+        SharedPrefs.saveRestaurantAddress(requireContext(), resultAPIDetails.getFormatted_address());
     }
 
 

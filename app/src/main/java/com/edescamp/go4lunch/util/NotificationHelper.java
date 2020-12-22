@@ -28,24 +28,25 @@ public class NotificationHelper {
 
     private static final String TAG = "NOTIFICATION";
     private final Context context;
+
     private final static AtomicInteger c = new AtomicInteger(0);
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
 
     private PendingIntent pendingIntent;
     private String messageBody;
 
+    private static final int[] TIME_NOTIFICATION = {11, 6};
+
     public NotificationHelper(Context context) {
         this.context = context;
         createNotificationChannel();
     }
 
-
     public static void setAlarmForNotifications(Context context, Boolean notifications) {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-        calendar.set(Calendar.MINUTE, 51);
-        calendar.set(Calendar.SECOND, 30);
+        calendar.set(Calendar.HOUR_OF_DAY, TIME_NOTIFICATION[0]);
+        calendar.set(Calendar.MINUTE, TIME_NOTIFICATION[1]);
 
         if (calendar.getTime().compareTo(new Date()) < 0)
             calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -101,7 +102,7 @@ public class NotificationHelper {
                         for (DocumentSnapshot workmate : queryDocumentSnapshots.getDocuments()) {
                             users.add(workmate.toObject(User.class));
                         }
-                        messageBody = setUpMessage(users);
+                        messageBody = setUpMessageWithUsersData(users);
 
                         sendNotification();
                     })
@@ -136,7 +137,7 @@ public class NotificationHelper {
     }
 
 
-    private String setUpMessage(ArrayList<User> users) {
+    private String setUpMessageWithUsersData(ArrayList<User> users) {
 
 
         String userId = SharedPrefs.getUserId(context);
@@ -149,9 +150,10 @@ public class NotificationHelper {
         }
 
         String chosenRestaurantId = SharedPrefs.getRestaurantId(context);
-        String chosenRestaurant = SharedPrefs.getRestaurantName(context);
+        String chosenRestaurantName = SharedPrefs.getRestaurantName(context);
+        String chosenRestaurantAddress = SharedPrefs.getRestaurantAddress(context);
 
-        if (chosenRestaurant.equals("")) {
+        if (chosenRestaurantName.equals("")) {
             return context.getString(R.string.notification_no_lunch_chosen);
         } else {
             ArrayList<String> lunchWorkmates = getWorkmates(users, chosenRestaurantId);
@@ -162,7 +164,8 @@ public class NotificationHelper {
                     // if 1 workmate joining
                     return context.getString(
                             R.string.notification_lunch_with_one_workmate,
-                            chosenRestaurant,
+                            chosenRestaurantName,
+                            chosenRestaurantAddress,
                             lunchWorkmates.get(0));
 
                 } else {
@@ -171,6 +174,9 @@ public class NotificationHelper {
                     for (String workmate : lunchWorkmates) {
                         if (workmate.equals(lunchWorkmates.get(lunchWorkmates.size() - 1))) {
                             workmatesString.append(workmate);
+                        }  else if (workmate.equals(lunchWorkmates.get(lunchWorkmates.size() - 2))){
+                                workmatesString.append(workmate);
+                                workmatesString.append(context.getString(R.string.notification_workmatesstring_builder_and));
                         } else {
                             workmatesString.append(workmate);
                             workmatesString.append(", ");
@@ -178,14 +184,15 @@ public class NotificationHelper {
                     }
                     return context.getString(
                             R.string.notification_lunch_with_few_workmate,
-                            chosenRestaurant,
+                            chosenRestaurantName,
+                            chosenRestaurantAddress,
                             lunchWorkmates.size(),
                             workmatesString.toString());
 
                 }
             } else {
                 // No workmate lunching with currentUser
-                return context.getString(R.string.notification_lunch_alone, chosenRestaurant);
+                return context.getString(R.string.notification_lunch_alone, chosenRestaurantName, chosenRestaurantAddress);
             }
         }
     }
@@ -194,7 +201,7 @@ public class NotificationHelper {
     private ArrayList<String> getWorkmates(ArrayList<User> users, String restaurantId) {
         ArrayList<String> lunchWorkmates = new ArrayList<>();
         for (User user : users) {
-            if (user.getHasChosenRestaurant().equals(restaurantId)) {
+            if (user.getChosenRestaurantId().equals(restaurantId)) {
                 lunchWorkmates.add(user.getUsername());
             }
         }

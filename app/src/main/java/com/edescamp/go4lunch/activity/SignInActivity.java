@@ -1,7 +1,6 @@
 package com.edescamp.go4lunch.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +35,7 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-import static com.edescamp.go4lunch.activity.MainActivity.PREFS_NAME;
+import java.util.Objects;
 
 public class SignInActivity extends BaseActivity {
 
@@ -46,7 +45,6 @@ public class SignInActivity extends BaseActivity {
 
     private static final String TAG = "SIGN";
     static String userId;
-    private SharedPreferences settings;
 
     // LOGIN REQUEST CODE
     private static final int RC_SIGN_IN = 3;
@@ -65,11 +63,9 @@ public class SignInActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         firebaseAuth = FirebaseAuth.getInstance();
-        settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
         // check if user is already logged in
-        // i.e. auth token is present or not
-//        userId = settings.getString("USER", null);
+
         userId = SharedPrefs.getUserId(getApplicationContext());
         // means user is logged in token was found
         if (userId != null) {
@@ -222,20 +218,16 @@ public class SignInActivity extends BaseActivity {
     //-------------- USER LOGIN -------------------//
 
     private void createUserInFirestore() {
-        String userId = firebaseAuth.getCurrentUser().getUid();
-        // SAVE THE USER DETAILS OR PART OF IT IN SHARED PREFS
-//        SharedPreferences.Editor editor = settings.edit();
-//        editor.putString("USER", userId);
-//        editor.apply();
+        String userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+        // SAVE THE USER DETAILS
         SharedPrefs.saveUserId(getApplicationContext(), userId);
 
-
-        String userUrlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
+        String userUrlPicture = (Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl() != null) ? Objects.requireNonNull(this.getCurrentUser().getPhotoUrl()).toString() : null;
         String userName = this.getCurrentUser().getDisplayName();
         String userMail = this.getCurrentUser().getEmail();
 
-        UserHelper.createUser(userId, userName, userUrlPicture, userMail).addOnFailureListener(this.onFailureListener());
-
+        UserHelper.createUser(userId, userName, userUrlPicture, userMail)
+                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
 
         startMainActivity(userId);
     }
@@ -249,7 +241,6 @@ public class SignInActivity extends BaseActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
 
     //-------------- UI -------------------//
 

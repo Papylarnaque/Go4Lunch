@@ -223,7 +223,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             boolean bChosen = false;
             if (workmates != null)
                 for (DocumentSnapshot workmate : workmates) {
-                    if (Objects.equals(workmate.get("hasChosenRestaurant"), result.getPlaceId())) {
+                    if (Objects.equals(workmate.get("chosenRestaurantId"), result.getPlaceId())) {
                         bChosen = true;
                         break;
                     }

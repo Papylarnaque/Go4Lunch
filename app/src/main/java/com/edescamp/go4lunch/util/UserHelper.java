@@ -32,8 +32,9 @@ public class UserHelper {
         userToCreate.put("username", userName);
         userToCreate.put("urlPicture", userUrlPicture);
         userToCreate.put("mail", userMail);
-        userToCreate.put("hasChosenRestaurant", "");
+        userToCreate.put("chosenRestaurantId", "");
         userToCreate.put("chosenRestaurantName", "");
+        userToCreate.put("chosenRestaurantAddress", "");
         Log.i(TAG, "userId: " + userId + " username: " + userName);
         return UserHelper.getUsersCollection().document(userId).set(userToCreate);
     }
@@ -49,19 +50,19 @@ public class UserHelper {
 
     public static Task<QuerySnapshot> getAllUsersOrderByRestaurant(String userId) {
         return UserHelper.getUsersCollection()
-                .orderBy("hasChosenRestaurant", Query.Direction.DESCENDING )
+                .orderBy("chosenRestaurantId", Query.Direction.DESCENDING)
                 .get();
     }
 
     public static Task<QuerySnapshot> getUsersWithChosenRestaurant() {
         return UserHelper.getUsersCollection()
-                .whereGreaterThan("hasChosenRestaurant", "")
+                .whereGreaterThan("chosenRestaurantId", "")
                 .get();
     }
 
     public static Task<QuerySnapshot> getUsersWhoChoseThisRestaurant(String placeId) {
         return UserHelper.getUsersCollection()
-                .whereEqualTo("hasChosenRestaurant", placeId)
+                .whereEqualTo("chosenRestaurantId", placeId)
                 .get();
     }
 
@@ -71,10 +72,11 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).update("username", username);
     }
 
-    public static Task<Void> updateRestaurantChoice(String placeId, String restaurantName, String uid) {
+    public static Task<Void> updateRestaurantChoice(String placeId, String restaurantName, String restaurantAddress, String uid) {
         Map<String, Object> userToUpdateWithRestaurantChoice = new HashMap<>();
-        userToUpdateWithRestaurantChoice.put("hasChosenRestaurant", placeId);
+        userToUpdateWithRestaurantChoice.put("chosenRestaurantId", placeId);
         userToUpdateWithRestaurantChoice.put("chosenRestaurantName", restaurantName);
+        userToUpdateWithRestaurantChoice.put("chosenRestaurantAddress", restaurantAddress);
         return UserHelper.getUsersCollection().document(uid).update(userToUpdateWithRestaurantChoice);
     }
 

@@ -81,7 +81,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     private void getWorkmates(int position, RestaurantsViewHolder holder) {
         workmatesCount = 0;
         for (DocumentSnapshot workmate : workmates){
-            if (Objects.equals(workmate.get("hasChosenRestaurant"), results.get(position).getPlaceId())
+            if (Objects.equals(workmate.get("chosenRestaurantId"), results.get(position).getPlaceId())
             && !workmate.get("uid").equals(uid))
                 workmatesCount +=1;
         }
