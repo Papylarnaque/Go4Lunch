@@ -18,7 +18,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-//            buildConfigField "String", "GOOGLE_MAPS_KEY", '"AIzaSyBr-vowwD_JcVHBCjtUhqWDnML_jLQ-P4s"'
+            buildConfigField "String", "GOOGLE_MAPS_KEY", '"AIzaSyBr-vowwD_JcVHBCjtUhqWDnML_jLQ-P4s"'
+            buildConfigField "String", "TWITTER_CONSUMER_KEY", '"LNdtUDzlobzjM9VwXT2Bxv3xD"'
+            buildConfigField "String", "TWITTER_CONSUMER_SECRET", '"nIGAEjdNkkbuM6o3pGrGHOXOtEernbSgXKvHuWyGjI0VSFsRWF"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -123,8 +124,7 @@ public class RestaurantsFragment extends BaseFragment {
                 return true;
             // Sort Workmates
             case main_activity_restaurants_sort_workmates_desc:
-                SortRestaurantsUtil.sortWorkmatesDesc(nearbyPlacesResults);
-                sendResultsToAdapter(nearbyPlacesResults);
+                sortByWorkmates();
                 return true;
             // Sort Distance
             case main_activity_restaurants_sort_distance_asc:
@@ -138,6 +138,22 @@ public class RestaurantsFragment extends BaseFragment {
 
         return super.onOptionsItemSelected(item);
 
+    }
+
+    private void sortByWorkmates() {
+        boolean sortWorkmates = false;
+        for (Integer values : RestaurantsFragment.workmatesCountHashMap.values()) {
+            if (values > 0) {
+                sortWorkmates = true;
+                break;
+            }
+        }
+        if (sortWorkmates) {
+            SortRestaurantsUtil.sortWorkmatesDesc(nearbyPlacesResults);
+            sendResultsToAdapter(nearbyPlacesResults);
+        } else {
+            Toast.makeText(getContext(), getString(R.string.main_activity_restaurants_no_workmates_to_sort_toast), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void locationDenied() {

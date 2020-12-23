@@ -68,6 +68,12 @@
     <string name="notifications_firebase_failure">Veuillez rejoindre l\'application pour connaitre les details de votre dejeuner.</string>
     <string name="item_restaurant_no_picture_no_text">Pas de photo</string>
     <string name="restaurant_list_no_restaurants_location_denied">Veuillez accepter de partager votre localisation pour voir les restaurants autour de votre position.</string>
+    <string name="main_activity_restaurants_sort_name_asc"><![CDATA[Tri A -> Z]]></string>
+    <string name="main_activity_restaurants_sort_name_desc"><![CDATA[Tri  Z -> A]]></string>
+    <string name="main_activity_restaurants_sort_rating_desc">Tri par Notes</string>
+    <string name="main_activity_restaurants_sort_workmates_desc">Tri par Collegues</string>
+    <string name="main_activity_restaurants_sort_distance_asc">Tri par Distance</string>
+    <string name="main_activity_restaurants_no_workmates_to_sort_toast">Aucun collegue n\'a choisi de restaurant pour le moment.</string>
 
 
 </resources>

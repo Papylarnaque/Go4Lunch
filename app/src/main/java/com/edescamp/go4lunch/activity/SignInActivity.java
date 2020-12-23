@@ -133,6 +133,9 @@ public class SignInActivity extends BaseActivity {
                     }
                 }
         );
+
+        facebookSignInButton.setHeight((int) getResources().getDimension(R.dimen.signin_button_height));
+
     }
 
     // GOOGLE AUTH

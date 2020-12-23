@@ -10,23 +10,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/signin_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/bg_portraitBackgroundDescription"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bg_g4l_portrait" />
 
+        <ImageView
+            android:id="@+id/signin_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/bg_portraitBackgroundDescription"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/bg_g4l_portrait" />
 
-    <ImageView
+        <ImageView
         android:id="@+id/imageLogo"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/logoTextDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +80,8 @@
         android:layout_height="@dimen/signin_button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
         app:layout_constraintBottom_toTopOf="@id/login_button_google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +93,7 @@
         android:layout_height="@dimen/signin_button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/signin_between_buttons"
+        android:layout_marginBottom="100dp"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
