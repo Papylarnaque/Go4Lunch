@@ -35,7 +35,7 @@ public class NotificationHelper {
     private PendingIntent pendingIntent;
     private String messageBody;
 
-    private static final int[] TIME_NOTIFICATION = {14, 51};
+    private static final int[] TIME_NOTIFICATION = {12, 0};
 
     public NotificationHelper(Context context) {
         this.context = context;

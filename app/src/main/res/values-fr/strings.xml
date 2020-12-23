@@ -27,7 +27,7 @@
     <string name="NO">NON</string>
 
     <!--  RestaurantList Fragment  -->
-    <string name="restaurant_List_no_restaurants_to_show">Pas de restaurant a une distance de %1$dm</string>
+    <string name="restaurant_list_no_restaurants_to_show">Pas de restaurant a une distance de %1$dm</string>
 
     <!--  Details Fragment  -->
     <string name="no_phone_number">Pas de numero de telephone</string>
@@ -67,7 +67,7 @@
     <string name="notifications_no_internet_connection">Veuillez vous connecter a Internet pour connaitre les details de votre dejeuner.</string>
     <string name="notifications_firebase_failure">Veuillez rejoindre l\'application pour connaitre les details de votre dejeuner.</string>
     <string name="item_restaurant_no_picture_no_text">Pas de photo</string>
-
+    <string name="restaurant_list_no_restaurants_location_denied">Veuillez accepter de partager votre localisation pour voir les restaurants autour de votre position.</string>
 
 
 </resources>

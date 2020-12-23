@@ -1,9 +1,7 @@
 package com.edescamp.go4lunch.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,24 +26,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
 import com.edescamp.go4lunch.activity.fragment.MapFragment;
 import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.activity.fragment.SettingsFragment;
 import com.edescamp.go4lunch.activity.fragment.WorkmatesFragment;
 import com.edescamp.go4lunch.model.autocomplete.PredictionAPIAutocomplete;
-import com.edescamp.go4lunch.model.autocomplete.PredictionsAPIAutocomplete;
-import com.edescamp.go4lunch.model.details.ResultAPIDetails;
-import com.edescamp.go4lunch.model.details.ResultsAPIDetails;
-import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.APIRequest;
+import com.edescamp.go4lunch.service.AutoCompleteService;
+import com.edescamp.go4lunch.util.DetailsUtil;
 import com.edescamp.go4lunch.util.NotificationHelper;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,17 +47,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.List;
 import java.util.Objects;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.edescamp.go4lunch.activity.fragment.MapFragment.userLocationStr;
+import static com.edescamp.go4lunch.service.AutoCompleteService.getAutocomplete;
+import static com.edescamp.go4lunch.service.AutoCompleteService.listenAutoCompletePredictions;
+import static com.edescamp.go4lunch.util.DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // STATIC PARAMETERS
     private static final String TAG = "MAIN_ACTIVITY";
+    private static final String API_AUTOCOMPLETE_FILTER_KEYWORD = "food";
 
     public static int RADIUS_INIT = 2500; // radius in meters around user for search
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
@@ -83,13 +74,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final double RATING_MIDDLE = 2.5;
     public static final double RATING_MIN = 1;
 
-    public final static String PREFS_NAME = "PREFS";
-
     public static String uid;
     public static String usernameString = null;
 
-    public static Location userLocation;
-    public static LatLng oldUserLatLng;
 
     // UI
     public Toolbar mToolbar;
@@ -102,8 +89,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // DATA
     private String restaurantChoice;
-    private List<PredictionAPIAutocomplete> predictions;
-
     public static List<DocumentSnapshot> workmates;
 
 
@@ -148,7 +133,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void configureToolbar() {
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
         autoCompleteTextView = findViewById(R.id.autoCompleteTextViewPlace);
 
     }
@@ -316,7 +300,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     toast.show();
                     return false;
                 } else {
-                    getPlaceDetails(restaurantChoice);
+                    openDetailsFragmentOrCallApiThenOpenDetailsFragment(this, restaurantChoice);
                 }
                 return true;
             // "SETTINGS"
@@ -369,8 +353,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 3) {
-                    getAutocompleteSearch(s.toString());
+                if (s.length() >= 2) {
+                    getAutocomplete(s.toString());
                 }
             }
 
@@ -388,6 +372,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        listenAutoCompletePredictions.observe(this, this::filterAutocompleteResults);
+
+
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
             // Handles no results click
             if (parent.getItemAtPosition(position) == getResources().getString(R.string.autoCompleteTextView_noresult)) {
@@ -396,58 +383,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 // Handles click on an autocomplete search dropdown result
                 String placeId = null;
-                for (PredictionAPIAutocomplete prediction : predictions) {
+                for (PredictionAPIAutocomplete prediction : AutoCompleteService.predictions) {
                     if (parent.getItemAtPosition(position) == prediction.getStructured_formatting().getMain_text()) {
                         placeId = prediction.getPlace_id();
                     }
                 }
-                getPlaceDetails(placeId);
+
+                DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment(this, placeId);
+
             }
 
         });
 
     }
 
-    private void getAutocompleteSearch(String input) {
-        APIRequest apiAutocompleteSearch = APIClient.getClient().create(APIRequest.class);
-        Call<PredictionsAPIAutocomplete> autocompleteSearch = apiAutocompleteSearch.getAutocomplete(
-                userLocationStr,
-                RADIUS_MAX,
-                input,
-                API_AUTOCOMPLETE_KEYWORD,
-                "",
-                getResources().getString(R.string.google_maps_key));
-        autocompleteSearch.enqueue(new Callback<PredictionsAPIAutocomplete>() {
-            @Override
-            public void onResponse(Call<PredictionsAPIAutocomplete> call, Response<PredictionsAPIAutocomplete> response) {
-                if (response.isSuccessful()) {
-                    PredictionsAPIAutocomplete predictionsAPIAutocomplete = response.body();
-                    if (predictionsAPIAutocomplete != null) {
-                        predictions = predictionsAPIAutocomplete.getPredictions();
-                        filterAutocompleteResults();
-                    }
-                }
-                // TODO Handle failures, 404 error, etc
-            }
 
-            @Override
-            public void onFailure(Call<PredictionsAPIAutocomplete> call, Throwable t) {
-
-                Log.d(TAG, "getPlace API failure" + t);
-            }
-
-        });
-    }
-
-    private void filterAutocompleteResults() {
+    private void filterAutocompleteResults(List<PredictionAPIAutocomplete> predictionAPIAutocompletes) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),
                 android.R.layout.simple_dropdown_item_1line);
         adapter.setNotifyOnChange(true);
         //attach the adapter to textview
         autoCompleteTextView.setAdapter(adapter);
 
-        for (PredictionAPIAutocomplete prediction : predictions) {
-            if (prediction.getTypes().contains("food")) {
+        for (PredictionAPIAutocomplete prediction : predictionAPIAutocompletes) {
+            if (prediction.getTypes().contains(API_AUTOCOMPLETE_FILTER_KEYWORD)) {
                 // only return places as establishment of type "food"
                 Log.d(TAG, "getAutocompleteSearch : prediction = " + prediction.getDescription());
                 adapter.add(prediction.getStructured_formatting().getMain_text());
@@ -465,10 +424,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // ----------------------------- LOGOUT ----------------------------//
     private void deleteAuthAndLogOut() {
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.remove("USER");
-        editor.apply();
+        SharedPrefs.deleteUserId(getApplicationContext());
 
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
@@ -485,41 +441,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .commit();
     }
 
-    private void openDetailsFragment(ResultAPIDetails result) {
-        Fragment fragment = new DetailsFragment(result);
-        this.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    private void getPlaceDetails(String placeId) {
-        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, BuildConfig.GOOGLE_MAPS_KEY);
-
-        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
-            @Override
-            public void onResponse(Call<ResultsAPIDetails> call, Response<ResultsAPIDetails> response) {
-                Log.d(TAG, "getPlaceDetails API ");
-                if (response.isSuccessful()) {
-                    ResultsAPIDetails body = response.body();
-                    if (body != null) {
-                        ResultAPIDetails result = body.getResult();
-                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
-
-                        openDetailsFragment(result);
-                    }
-                    // TODO Handle failures, 404 error, etc
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResultsAPIDetails> call, Throwable t) {
-                Log.d(TAG, "getPlaceDetails API failure" + t);
-            }
-
-        });
-    }
 
     // DRAWER closed with back button
     @Override
@@ -538,7 +459,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    // ------------------------ PERMISSIONS -------------------------//
+    // ------------------- HANDLES LOCATION PERMISSIONS RESPONSE ---------------------//
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 

@@ -46,11 +46,7 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
         rName.setText(String.valueOf(result.getName()));
         rAddress.setText(String.valueOf(result.getVicinity()));
         rDistance.setText(new StringBuilder().append(distance).append("m"));
-        if (workmates > 0) {
-            rWorkmates.setText(String.valueOf(workmates));
-        } else {
-            rWorkmates.setVisibility(View.INVISIBLE);
-        }
+        updateRestaurantsWitWorkmates(workmates);
 
         showRating(result);
         showPicture(result);

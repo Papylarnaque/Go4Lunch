@@ -2,53 +2,44 @@ package com.edescamp.go4lunch.activity.fragment.view;
 
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
-import com.edescamp.go4lunch.service.APIClient;
-import com.edescamp.go4lunch.service.APIRequest;
-import com.edescamp.go4lunch.model.map.LocationAPIMap;
 import com.edescamp.go4lunch.model.details.ResultAPIDetails;
+import com.edescamp.go4lunch.model.map.LocationAPIMap;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
-import com.edescamp.go4lunch.model.details.ResultsAPIDetails;
-import com.edescamp.go4lunch.util.RestaurantHelper;
+import com.edescamp.go4lunch.service.PlaceDetailsService;
+import com.edescamp.go4lunch.util.DetailsUtil;
 import com.google.firebase.firestore.DocumentSnapshot;
-
 
 import java.util.List;
 import java.util.Objects;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_FIELDS;
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.workmates;
+import static com.edescamp.go4lunch.service.PlaceDetailsService.placeDetailsResultHashmap;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHolder> {
 
     private static final String TAG = "RestaurantAdapter";
     private final List<ResultAPIMap> results;
     private final Location userLocation;
+    private final FragmentActivity activity;
     private Context context;
     private int distance;
     private Integer workmatesCount;
     private ResultAPIDetails resultAPIDetails;
 
-    public RestaurantsAdapter(List<ResultAPIMap> results, Location userLocation) {
+    public RestaurantsAdapter(List<ResultAPIMap> results, Location userLocation, FragmentActivity activity) {
         this.results = results;
         this.userLocation = userLocation;
+        this.activity = activity;
     }
 
     @Override
@@ -67,26 +58,42 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantsViewHolder holder, int position) {
+        String placeId = results.get(position).getPlaceId();
 
-        distance = getStraightDistance(results.get(position).getGeometry().getLocation());
+        if (!placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
+            PlaceDetailsService.getPlaceDetails(results.get(position).getPlaceId());
+            holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
+        } else {
+            getWorkmates(position, holder);
 
-        getWorkmates(position, holder);
 
-        getPlaceDetails(results.get(position), holder);
+            distance = getStraightDistance(results.get(position).getGeometry().getLocation());
 
-        holder.itemView.setOnClickListener(v -> getPlaceDetails(results.get(position).getPlaceId()));
+            holder.updateRestaurantsWithDetails(Objects.requireNonNull(placeDetailsResultHashmap.get(placeId)));
 
+
+            holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
+
+            holder.itemView.setOnClickListener(v -> {
+                if (placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
+                    DetailsUtil.openDetailsFragment(
+                            activity,
+                            placeDetailsResultHashmap.get(Objects.requireNonNull(results.get(position).getPlaceId())));
+
+                }
+            });
+        }
     }
 
     private void getWorkmates(int position, RestaurantsViewHolder holder) {
         workmatesCount = 0;
-        for (DocumentSnapshot workmate : workmates){
+        for (DocumentSnapshot workmate : workmates) {
             if (Objects.equals(workmate.get("chosenRestaurantId"), results.get(position).getPlaceId())
-            && !workmate.get("uid").equals(uid))
-                workmatesCount +=1;
+                    && !Objects.equals(workmate.get("uid"), uid))
+                workmatesCount += 1;
         }
 
-        holder.updateRestaurantsWitWorkmates(workmatesCount);
+//        holder.updateRestaurantsWitWorkmates(workmatesCount);
 
     }
 
@@ -101,75 +108,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
         return Math.round(restaurantLocation.distanceTo(userLocation));
     }
 
-    public void getPlaceDetails(ResultAPIMap resultAPIMap, RestaurantsViewHolder holder) {
-        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(resultAPIMap.getPlaceId(), API_MAP_FIELDS, BuildConfig.GOOGLE_MAPS_KEY);
-
-        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
-            @Override
-            public void onResponse( Call<ResultsAPIDetails> call,  Response<ResultsAPIDetails> response) {
-                Log.d(TAG, "getPlaceDetails API ");
-                if (response.isSuccessful()) {
-                    ResultsAPIDetails body = response.body();
-                    if (body != null) {
-                        resultAPIDetails = body.getResult();
-                        Log.d(TAG, "getPlaceDetails successful response " + resultAPIDetails.getName() + " " + resultAPIDetails.getPlaceId());
-
-                        RestaurantHelper.setRestaurantDetails(resultAPIMap.getPlaceId(),resultAPIDetails);
-                        holder.updateRestaurantsWithDetails(resultAPIDetails);
-
-                    }
-                    // TODO Handle failures, 404 error, etc
-                }
-            }
-
-            @Override
-            public void onFailure( Call<ResultsAPIDetails> call,  Throwable t) {
-                Log.d(TAG, "getPlaceDetails API failure" + t);
-            }
-        });
-
-        holder.createViewWithRestaurants(resultAPIMap, distance, workmatesCount);
-    }
-
-    // ------------------ DETAILS FRAGMENT accessibility -------------- //
-
-    public void getPlaceDetails(String placeId) {
-        APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, BuildConfig.GOOGLE_MAPS_KEY);
-
-        placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
-            @Override
-            public void onResponse( Call<ResultsAPIDetails> call,  Response<ResultsAPIDetails> response) {
-                Log.d(TAG, "getPlaceDetails API ");
-                if (response.isSuccessful()) {
-                    ResultsAPIDetails body = response.body();
-                    if (body != null) {
-                        ResultAPIDetails result = body.getResult();
-                        Log.d(TAG, "getPlaceDetails successful response " + result.getName() + " " + result.getPlaceId());
-
-
-                        openDetailsFragment(result);
-                    }
-                    // TODO Handle failures, 404 error, etc
-                }
-            }
-
-            @Override
-            public void onFailure( Call<ResultsAPIDetails> call,  Throwable t) {
-                Log.d(TAG, "getPlaceDetails API failure" + t);
-            }
-        });
-    }
-
-    private void openDetailsFragment(ResultAPIDetails result) {
-        AppCompatActivity activity = (AppCompatActivity) context;
-        Fragment fragment = new DetailsFragment(result);
-        activity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
 
     @Override
     public int getItemCount() {

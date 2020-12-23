@@ -1,6 +1,5 @@
 package com.edescamp.go4lunch.service;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.edescamp.go4lunch.activity.MainActivity;
 import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -23,25 +21,35 @@ import com.google.android.gms.maps.model.LatLng;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
-public class LocationService{
+public class LocationService {
 
     private final Activity activity;
+
+    public static Location userLocation;
+    public static LatLng oldUserLatLng;
+    public static LatLng userLatLng;
+    public static String userLocationStr;
 
     public LocationService(FragmentActivity activity) {
         this.activity = activity;
     }
 
     // Request localisation
-    public void getLocationPermission() {
+    public boolean getLocationPermission() {
+        // TODO fix bug when accept to share location,
+
         if (ContextCompat.checkSelfPermission(activity.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             startLocationUpdates();
+            return true;
         } else {
             ActivityCompat.requestPermissions(activity,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     RestaurantsFragment.RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
         }
+        return false;
     }
 
     // USER LOCATION updates listener service //
@@ -61,12 +69,12 @@ public class LocationService{
         settingsClient.checkLocationSettings(locationSettingsRequest);
 
         // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+//        if (ActivityCompat.checkSelfPermission(activity,
+//                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(activity,
+//                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
 
 //        LocationInterface.getFusedLocation(mLocationRequest);
         getFusedLocation(mLocationRequest);
@@ -87,18 +95,18 @@ public class LocationService{
 
 
     private void onLocationChanged(Location location) {
-        MainActivity.userLocation = location;
+        userLocation = location;
 
         // New location has now been determined
-        LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         // Userlocation for API request
-        String userLocationStr = location.getLatitude() + "," + location.getLongitude();
+        userLocationStr = location.getLatitude() + "," + location.getLongitude();
         // Check location update to avoid unnecessary api calls
-        if (userLatLng != MainActivity.oldUserLatLng) {
-            RetrofitService.getNearbyPlaces(userLocationStr);
+        if (userLatLng != oldUserLatLng) {
+            NearByPlacesService.getNearbyPlaces(userLocationStr);
         }
-        MainActivity.oldUserLatLng = userLatLng;
+        oldUserLatLng = userLatLng;
 
     }
 

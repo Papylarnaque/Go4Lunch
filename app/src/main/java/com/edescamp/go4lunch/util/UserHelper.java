@@ -48,7 +48,7 @@ public class UserHelper {
         return UserHelper.getUsersCollection().get();
     }
 
-    public static Task<QuerySnapshot> getAllUsersOrderByRestaurant(String userId) {
+    public static Task<QuerySnapshot> getAllUsersOrderByRestaurant() {
         return UserHelper.getUsersCollection()
                 .orderBy("chosenRestaurantId", Query.Direction.DESCENDING)
                 .get();

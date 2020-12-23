@@ -24,11 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:maxLines="2"
-        android:text="@string/restaurant_List_no_restaurants_to_show"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurants_recyclerview"

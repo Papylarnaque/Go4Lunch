@@ -59,7 +59,8 @@
     <string name="logoTextDescription" translatable="false">Logo</string>
 
     <!--     Restaurant Fragment-->
-    <string name="restaurant_List_no_restaurants_to_show">No Restaurants to show in %1$dm radius</string>
+    <string name="restaurant_list_no_restaurants_to_show">No Restaurants to show in %1$dm radius</string>
+    <string name="restaurant_list_no_restaurants_location_denied">Please accept to share your location to see the restaurants near your position</string>
 
     <!--    Permissions-->
     <string name="permissions_not_granted">Permissions were not granted.</string>

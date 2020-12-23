@@ -1,32 +1,25 @@
 package com.edescamp.go4lunch.activity.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.fragment.view.RestaurantsAdapter;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
-import com.edescamp.go4lunch.model.map.ResultsAPIMap;
 import com.edescamp.go4lunch.service.LocationService;
-import com.edescamp.go4lunch.service.RetrofitService;
+import com.edescamp.go4lunch.service.NearByPlacesService;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
-import static com.edescamp.go4lunch.activity.MainActivity.userLocation;
+import static com.edescamp.go4lunch.service.NearByPlacesService.nearbyPlacesResults;
 
 public class RestaurantsFragment extends BaseFragment {
 
@@ -38,34 +31,6 @@ public class RestaurantsFragment extends BaseFragment {
     private ProgressBar progressBar;
     private TextView noRestaurants;
 
-    // Data
-    private List<ResultAPIMap> results;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        if (results == null) {
-            RetrofitService.listen.observe(requireActivity(), new Observer<Call<ResultsAPIMap>>() {
-                @Override
-                public void onChanged(Call<ResultsAPIMap> changedValue) {
-                    //Do something with the changed value
-                if ( changedValue!=null) {
-                    getNearbyPlaces(changedValue);
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
-                }
-            });
-        } else {
-            // do nothing but update recyclerview
-            sendResultsToAdapter(results);
-        }
-
-
-    }
 
     @Override
     public View onCreateView(
@@ -82,50 +47,44 @@ public class RestaurantsFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.restaurants_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-//        getLocationPermission();
-        LocationService locationService = new LocationService(requireActivity());
-        locationService.getLocationPermission();
-
-
         progressBar.setVisibility(View.VISIBLE);
 
+
+        if (nearbyPlacesResults == null) {
+            LocationService locationService = new LocationService(requireActivity());
+            if (!locationService.getLocationPermission()) {
+                locationDenied();
+            }
+
+            NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
+                //Do something with the changed value
+                if (changedNearbyPlacesResults != null) {
+                    sendResultsToAdapter(changedNearbyPlacesResults);
+                } else {
+                    noRestaurantsToShow();
+                }
+            });
+        } else {
+            sendResultsToAdapter(nearbyPlacesResults);
+        }
 
         return view;
     }
 
+    private void locationDenied() {
+        progressBar.setVisibility(View.GONE);
+        noRestaurants.setText(R.string.restaurant_list_no_restaurants_location_denied);
+        noRestaurants.setVisibility(View.VISIBLE);
+    }
 
-    // ---------------------------- Get places for markers----
-    private void getNearbyPlaces(Call<ResultsAPIMap> nearbyPlaces) {
-        nearbyPlaces.clone().enqueue(new Callback<ResultsAPIMap>() {
-            @Override
-            public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
-                if (response.isSuccessful()) {
-                    ResultsAPIMap body = response.body();
-                    if (body != null) {
-                        results = body.getResults();
-                        if (results.size() == 0) {
-                            noRestaurants.setText(getString(R.string.restaurant_List_no_restaurants_to_show, RADIUS_INIT));
-                            noRestaurants.setVisibility(View.VISIBLE);
-                        } else {
-                            sendResultsToAdapter(results);
-                        }
-                    }
-                }
-//                progressBar.setVisibility(View.GONE);
-//                recyclerView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                Log.d(TAG, "getPlace failure" + t);
-            }
-
-        });
+    private void noRestaurantsToShow() {
+        progressBar.setVisibility(View.GONE);
+        noRestaurants.setText(getString(R.string.restaurant_list_no_restaurants_to_show, RADIUS_INIT));
+        noRestaurants.setVisibility(View.VISIBLE);
     }
 
     private void sendResultsToAdapter(List<ResultAPIMap> results) {
-        recyclerView.setAdapter(new RestaurantsAdapter(results, userLocation));
+        recyclerView.setAdapter(new RestaurantsAdapter(results, LocationService.userLocation, this.getActivity()));
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
     }

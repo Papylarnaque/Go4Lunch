@@ -55,7 +55,7 @@ public class WorkmatesFragment extends BaseFragment {
 
 
     private void getWorkmatesExceptCurrentUser() {
-        UserHelper.getAllUsersOrderByRestaurant(uid).addOnSuccessListener(queryDocumentSnapshots -> {
+        UserHelper.getAllUsersOrderByRestaurant().addOnSuccessListener(queryDocumentSnapshots -> {
             launchProgressBar();
             if (queryDocumentSnapshots == null) {
                 noWorkmates.setText(R.string.workmates_list_no_workmates_to_show);

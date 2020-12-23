@@ -74,4 +74,14 @@ public class SharedPrefs {
         return settings.getBoolean("NOTIFICATIONS", true);
     }
 
+    // ------ GET ----- //
+
+    public static void deleteUserId(Context context){
+        settings = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove("USER");
+        editor.apply();
+    }
+
+
 }
