@@ -4,16 +4,41 @@
     <item
         android:id="@+id/main_activity_menu_search"
         android:icon="@drawable/baseline_search_24"
-        app:showAsAction="always"
-        android:visibility="invisible"
-        android:title="@string/menu_main_activity_search"/>
+        android:title="@string/menu_main_activity_search"
+        android:visibility="gone"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/main_activity_menu_clear"
         android:icon="@drawable/ic_close_black_24dp"
-        app:showAsAction="always"
+        android:title="@string/menu_main_activity_clear"
         android:visibility="gone"
-        android:title="@string/menu_main_activity_clear"/>
+        app:showAsAction="ifRoom" />
+
+    <group
+        android:id="@+id/main_activity_restaurants_group_sort"
+        android:visibility="gone">
+        <item
+            android:id="@+id/main_activity_restaurants_sort_name_asc"
+            android:title="@string/main_activity_restaurants_sort_name_asc"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/main_activity_restaurants_sort_name_desc"
+            android:title="@string/main_activity_restaurants_sort_name_desc"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/main_activity_restaurants_sort_rating_desc"
+            android:title="@string/main_activity_restaurants_sort_rating_desc"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/main_activity_restaurants_sort_workmates_desc"
+            android:title="@string/main_activity_restaurants_sort_workmates_desc"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/main_activity_restaurants_sort_distance_asc"
+            android:title="@string/main_activity_restaurants_sort_distance_asc"
+            app:showAsAction="never" />
+    </group>
 
 
 </menu>

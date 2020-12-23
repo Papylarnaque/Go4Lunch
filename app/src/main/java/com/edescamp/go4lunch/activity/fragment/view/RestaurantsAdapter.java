@@ -1,6 +1,5 @@
 package com.edescamp.go4lunch.activity.fragment.view;
 
-import android.content.Context;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.R;
-import com.edescamp.go4lunch.model.details.ResultAPIDetails;
-import com.edescamp.go4lunch.model.map.LocationAPIMap;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
 import com.edescamp.go4lunch.service.PlaceDetailsService;
 import com.edescamp.go4lunch.util.DetailsUtil;
@@ -23,6 +20,8 @@ import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.workmates;
+import static com.edescamp.go4lunch.activity.fragment.RestaurantsFragment.distanceHashMap;
+import static com.edescamp.go4lunch.activity.fragment.RestaurantsFragment.workmatesCountHashMap;
 import static com.edescamp.go4lunch.service.PlaceDetailsService.placeDetailsResultHashmap;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHolder> {
@@ -31,10 +30,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     private final List<ResultAPIMap> results;
     private final Location userLocation;
     private final FragmentActivity activity;
-    private Context context;
     private int distance;
     private Integer workmatesCount;
-    private ResultAPIDetails resultAPIDetails;
 
     public RestaurantsAdapter(List<ResultAPIMap> results, Location userLocation, FragmentActivity activity) {
         this.results = results;
@@ -51,7 +48,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     @Override
     public RestaurantsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        context = view.getContext();
+        view.getContext();
         return new RestaurantsViewHolder(view);
     }
 
@@ -64,10 +61,9 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             PlaceDetailsService.getPlaceDetails(results.get(position).getPlaceId());
             holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
         } else {
-            getWorkmates(position, holder);
+            getWorkmates(position);
 
-
-            distance = getStraightDistance(results.get(position).getGeometry().getLocation());
+            distance = getStraightDistance(results.get(position));
 
             holder.updateRestaurantsWithDetails(Objects.requireNonNull(placeDetailsResultHashmap.get(placeId)));
 
@@ -85,27 +81,26 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
         }
     }
 
-    private void getWorkmates(int position, RestaurantsViewHolder holder) {
+    private void getWorkmates(int position) {
         workmatesCount = 0;
         for (DocumentSnapshot workmate : workmates) {
             if (Objects.equals(workmate.get("chosenRestaurantId"), results.get(position).getPlaceId())
                     && !Objects.equals(workmate.get("uid"), uid))
                 workmatesCount += 1;
         }
-
-//        holder.updateRestaurantsWitWorkmates(workmatesCount);
-
+        // Save Workmates joining
+        workmatesCountHashMap.put(results.get(position).getPlaceId(), workmatesCount);
     }
 
-
-    // --------------------  DETAILS DATA request -------------------- //
-
-    private int getStraightDistance(LocationAPIMap restaurantLatLng) {
+    private int getStraightDistance(ResultAPIMap resultAPIMap) {
         Location restaurantLocation = new Location("");
-        restaurantLocation.setLongitude(restaurantLatLng.getLng());
-        restaurantLocation.setLatitude(restaurantLatLng.getLat());
+        restaurantLocation.setLongitude(resultAPIMap.getGeometry().getLocation().getLng());
+        restaurantLocation.setLatitude(resultAPIMap.getGeometry().getLocation().getLat());
 
-        return Math.round(restaurantLocation.distanceTo(userLocation));
+        int distance = Math.round(restaurantLocation.distanceTo(userLocation));
+        distanceHashMap.put(resultAPIMap.getPlaceId(), distance);
+
+        return distance;
     }
 
 

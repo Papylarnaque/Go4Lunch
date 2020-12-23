@@ -85,12 +85,10 @@ public class WorkmatesFragment extends BaseFragment {
         recyclerView.setVisibility(View.VISIBLE);
     }
 
-
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
-
 
 }

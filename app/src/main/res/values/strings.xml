@@ -115,7 +115,11 @@
     <string name="notifications_firebase_failure">Please tap the notification to see further details about your today lunch.</string>
 
     <string name="item_restaurant_no_picture_no_text">No Pic</string>
-
+    <string name="main_activity_restaurants_sort_name_asc"><![CDATA[Sort A -> Z]]></string>
+    <string name="main_activity_restaurants_sort_name_desc"><![CDATA[Sort Z -> A]]></string>
+    <string name="main_activity_restaurants_sort_rating_desc">Sort by Rating</string>
+    <string name="main_activity_restaurants_sort_workmates_desc">Sort by Workmates</string>
+    <string name="main_activity_restaurants_sort_distance_asc">Sort by Distance</string>
 
 
 </resources>

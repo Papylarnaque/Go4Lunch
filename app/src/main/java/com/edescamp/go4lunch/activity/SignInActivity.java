@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
@@ -28,12 +27,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.OAuthProvider;
-import com.twitter.sdk.android.core.DefaultLogger;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import java.util.Objects;
 
@@ -50,11 +43,10 @@ public class SignInActivity extends BaseActivity {
     private static final int RC_SIGN_IN = 3;
 
     // MODEL
-    private FirebaseAuth firebaseAuth;
+    public FirebaseAuth firebaseAuth;
     private CallbackManager facebookCallbackManager;
     private GoogleSignInClient mGoogleSignInClient;
 
-    OAuthProvider.Builder provider = OAuthProvider.newBuilder(String.valueOf(R.string.twitter));
 
     // TODO : Fix Token issues for login - Facebook keeps the auth when Firebase is logged out ?
     // TODO : Link account if trying to log with other provider
@@ -74,7 +66,6 @@ public class SignInActivity extends BaseActivity {
 
         configFacebookAuth();
         configGoogleAuth();
-        configTwitterAuth();
 
     }
 
@@ -103,6 +94,7 @@ public class SignInActivity extends BaseActivity {
                 } catch (ApiException e) {
                     e.printStackTrace();
                 }
+                assert account != null;
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 handleGoogleAccessToken(account.getIdToken());
             } else {
@@ -161,19 +153,6 @@ public class SignInActivity extends BaseActivity {
 
     }
 
-    // TWITTER AUTH
-    private void configTwitterAuth() {
-        TwitterConfig twitterConfig = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(BuildConfig.TWITTER_CONSUMER_KEY, BuildConfig.TWITTER_CONSUMER_SECRET))
-                .debug(true)
-                .build();
-        Twitter.initialize(twitterConfig);
-
-        // TWITTER SIGN IN BUTTON
-        TwitterLoginButton mLoginButton = findViewById(R.id.login_button_twitter);
-    }
-
     // FACEBOOK TOKEN
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
@@ -226,8 +205,15 @@ public class SignInActivity extends BaseActivity {
         String userName = this.getCurrentUser().getDisplayName();
         String userMail = this.getCurrentUser().getEmail();
 
-        UserHelper.createUser(userId, userName, userUrlPicture, userMail)
-                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
+        UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot == null) {
+
+                UserHelper.createUser(userId, userName, userUrlPicture, userMail)
+                        .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
+
+            }
+        });
+
 
         startMainActivity(userId);
     }

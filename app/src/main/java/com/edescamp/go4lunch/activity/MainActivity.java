@@ -141,6 +141,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
 
+        menu.setGroupVisible(R.id.main_activity_restaurants_group_sort, false);
+
         clearButton = menu.findItem(R.id.main_activity_menu_clear);
         clearButton.setVisible(false);
         return true;
@@ -172,9 +174,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 case navigation_workmates_id:
                     hideSearch();
+                    mToolbar.setTitle(R.string.title_workmates);
                     fragment = new WorkmatesFragment();
                     showFragment(fragment);
-                    mToolbar.setTitle(R.string.title_workmates);
                     break;
             }
             return true;
@@ -293,15 +295,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (id) {
             // "YOUR LUNCH"
             case main_drawer_lunch_id:
-                this.mDrawerLayout.closeDrawer(GravityCompat.START);
-                if (restaurantChoice == null || restaurantChoice.equals("")) {
-                    Toast toast = Toast.makeText(getBaseContext(), R.string.main_activity_lunch_no_restaurant_chosen, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    return false;
-                } else {
-                    openDetailsFragmentOrCallApiThenOpenDetailsFragment(this, restaurantChoice);
-                }
+                yourLunchClick();
                 return true;
             // "SETTINGS"
             case main_drawer_settings_id:
@@ -320,27 +314,51 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
+    private void yourLunchClick() {
+        this.mDrawerLayout.closeDrawer(GravityCompat.START);
+        if (restaurantChoice == null || restaurantChoice.equals("")) {
+            Toast toast = Toast.makeText(getBaseContext(), R.string.main_activity_lunch_no_restaurant_chosen, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            openDetailsFragmentOrCallApiThenOpenDetailsFragment(this, restaurantChoice);
+        }
+    }
+
 
     // ---------------------- AUTOCOMPLETE SEARCH -----------------------//
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.main_activity_menu_search) {
+        final int main_activity_menu_search = R.id.main_activity_menu_search;
+        final int main_activity_menu_clear = R.id.main_activity_menu_clear;
 
-            if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
-                autoCompleteTextView.setVisibility(View.GONE);
-            } else {
-                autoCompleteTextView.setVisibility(View.VISIBLE);
-            }
-
-            return true;
-        } else if (id == R.id.main_activity_menu_clear) {
-            autoCompleteTextView.setText("");
-            return true;
+        switch (id) {
+            // Autocomplete lens
+            case main_activity_menu_search:
+                showOrHideAutocompleteItem();
+                return true;
+            // Autocomplete clear
+            case main_activity_menu_clear:
+                autoCompleteTextView.setText("");
+                return true;
+            default:
+                break;
         }
+
+
         return super.onOptionsItemSelected(item);
 
     }
+
+    private void showOrHideAutocompleteItem() {
+        if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
+            autoCompleteTextView.setVisibility(View.GONE);
+        } else {
+            autoCompleteTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     private void autoCompleteTextListener() {
 

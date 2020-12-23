@@ -85,11 +85,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         locationService = new LocationService(requireActivity());
 
-//        if (nearbyPlacesResults == null) {
         if (locationService.getLocationPermission()) {
             enableCompassButton();
             moveCompassButton(mapView);
         }
+
         NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
             //Do something with the changed value
             if (changedNearbyPlacesResults != null) {
