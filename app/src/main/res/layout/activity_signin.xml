@@ -26,84 +26,84 @@
             app:srcCompat="@drawable/bg_g4l_portrait" />
 
         <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="@string/logoTextDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/signin_background"
-        app:srcCompat="@drawable/logo_g4l" />
+            android:id="@+id/imageLogo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/logoTextDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/signin_background"
+            app:srcCompat="@drawable/logo_g4l" />
 
-    <TextView
-        android:id="@+id/text_AppName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageLogo"
-        android:layout_marginBottom="450dp"
-        android:shadowColor="@color/colorText"
-        android:shadowRadius="1"
-        android:text="@string/appName"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="70sp"
-        android:textStyle="bold"
+        <TextView
+            android:id="@+id/text_AppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageLogo"
+            android:layout_marginBottom="450dp"
+            android:shadowColor="@color/colorText"
+            android:shadowRadius="1"
+            android:text="@string/appName"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="70sp"
+            android:textStyle="bold"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageLogo" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageLogo" />
 
-    <TextView
-        android:id="@+id/text_AppSentence"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_AppName"
-        android:layout_marginBottom="406dp"
-        android:gravity="center_horizontal"
-        android:shadowColor="@color/colorText"
-        android:shadowRadius="1"
-        android:text="@string/appSentence"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="12sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_AppName" />
-
-
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button_facebook"
-        android:layout_width="@dimen/signin_button_width"
-        android:layout_height="@dimen/signin_button_height"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:paddingTop="25dp"
-        android:paddingBottom="25dp"
-        app:layout_constraintBottom_toTopOf="@id/login_button_google"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_AppSentence" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/login_button_google"
-        android:layout_width="@dimen/signin_button_width"
-        android:layout_height="@dimen/signin_button_height"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/signin_between_buttons"
-        android:layout_marginBottom="100dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button_facebook" />
+        <TextView
+            android:id="@+id/text_AppSentence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_AppName"
+            android:layout_marginBottom="406dp"
+            android:gravity="center_horizontal"
+            android:shadowColor="@color/colorText"
+            android:shadowRadius="1"
+            android:text="@string/appSentence"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_AppName" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button_facebook"
+            android:layout_width="@dimen/signin_button_width"
+            android:layout_height="@dimen/signin_button_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:paddingTop="25dp"
+            android:paddingBottom="25dp"
+            app:layout_constraintBottom_toTopOf="@id/login_button_google"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_AppSentence" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/login_button_google"
+            android:layout_width="@dimen/signin_button_width"
+            android:layout_height="@dimen/signin_button_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/signin_between_buttons"
+            android:layout_marginBottom="100dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_button_facebook" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signin_progress_bar_layout"
         android:layout_width="match_parent"
@@ -111,10 +111,10 @@
         android:visibility="gone">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/signin_progress_bar_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/quantum_white_text"
+            android:background="@color/colorWhite"
             android:contentDescription="@string/bg_portraitBackgroundDescription"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -122,7 +122,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
-            android:id="@+id/restaurant_list_progress_bar"
+            android:id="@+id/signin_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
@@ -131,6 +131,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/signin_no_connection_pull_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/signin_no_connection_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/signin_no_connection_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:contentDescription="@string/bg_portraitBackgroundDescription"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/signin_no_connection_image"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic__wifi_off_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/signin_no_connection_text"
+                android:textAlignment="center"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@id/signin_no_connection_image" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

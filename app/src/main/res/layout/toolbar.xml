@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/input_your_place"
-        android:textColorHighlight="@color/tw__solid_white"
+        android:textColorHighlight="@color/colorWhite"
         android:maxLines="1"
         android:visibility="gone"
         android:background="@android:color/transparent"

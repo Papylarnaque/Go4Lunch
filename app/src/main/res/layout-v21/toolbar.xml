@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/input_your_place"
         android:maxLines="1"
-        android:textColorHighlight="@color/tw__solid_white"
+        android:textColorHighlight="@color/colorWhite"
         android:visibility="gone"
         android:backgroundTint="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />

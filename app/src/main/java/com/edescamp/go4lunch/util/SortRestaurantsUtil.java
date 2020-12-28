@@ -11,7 +11,6 @@ public class SortRestaurantsUtil {
 
 
     public static void sortAZ(List<ResultAPIMap> nearbyPlacesResults) {
-        // TODO Dupliquer liste et faire un return
         Collections.sort(nearbyPlacesResults, (obj1, obj2) -> obj1.getName().compareToIgnoreCase(obj2.getName()));
     }
 
@@ -36,7 +35,6 @@ public class SortRestaurantsUtil {
 
     public static void sortDistanceAsc(List<ResultAPIMap> nearbyPlacesResults) {
         Collections.sort(nearbyPlacesResults, (obj1, obj2) -> {
-
             if (RestaurantsFragment.distanceHashMap.containsKey(obj1.getPlaceId())
                     && RestaurantsFragment.distanceHashMap.containsKey(obj2.getPlaceId())) {
                 return Objects.requireNonNull(RestaurantsFragment.distanceHashMap.get(obj1.getPlaceId()))

@@ -6,7 +6,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.edescamp.go4lunch.R;
+import com.edescamp.go4lunch.util.CheckConnectivity;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.AccessToken;
@@ -47,26 +50,45 @@ public class SignInActivity extends BaseActivity {
     private CallbackManager facebookCallbackManager;
     private GoogleSignInClient mGoogleSignInClient;
 
+    SwipeRefreshLayout pullToRefresh;
+
 
     // TODO : Fix Token issues for login - Facebook keeps the auth when Firebase is logged out ?
     // TODO : Link account if trying to log with other provider
+    // TODO check internet before loading view
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-        firebaseAuth = FirebaseAuth.getInstance();
 
-        // check if user is already logged in
+        // In case no connection is detected, enable pull to refresh on "no connection layout"
+        pullToRefresh = findViewById(R.id.signin_no_connection_pull_to_refresh);
+        pullToRefresh.setOnRefreshListener(() -> {
+            checkConnectivity(); // your code
+            pullToRefresh.setRefreshing(false);
+        });
 
-        userId = SharedPrefs.getUserId(getApplicationContext());
-        // means user is logged in token was found
-        if (userId != null) {
-            startMainActivity(userId);
+        checkConnectivity();
+    }
+
+    private void checkConnectivity() {
+        if (!CheckConnectivity.isConnected(getApplicationContext())){
+            pullToRefresh.setVisibility(View.VISIBLE);
+
+        } else {
+            pullToRefresh.setVisibility(View.GONE);
+            firebaseAuth = FirebaseAuth.getInstance();
+
+            // check if user is already logged in
+            userId = SharedPrefs.getUserId(getApplicationContext());
+            // means user is logged in token was found
+            if (userId != null) {
+                startMainActivity(userId);
+            }
+
+            configFacebookAuth();
+            configGoogleAuth();
         }
-
-        configFacebookAuth();
-        configGoogleAuth();
-
     }
 
 
@@ -83,11 +105,11 @@ public class SignInActivity extends BaseActivity {
         facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        Log.d(TAG, "requestCode: " + requestCode + " resultCode " + resultCode + " data " + data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             if (resultCode == RESULT_OK) {
-                // Google Sign In was successful, authenticate with Firebase
-                // 2 - CREATE USER IN FIRESTORE
+                // Google Sign In was successful
                 GoogleSignInAccount account = null;
                 try {
                     account = task.getResult(ApiException.class);
@@ -98,8 +120,11 @@ public class SignInActivity extends BaseActivity {
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 handleGoogleAccessToken(account.getIdToken());
             } else {
-                // Google Sign In failed, update UI appropriately
+                // Google Sign In failed
                 Log.w(TAG, "Google sign in failed");
+
+                Toast.makeText(SignInActivity.this, "Google Authentication Failed.",
+                        Toast.LENGTH_SHORT).show();
                 // ...
             }
         }

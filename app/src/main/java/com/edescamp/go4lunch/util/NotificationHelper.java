@@ -102,6 +102,11 @@ public class NotificationHelper {
                         for (DocumentSnapshot workmate : queryDocumentSnapshots.getDocuments()) {
                             users.add(workmate.toObject(User.class));
                         }
+                        try {
+                            wait(2);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         messageBody = setUpMessageWithUsersData(users);
 
                         sendNotification();
@@ -174,9 +179,9 @@ public class NotificationHelper {
                     for (String workmate : lunchWorkmates) {
                         if (workmate.equals(lunchWorkmates.get(lunchWorkmates.size() - 1))) {
                             workmatesString.append(workmate);
-                        }  else if (workmate.equals(lunchWorkmates.get(lunchWorkmates.size() - 2))){
-                                workmatesString.append(workmate);
-                                workmatesString.append(context.getString(R.string.notification_workmatesstring_builder_and));
+                        } else if (workmate.equals(lunchWorkmates.get(lunchWorkmates.size() - 2))) {
+                            workmatesString.append(workmate);
+                            workmatesString.append(context.getString(R.string.notification_workmatesstring_builder_and));
                         } else {
                             workmatesString.append(workmate);
                             workmatesString.append(", ");

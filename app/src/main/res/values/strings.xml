@@ -121,6 +121,7 @@
     <string name="main_activity_restaurants_sort_workmates_desc">Sort by Workmates</string>
     <string name="main_activity_restaurants_sort_distance_asc">Sort by Distance</string>
     <string name="main_activity_restaurants_no_workmates_to_sort_toast">No workmates chose a restaurant up to now.</string>
+    <string name="signin_no_connection_text">You are not connected\nto the Internet.\nPlease connect your device</string>
 
 
 </resources>

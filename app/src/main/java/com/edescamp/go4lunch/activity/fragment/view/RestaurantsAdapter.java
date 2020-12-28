@@ -61,7 +61,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             PlaceDetailsService.getPlaceDetails(results.get(position).getPlaceId());
             holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
         } else {
-            getWorkmates(position);
+            getWorkmatesCount(position);
 
             distance = getStraightDistance(results.get(position));
 
@@ -71,17 +71,20 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
 
             holder.itemView.setOnClickListener(v -> {
-                if (placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
-                    DetailsUtil.openDetailsFragment(
-                            activity,
-                            placeDetailsResultHashmap.get(Objects.requireNonNull(results.get(position).getPlaceId())));
-
-                }
+                DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment(
+                        activity,
+                        results.get(position).getPlaceId());
+//                if (placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
+//                    DetailsUtil.openDetailsFragment(
+//                            activity,
+//                            placeDetailsResultHashmap.get(Objects.requireNonNull(results.get(position).getPlaceId())));
+//
+//                }
             });
         }
     }
 
-    private void getWorkmates(int position) {
+    private void getWorkmatesCount(int position) {
         workmatesCount = 0;
         for (DocumentSnapshot workmate : workmates) {
             if (Objects.equals(workmate.get("chosenRestaurantId"), results.get(position).getPlaceId())

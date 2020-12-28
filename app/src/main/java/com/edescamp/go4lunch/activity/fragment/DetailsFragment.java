@@ -200,7 +200,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void sendResultsToAdapter(List<DocumentSnapshot> documents) {
-        recyclerView.setAdapter(new WorkmatesAdapter(documents, TAG));
+        recyclerView.setAdapter(new WorkmatesAdapter(documents, this.getActivity(), TAG));
     }
 
     // -------------- Handles USER INTERACTIONS -------------- //

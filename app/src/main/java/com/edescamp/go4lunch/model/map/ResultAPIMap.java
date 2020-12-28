@@ -7,62 +7,96 @@ import java.util.List;
 
 public class ResultAPIMap implements Serializable {
 
-        @SerializedName("place_id")
-        private String placeId;
+    @SerializedName("place_id")
+    private String placeId;
 
-        @SerializedName("name")
-        private String name;
+    @SerializedName("name")
+    private String name;
 
-        @SerializedName("rating")
-        private Float rating;
+    @SerializedName("rating")
+    private Float rating;
 
-        @SerializedName("business_status")
-        private String business_status;
+    @SerializedName("business_status")
+    private String business_status;
 
-        @SerializedName("vicinity")
-        private String vicinity;
+    @SerializedName("vicinity")
+    private String vicinity;
 
-        @SerializedName("geometry")
-        private GeometryAPIMap geometry;
+    @SerializedName("geometry")
+    private GeometryAPIMap geometry;
 
-        @SerializedName("photos")
-        private List<PhotoAttributesAPIMap> photos;
+    @SerializedName("photos")
+    private List<PhotoAttributesAPIMap> photos;
 
-        @SerializedName("types")
-        private List<String> types;
+    @SerializedName("types")
+    private List<String> types;
 
-        public String getPlaceId() {
-                return placeId;
-        }
+    // --- GETTERS --- //
 
-        public String getName() {
-                return name;
-        }
+    public String getPlaceId() {
+        return placeId;
+    }
 
-        public Float getRating() {
-                return rating;
-        }
+    public String getName() {
+        return name;
+    }
 
-        public String getBusiness_status() {
-                return business_status;
-        }
+    public Float getRating() {
+        return rating;
+    }
 
-        public String getVicinity() {
-                return vicinity;
-        }
+    public String getBusiness_status() {
+        return business_status;
+    }
 
-        public GeometryAPIMap getGeometry() {
-                return geometry;
-        }
+    public String getVicinity() {
+        return vicinity;
+    }
 
-        public List<PhotoAttributesAPIMap> getPhotos() {
-                return photos;
-        }
+    public GeometryAPIMap getGeometry() {
+        return geometry;
+    }
 
-        public List<String> getTypes() {
-                return types;
-        }
+    public List<PhotoAttributesAPIMap> getPhotos() {
+        return photos;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    // --- SETTERS --- For test Purpose //
 
 
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public void setBusiness_status(String business_status) {
+        this.business_status = business_status;
+    }
+
+    public void setVicinity(String vicinity) {
+        this.vicinity = vicinity;
+    }
+
+    public void setGeometry(GeometryAPIMap geometry) {
+        this.geometry = geometry;
+    }
+
+    public void setPhotos(List<PhotoAttributesAPIMap> photos) {
+        this.photos = photos;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
 }

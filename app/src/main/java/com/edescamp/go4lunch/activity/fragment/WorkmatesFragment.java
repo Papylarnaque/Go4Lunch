@@ -77,7 +77,7 @@ public class WorkmatesFragment extends BaseFragment {
     }
 
     private void sendResultsToAdapter(List<DocumentSnapshot> documents) {
-        recyclerView.setAdapter(new WorkmatesAdapter(documents));
+        recyclerView.setAdapter(new WorkmatesAdapter(documents, this.getActivity()));
     }
 
     private void launchProgressBar() {

@@ -74,6 +74,7 @@
     <string name="main_activity_restaurants_sort_workmates_desc">Tri par Collegues</string>
     <string name="main_activity_restaurants_sort_distance_asc">Tri par Distance</string>
     <string name="main_activity_restaurants_no_workmates_to_sort_toast">Aucun collegue n\'a choisi de restaurant pour le moment.</string>
+    <string name="signin_no_connection_text">L\'appareil n\'est pas \nconnecte a Internet.\nVeuillez vous connecter\npour utiliser l\'application.</string>
 
 
 </resources>

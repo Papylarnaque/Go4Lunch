@@ -18,7 +18,6 @@ import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
 import com.edescamp.go4lunch.service.LocationService;
 import com.edescamp.go4lunch.service.NearByPlacesService;
-import com.edescamp.go4lunch.util.RestaurantHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -169,8 +168,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
             markerRestaurant.setTag(result.getPlaceId());
 
-            // Add restaurant to Firestore
-            RestaurantHelper.createRestaurant(result);
         }
 
     }

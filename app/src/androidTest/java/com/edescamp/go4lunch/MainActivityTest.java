@@ -6,6 +6,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.edescamp.go4lunch.activity.MainActivity;
+import com.edescamp.go4lunch.activity.SignInActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,9 +20,11 @@ import static androidx.test.espresso.contrib.DrawerMatchers.isOpen;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+
+    SignInActivity signInActivity;
+
 
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule
@@ -54,17 +57,37 @@ public class MainActivityTest {
 
     @Test
     public void clickOnNavigationView_shouldOpenFragments() {
+        // Open Map
         onView(withId(R.id.navigation_mapview))
                 .perform(click());
         onView(withId(R.id.fragment_map)).check(matches(isDisplayed()));
 
+        // Open Restaurants
         onView(withId(R.id.navigation_listview))
                 .perform(click());
         onView(withId(R.id.fragment_restaurant_list)).check(matches(isDisplayed()));
 
+        // Open Workmates
         onView(withId(R.id.navigation_workmates))
                 .perform(click());
         onView(withId(R.id.fragment_workmates)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void clickOnLogOut_shouldStartSignInActivity() {
+        // Open Drawer
+        onView(withId(R.id.activity_main_drawer_layout))
+                .check(matches(isClosed())) // Left Drawer should be closed.
+                .perform(DrawerActions.open()); // Open Drawer
+
+        //Log Out
+        onView(withId(R.id.activity_main_drawer_logout))
+                .perform(click());
+
+        // Check SignIn is Displayed
+        onView(withId(R.id.signin_layout_main)).check(matches(isDisplayed()));
+
+    }
+
 
 }

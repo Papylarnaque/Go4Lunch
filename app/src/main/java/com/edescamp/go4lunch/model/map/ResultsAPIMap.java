@@ -18,14 +18,10 @@ public class ResultsAPIMap {
         return this.status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public List<ResultAPIMap> getResults() {
         return this.results;
     }
 
-    public void setPredictions(List<ResultAPIMap> results) {
+    public void setResults(List<ResultAPIMap> results) {
         this.results = results;}
 }

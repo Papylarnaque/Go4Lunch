@@ -53,7 +53,7 @@ public class RestaurantsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
 
         noRestaurants = view.findViewById(R.id.restaurant_List_no_restaurants_to_show);
-        progressBar = view.findViewById(R.id.restaurant_list_progress_bar);
+        progressBar = view.findViewById(R.id.signin_progress_bar);
 
         // Add the following lines to create RecyclerView
         recyclerView = view.findViewById(R.id.restaurants_recyclerview);
