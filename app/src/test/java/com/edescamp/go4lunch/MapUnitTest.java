@@ -30,4 +30,13 @@ public class MapUnitTest {
     }
 
 
+    @Test
+    public void testActionBarIsShowing() {
+        ActionBar supportActionBar = activity.getSupportActionBar();
+
+        assert supportActionBar != null;
+        Assert.assertTrue(supportActionBar.isShowing());
+    }
+
+
 }

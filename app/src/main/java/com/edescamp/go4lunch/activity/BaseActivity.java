@@ -25,11 +25,11 @@ public class BaseActivity extends AppCompatActivity {
         return (this.getCurrentUser() != null); }
 
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseAuth.getInstance().signOut();
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        FirebaseAuth.getInstance().signOut();
+//    }
 
 
 }

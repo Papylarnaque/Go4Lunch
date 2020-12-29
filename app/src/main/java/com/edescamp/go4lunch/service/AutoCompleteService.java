@@ -2,6 +2,8 @@ package com.edescamp.go4lunch.service;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.edescamp.go4lunch.BuildConfig;
@@ -22,9 +24,8 @@ public class AutoCompleteService {
 
     private static final String TAG = "AutoCompleteService";
 
-    public static List<PredictionAPIAutocomplete> predictions;
     public static MutableLiveData<List<PredictionAPIAutocomplete>> listenAutoCompletePredictions = new MutableLiveData<>();
-
+    public static LiveData<List<PredictionAPIAutocomplete>> predictions = listenAutoCompletePredictions;
 
     public static void getAutocomplete(String input) {
         APIRequest apiAutocomplete = APIClient.getClient().create(APIRequest.class);
@@ -37,23 +38,22 @@ public class AutoCompleteService {
                 BuildConfig.GOOGLE_MAPS_KEY);
         autocompleteSearch.enqueue(new Callback<PredictionsAPIAutocomplete>() {
             @Override
-            public void onResponse(Call<PredictionsAPIAutocomplete> call, Response<PredictionsAPIAutocomplete> response) {
+            public void onResponse(@NonNull Call<PredictionsAPIAutocomplete> call,
+                                   @NonNull Response<PredictionsAPIAutocomplete> response) {
                 if (response.isSuccessful()) {
                     PredictionsAPIAutocomplete predictionsAPIAutocomplete = response.body();
                     if (predictionsAPIAutocomplete != null) {
-                        predictions = predictionsAPIAutocomplete.getPredictions();
+//                        predictions = predictionsAPIAutocomplete.getPredictions();
+                        listenAutoCompletePredictions.setValue(predictionsAPIAutocomplete.getPredictions());
                     }
-
-                    listenAutoCompletePredictions.setValue(predictions);
 
 
                 }
-                // TODO Handle failures, 404 error, etc
             }
 
             @Override
-            public void onFailure(Call<PredictionsAPIAutocomplete> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<PredictionsAPIAutocomplete> call,
+                                  @NonNull Throwable t) {
                 Log.d(TAG, "getPlace API failure" + t);
             }
 

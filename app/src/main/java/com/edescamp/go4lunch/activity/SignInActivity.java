@@ -52,11 +52,6 @@ public class SignInActivity extends BaseActivity {
 
     SwipeRefreshLayout pullToRefresh;
 
-
-    // TODO : Fix Token issues for login - Facebook keeps the auth when Firebase is logged out ?
-    // TODO : Link account if trying to log with other provider
-    // TODO check internet before loading view
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
@@ -69,10 +64,11 @@ public class SignInActivity extends BaseActivity {
         });
 
         checkConnectivity();
+
     }
 
     private void checkConnectivity() {
-        if (!CheckConnectivity.isConnected(getApplicationContext())){
+        if (!CheckConnectivity.isConnected(getApplicationContext())) {
             pullToRefresh.setVisibility(View.VISIBLE);
 
         } else {
@@ -83,7 +79,9 @@ public class SignInActivity extends BaseActivity {
             userId = SharedPrefs.getUserId(getApplicationContext());
             // means user is logged in token was found
             if (userId != null) {
-                startMainActivity(userId);
+                UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot != null) startMainActivity(userId);
+                });
             }
 
             configFacebookAuth();
@@ -193,7 +191,6 @@ public class SignInActivity extends BaseActivity {
                         createUserInFirestore();
 
                     } else {
-                        // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Toast.makeText(SignInActivity.this, "Facebook Authentication Failed.",
@@ -213,7 +210,6 @@ public class SignInActivity extends BaseActivity {
                         createUserInFirestore();
 
                     } else {
-                        // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Snackbar.make(findViewById(R.id.signin_layout), "Google Authentication Failed.", Snackbar.LENGTH_SHORT).show();
@@ -229,20 +225,23 @@ public class SignInActivity extends BaseActivity {
         // SAVE THE USER DETAILS
         SharedPrefs.saveUserId(getApplicationContext(), userId);
 
-        String userUrlPicture = (Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl() != null) ? Objects.requireNonNull(this.getCurrentUser().getPhotoUrl()).toString() : null;
+        String userUrlPicture =
+                (Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl() != null)
+                        ? Objects.requireNonNull(this.getCurrentUser().getPhotoUrl()).toString() : null;
         String userName = this.getCurrentUser().getDisplayName();
         String userMail = this.getCurrentUser().getEmail();
 
-        UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot == null) {
-
+//        UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
+//            if (documentSnapshot == null) {
                 UserHelper.createUser(userId, userName, userUrlPicture, userMail)
                         .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
 
-            }
-        });
+//            } else {
+//                Log.i(TAG, "createUserInFirestore / documentSnapshot :" + documentSnapshot);
+//            }
+//        });
 
-
+        Log.i(TAG, "createUserInFirestore / userId :" + userId);
         startMainActivity(userId);
     }
 

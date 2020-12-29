@@ -49,53 +49,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="175dp"
+        android:theme="@style/AppTheme"
         android:valueFrom="0.0"
         android:valueTo="5000.0"
-        android:theme="@style/AppTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_settings_radius_text"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/fragment_settings_update_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="230dp"
-        android:text="@string/fragment_settings_update_username_text"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <EditText
-        android:id="@+id/fragment_settings_update_username_textbox"
-        style="@android:style/Widget.EditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="264dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:labelFor="@+id/fragment_settings_update_username_textbox"
-        android:maxLength="40"
-        android:maxLines="3"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="    Username    " />
-
-    <Button
-        android:id="@+id/fragment_settings_validate_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/fragment_setting_validate_username_text"
-        app:layout_constraintStart_toEndOf="@+id/fragment_settings_update_username_textbox"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_update_username_textbox" />
 
 
     <androidx.appcompat.widget.SwitchCompat
@@ -103,26 +62,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="50dp"
         android:layout_marginTop="28dp"
-        android:textSize="20sp"
         android:text="@string/fragment_settings_update_notifications_text"
-        app:theme="@style/AppTheme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_validate_username" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/fragment_settings_update_dark_mode_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="28dp"
         android:textSize="20sp"
-        android:text="@string/fragment_settings_update_dark_mode_text"
-        app:theme="@style/AppTheme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_update_notifications_switch" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_radius_slider"
+        app:theme="@style/AppTheme" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

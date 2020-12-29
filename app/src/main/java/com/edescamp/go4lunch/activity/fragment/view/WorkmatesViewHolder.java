@@ -16,7 +16,7 @@ import com.edescamp.go4lunch.model.User;
 public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
     private static final String TAG = "WorkmatesViewHolder";
-    private Context context;
+    private final Context context;
 
     private final TextView userName = itemView.findViewById(R.id.item_workmates_name);
     private final ImageView userPicture = itemView.findViewById(R.id.item_workmates_picture);

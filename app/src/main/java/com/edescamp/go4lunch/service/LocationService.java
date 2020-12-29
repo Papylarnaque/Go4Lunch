@@ -36,8 +36,6 @@ public class LocationService {
 
     // Request localisation
     public boolean getLocationPermission() {
-        // TODO fix bug when accept to share location,
-
         if (ContextCompat.checkSelfPermission(activity.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -68,15 +66,6 @@ public class LocationService {
         SettingsClient settingsClient = LocationServices.getSettingsClient(activity);
         settingsClient.checkLocationSettings(locationSettingsRequest);
 
-        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-//        if (ActivityCompat.checkSelfPermission(activity,
-//                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(activity,
-//                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            return;
-//        }
-
-//        LocationInterface.getFusedLocation(mLocationRequest);
         getFusedLocation(mLocationRequest);
 
 
@@ -84,7 +73,8 @@ public class LocationService {
 
     @SuppressLint("MissingPermission")
     private void getFusedLocation(LocationRequest mLocationRequest) {
-        getFusedLocationProviderClient(activity).requestLocationUpdates(mLocationRequest, new LocationCallback() {
+        getFusedLocationProviderClient(activity)
+                .requestLocationUpdates(mLocationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
                         onLocationChanged(locationResult.getLastLocation());
@@ -100,7 +90,7 @@ public class LocationService {
         // New location has now been determined
         userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        // Userlocation for API request
+        // User location for API request
         userLocationStr = location.getLatitude() + "," + location.getLongitude();
         // Check location update to avoid unnecessary api calls
         if (userLatLng != oldUserLatLng) {

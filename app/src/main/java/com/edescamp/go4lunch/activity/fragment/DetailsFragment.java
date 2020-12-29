@@ -139,8 +139,9 @@ public class DetailsFragment extends Fragment {
 
     // Handles DetailsFragment custom user choices layout
     private void restaurantChoiceLayout() {
-        UserHelper.getUser(MainActivity.uid).addOnSuccessListener(documentUserSnapshot -> {
+        UserHelper.getUser(uid).addOnSuccessListener(documentUserSnapshot -> {
             // Handles buttonRestaurantChoice layout
+
             chosenRestaurantId = (String) documentUserSnapshot.get("chosenRestaurantId");
             if (Objects.equals(chosenRestaurantId, resultAPIDetails.getPlaceId())) {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
@@ -200,7 +201,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void sendResultsToAdapter(List<DocumentSnapshot> documents) {
-        recyclerView.setAdapter(new WorkmatesAdapter(documents, this.getActivity(), TAG));
+        recyclerView.setAdapter(new WorkmatesAdapter(documents, TAG));
     }
 
     // -------------- Handles USER INTERACTIONS -------------- //
@@ -214,7 +215,7 @@ public class DetailsFragment extends Fragment {
                 toast.show();
             } else {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + resultAPIDetails.getInternational_phone_number().trim()));
+                intent.setData(Uri.parse(getString(R.string.details_phone) + resultAPIDetails.getInternational_phone_number().trim()));
                 startActivity(intent);
             }
         });

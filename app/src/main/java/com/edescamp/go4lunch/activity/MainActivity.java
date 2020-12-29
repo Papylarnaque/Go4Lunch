@@ -68,14 +68,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final String API_AUTOCOMPLETE_KEYWORD = "establishment";
     public static final String API_MAP_FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
 
-    private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     public static final double RATING_MAX = 4.5;
     public static final double RATING_MIDDLE = 2.5;
     public static final double RATING_MIN = 1;
 
     public static String uid;
-    public static String usernameString = null;
 
 
     // UI
@@ -89,8 +86,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // DATA
     private String restaurantChoice;
+    //    public static MutableLiveData<List<DocumentSnapshot>> listenWorkmates = new MutableLiveData<>();
+//    public static LiveData<List<DocumentSnapshot>> workmates = listenWorkmates;
     public static List<DocumentSnapshot> workmates;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,7 +107,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         configureInitialState();
 
-        updateUserSnapshot();
+        getUserInformationForDrawer();
 
         autoCompleteTextListener();
 
@@ -118,7 +116,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 SharedPrefs.getNotifications(getApplicationContext()));
 
     }
-
 
     // ------------------------ LAYOUT CONFIGURATIONS  -----------------------//
 
@@ -134,7 +131,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         autoCompleteTextView = findViewById(R.id.autoCompleteTextViewPlace);
-
     }
 
     @Override
@@ -183,17 +179,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
     }
 
-    private void showSearch() {
-        findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
-    }
-
-    private void hideSearch() {
-        if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
-            autoCompleteTextView.setVisibility(View.GONE);
-        }
-        findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
-    }
-
     // DRAWER configuration //
     private void configureDrawerLayout() {
         mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
@@ -226,7 +211,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // ----------- DATA -------------------- //
 
-    private void updateUserSnapshot() {
+    private void getWorkmates() {
+
+        UserHelper.getUsersCollection().addSnapshotListener((value, e) -> {
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e);
+                return;
+            }
+
+
+            assert value != null;
+            Log.d(TAG, "value.getDocuments() " + value.getDocuments());
+            MainActivity.workmates = value.getDocuments();
+        });
+
+
+//        UserHelper.getUsersWithChosenRestaurant().addOnSuccessListener
+//                (queryDocumentSnapshots ->
+//                        workmates = queryDocumentSnapshots.getDocuments()
+//                );
+
+// TODO live update workmates selections
+    }
+
+    private void getUserInformationForDrawer() {
         if (uid != null) {
             DocumentReference docRef = UserHelper.getUsersCollection().document(uid);
             docRef.addSnapshotListener((snapshot, e) -> {
@@ -237,7 +245,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 if (snapshot != null && snapshot.exists()) {
                     Log.d(TAG, "Current data: " + snapshot.getData());
-                    updateUI(snapshot);
+                    updateDrawerUserInformation(snapshot);
 
                 } else {
                     Log.d(TAG, "Current data: null");
@@ -247,7 +255,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     // Handle user data to show in drawer layout
-    private void updateUI(DocumentSnapshot result) {
+    private void updateDrawerUserInformation(DocumentSnapshot result) {
 
         if (result.get("username") != null) {
             userName.setText(result.getString("username"));
@@ -273,14 +281,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             restaurantChoice = Objects.requireNonNull(result.get("chosenRestaurantId")).toString();
             Log.i(TAG, "firebaseUser/chosenRestaurantId : " + restaurantChoice);
         }
-        usernameString = userName.getText().toString();
 
-    }
-
-    private void getWorkmates() {
-        UserHelper.getUsersWithChosenRestaurant()
-                .addOnSuccessListener(queryDocumentSnapshots -> workmates = queryDocumentSnapshots.getDocuments());
-// TODO live update workmates selections
     }
 
 
@@ -359,6 +360,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    private void showSearch() {
+        findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
+    }
+
+    private void hideSearch() {
+        if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
+            autoCompleteTextView.setVisibility(View.GONE);
+        }
+        findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
+    }
 
     private void autoCompleteTextListener() {
 
@@ -366,7 +377,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -385,45 +395,36 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     clearButton.setVisible(false);
                     findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
 
         listenAutoCompletePredictions.observe(this, this::filterAutocompleteResults);
-
 
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
             // Handles no results click
             if (parent.getItemAtPosition(position) == getResources().getString(R.string.autoCompleteTextView_noresult)) {
                 autoCompleteTextView.setText("");
             } else {
-
                 // Handles click on an autocomplete search dropdown result
                 String placeId = null;
-                for (PredictionAPIAutocomplete prediction : AutoCompleteService.predictions) {
+                for (PredictionAPIAutocomplete prediction : Objects.requireNonNull(AutoCompleteService.predictions.getValue())) {
                     if (parent.getItemAtPosition(position) == prediction.getStructured_formatting().getMain_text()) {
                         placeId = prediction.getPlace_id();
                     }
                 }
-
                 DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment(this, placeId);
-
             }
-
         });
-
     }
 
-
-    private void filterAutocompleteResults(List<PredictionAPIAutocomplete> predictionAPIAutocompletes) {
+    private void filterAutocompleteResults(List<PredictionAPIAutocomplete> predictionAPIAutocompleteList) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),
                 android.R.layout.simple_dropdown_item_1line);
         adapter.setNotifyOnChange(true);
         //attach the adapter to textview
         autoCompleteTextView.setAdapter(adapter);
 
-        for (PredictionAPIAutocomplete prediction : predictionAPIAutocompletes) {
+        for (PredictionAPIAutocomplete prediction : predictionAPIAutocompleteList) {
             if (prediction.getTypes().contains(API_AUTOCOMPLETE_FILTER_KEYWORD)) {
                 // only return places as establishment of type "food"
                 Log.d(TAG, "getAutocompleteSearch : prediction = " + prediction.getDescription());
@@ -477,11 +478,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    // ------------------- HANDLES LOCATION PERMISSIONS RESPONSE ---------------------//
+    //     ------------------- HANDLES LOCATION PERMISSIONS RESPONSE ---------------------//
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        if (requestCode == MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+        if (requestCode == MapFragment.MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             // Received permission result for location permission.
             Log.i(TAG, "Received response for LOCATION permission request from MapFragment.");
 
@@ -496,7 +497,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Toast.makeText(getApplicationContext(), R.string.permissions_not_granted, Toast.LENGTH_SHORT).show();
             }
 
-        } else if (requestCode == RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+        } else if (requestCode == RestaurantsFragment.RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             // Received permission result for location permission.
             Log.i(TAG, "Received response for LOCATION permission request from RestaurantFragment.");
 
@@ -509,16 +510,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 // Location permission has been granted, preview can be displayed
                 Log.i(TAG, "LOCATION permission was NOT granted.");
                 Toast.makeText(getApplicationContext(), R.string.permissions_not_granted, Toast.LENGTH_SHORT).show();
-
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getWorkmates();
-
     }
 
 

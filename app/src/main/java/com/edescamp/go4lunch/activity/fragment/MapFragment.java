@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
+import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.workmates;
 import static com.edescamp.go4lunch.service.LocationService.userLatLng;
 import static com.edescamp.go4lunch.service.LocationService.userLocationStr;
@@ -41,7 +42,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private static final String TAG = "MapFragment";
     private static final float INITIAL_ZOOM = 12f;
-    private static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    public static final int MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
@@ -89,27 +90,22 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             moveCompassButton(mapView);
         }
 
-        NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
-            //Do something with the changed value
-            if (changedNearbyPlacesResults != null) {
-                addMarkerResult(changedNearbyPlacesResults);
-                if (mMap != null && userLatLng != null) {
-                    MapFragment.this.zoomOnCurrentPosition(mMap);
-                }
-            } else {
-                extendRadiusDialog();
-            }
-        });
-
-
-        if (mMap != null && userLatLng != null) {
-            zoomOnCurrentPosition(mMap);
-        }
+        NearByPlacesService.listenNearbyPlacesResults.observe(
+                requireActivity(),
+                changedNearbyPlacesResults -> {
+                    //Do something with the changed value
+                    if (changedNearbyPlacesResults != null) {
+                        addMarkerResult(changedNearbyPlacesResults);
+                        if (mMap != null && userLatLng != null) {
+                            MapFragment.this.zoomOnCurrentPosition(mMap);
+                        }
+                    } else {
+                        extendRadiusDialog();
+                    }
+                });
 
         // Handle click on marker info
         mMapSetUpClickListener();
-
-
     }
 
     private void zoomOnCurrentPosition(GoogleMap mMap) {
@@ -152,8 +148,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             Log.d(TAG, "apiMap result PlaceName  :" + result.getName());
             boolean bChosen = false;
             if (workmates != null)
-                for (DocumentSnapshot workmate : workmates) {
-                    if (Objects.equals(workmate.get("chosenRestaurantId"), result.getPlaceId())) {
+                for (DocumentSnapshot workmate : Objects.requireNonNull(workmates)) {
+                    if (!Objects.equals(workmate.get("uid"), uid) &&
+                            Objects.equals(workmate.get("chosenRestaurantId"), result.getPlaceId())) {
                         bChosen = true;
                         break;
                     }
@@ -194,7 +191,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
 
     // ---------------------- COMPASS BUTTON ----------------------//
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission") // Permission managed before this call
     private void enableCompassButton() {
         if (mMap != null) {
             mMap.setMyLocationEnabled(true);
@@ -221,7 +218,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            layoutParams.setMargins(0, 0, 150, 30);
+            layoutParams.setMargins(0, 0, 150, 40);
 
             view.setLayoutParams(layoutParams);
             view.setBackgroundColor(getResources().getColor(R.color.colorSecondary));

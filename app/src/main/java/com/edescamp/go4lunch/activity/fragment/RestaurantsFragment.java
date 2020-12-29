@@ -68,6 +68,7 @@ public class RestaurantsFragment extends BaseFragment {
                 locationDenied();
             }
 
+//            NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
             NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
                 //Do something with the changed value
                 if (changedNearbyPlacesResults != null) {
@@ -77,7 +78,8 @@ public class RestaurantsFragment extends BaseFragment {
                 }
             });
         } else {
-            sendResultsToAdapter(nearbyPlacesResults);
+//            sendResultsToAdapter(nearbyPlacesResults);
+            sendResultsToAdapter(nearbyPlacesResults.getValue());
         }
 
         return view;
@@ -109,18 +111,18 @@ public class RestaurantsFragment extends BaseFragment {
         switch (id) {
             // Sort AZ
             case main_activity_restaurants_sort_name_asc:
-                SortRestaurantsUtil.sortAZ(nearbyPlacesResults);
-                sendResultsToAdapter(nearbyPlacesResults);
+                SortRestaurantsUtil.sortAZ(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(nearbyPlacesResults.getValue());
                 return true;
             // Sort ZA
             case main_activity_restaurants_sort_name_desc:
-                SortRestaurantsUtil.sortZA(nearbyPlacesResults);
-                sendResultsToAdapter(nearbyPlacesResults);
+                SortRestaurantsUtil.sortZA(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(nearbyPlacesResults.getValue());
                 return true;
             // Sort Rating
             case main_activity_restaurants_sort_rating_desc:
-                SortRestaurantsUtil.sortRatingDesc(nearbyPlacesResults);
-                sendResultsToAdapter(nearbyPlacesResults);
+                SortRestaurantsUtil.sortRatingDesc(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(nearbyPlacesResults.getValue());
                 return true;
             // Sort Workmates
             case main_activity_restaurants_sort_workmates_desc:
@@ -128,8 +130,8 @@ public class RestaurantsFragment extends BaseFragment {
                 return true;
             // Sort Distance
             case main_activity_restaurants_sort_distance_asc:
-                SortRestaurantsUtil.sortDistanceAsc(nearbyPlacesResults);
-                sendResultsToAdapter(nearbyPlacesResults);
+                SortRestaurantsUtil.sortDistanceAsc(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(nearbyPlacesResults.getValue());
                 return true;
             default:
                 break;
@@ -149,8 +151,8 @@ public class RestaurantsFragment extends BaseFragment {
             }
         }
         if (sortWorkmates) {
-            SortRestaurantsUtil.sortWorkmatesDesc(nearbyPlacesResults);
-            sendResultsToAdapter(nearbyPlacesResults);
+            SortRestaurantsUtil.sortWorkmatesDesc(nearbyPlacesResults.getValue());
+            sendResultsToAdapter(nearbyPlacesResults.getValue());
         } else {
             Toast.makeText(getContext(), getString(R.string.main_activity_restaurants_no_workmates_to_sort_toast), Toast.LENGTH_SHORT).show();
         }

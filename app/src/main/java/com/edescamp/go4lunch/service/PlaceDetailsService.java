@@ -2,8 +2,8 @@ package com.edescamp.go4lunch.service;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.MutableLiveData;
 
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.model.details.ResultAPIDetails;
@@ -22,12 +22,7 @@ public class PlaceDetailsService {
 
 
     private static final String TAG = "PlaceDetailsService";
-
-    // Place Details API variables
-    public static ResultAPIDetails placeDetailsResult;
     public static HashMap<String, ResultAPIDetails> placeDetailsResultHashmap = new HashMap<>();
-    public static MutableLiveData<ResultAPIDetails> listenPlaceDetailsResult = new MutableLiveData<>();
-
 
     public static void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
@@ -35,25 +30,22 @@ public class PlaceDetailsService {
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
-            public void onResponse(Call<ResultsAPIDetails> call, Response<ResultsAPIDetails> response) {
+            public void onResponse(@NonNull Call<ResultsAPIDetails> call,
+                                   @NonNull Response<ResultsAPIDetails> response) {
                 Log.d(TAG, "getPlaceDetails API ");
                 if (response.isSuccessful()) {
                     ResultsAPIDetails body = response.body();
                     if (body != null) {
-                        placeDetailsResult = body.getResult();
-
                         if (!placeDetailsResultHashmap.containsKey(placeId)) {
-                            placeDetailsResultHashmap.put(placeId, placeDetailsResult);
+                            placeDetailsResultHashmap.put(placeId, body.getResult());
                         }
-
-                        listenPlaceDetailsResult.setValue(placeDetailsResult);
                     }
-                    // TODO Handle failures, 404 error, etc
                 }
             }
 
             @Override
-            public void onFailure(Call<ResultsAPIDetails> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResultsAPIDetails> call,
+                                  @NonNull Throwable t) {
                 Log.d(TAG, "getPlaceDetails API failure" + t);
             }
 
@@ -67,28 +59,25 @@ public class PlaceDetailsService {
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
-            public void onResponse(Call<ResultsAPIDetails> call, Response<ResultsAPIDetails> response) {
+            public void onResponse(@NonNull Call<ResultsAPIDetails> call,
+                                   @NonNull Response<ResultsAPIDetails> response) {
                 Log.d(TAG, "getPlaceDetails API ");
                 if (response.isSuccessful()) {
                     ResultsAPIDetails body = response.body();
                     if (body != null) {
-
                         DetailsUtil.openDetailsFragment(activity, body.getResult());
-                        listenPlaceDetailsResult.setValue(placeDetailsResult);
                     }
-                    // TODO Handle failures, 404 error, etc
                 }
             }
 
             @Override
-            public void onFailure(Call<ResultsAPIDetails> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResultsAPIDetails> call,
+                                  @NonNull Throwable t) {
                 Log.d(TAG, "getPlaceDetails API failure" + t);
             }
 
         });
     }
-
-
 
 
 }

@@ -13,18 +13,19 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent;
-        // TODO Debug login when userlogged
         if (isCurrentUserLogged()) {
             intent = new Intent(SplashActivity.this, MainActivity.class);
         } else {
             intent = new Intent(SplashActivity.this, SignInActivity.class);
         }
 
-
         startActivity(intent);
         finish();
 
     }
+
+
+
 
 }
 

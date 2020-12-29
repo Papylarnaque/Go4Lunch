@@ -2,6 +2,8 @@ package com.edescamp.go4lunch.service;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.edescamp.go4lunch.BuildConfig;
@@ -25,9 +27,9 @@ public class NearByPlacesService {
     private static final String TAG = "NearByPlacesService";
 
     // Nearby Places API variables
-    public static List<ResultAPIMap> nearbyPlacesResults;
+//    public static List<ResultAPIMap> nearbyPlacesResults;
     public static MutableLiveData<List<ResultAPIMap>> listenNearbyPlacesResults = new MutableLiveData<>();
-
+    public static LiveData<List<ResultAPIMap>> nearbyPlacesResults = listenNearbyPlacesResults;
 
     public static void getNearbyPlaces(String userLocationStr) {
         APIRequest apiMap = APIClient.getClient().create(APIRequest.class);
@@ -40,31 +42,26 @@ public class NearByPlacesService {
 
         nearbyPlaces.clone().enqueue(new Callback<ResultsAPIMap>() {
             @Override
-            public void onResponse(Call<ResultsAPIMap> call, Response<ResultsAPIMap> response) {
+            public void onResponse(@NonNull Call<ResultsAPIMap> call, @NonNull Response<ResultsAPIMap> response) {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
-                        nearbyPlacesResults = body.getResults();
-                        listenNearbyPlacesResults.setValue(nearbyPlacesResults);
-
-                        for (ResultAPIMap nearbyPlacesResult : nearbyPlacesResults) {
+//                        nearbyPlacesResults = body.getResults();
+                        listenNearbyPlacesResults.setValue(body.getResults());
+                        for (ResultAPIMap nearbyPlacesResult : body.getResults()) {
                             if (!placeDetailsResultHashmap.containsKey(nearbyPlacesResult.getPlaceId())) {
                                 getPlaceDetails(nearbyPlacesResult.getPlaceId());
                             }
                         }
                     }
-
                 }
             }
 
             @Override
-            public void onFailure(Call<ResultsAPIMap> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResultsAPIMap> call, @NonNull Throwable t) {
                 Log.d(TAG, "getPlace failure" + t);
             }
-
         });
-
-
     }
 
 

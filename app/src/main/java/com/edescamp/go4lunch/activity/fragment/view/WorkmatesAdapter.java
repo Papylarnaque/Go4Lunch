@@ -6,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.fragment.DetailsFragment;
 import com.edescamp.go4lunch.model.User;
-import com.edescamp.go4lunch.util.DetailsUtil;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
@@ -20,26 +18,16 @@ import java.util.List;
 public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> {
 
     private final List<DocumentSnapshot> documents;
-    private final FragmentActivity activity;
-    private User documentUser;
-    private String tag;
+    private final String tag;
 
-    private Context context;
-
-    public WorkmatesAdapter(List<DocumentSnapshot> documents, FragmentActivity activity, String tag) {
+    public WorkmatesAdapter(List<DocumentSnapshot> documents, String tag) {
         this.documents = documents;
-        this.activity = activity;
         this.tag = tag;
     }
 
-//    public WorkmatesAdapter(List<DocumentSnapshot> documents) {
-//        this.documents = documents;
-//    }
-
-    public WorkmatesAdapter(List<DocumentSnapshot> documents, FragmentActivity activity) {
-        this.documents=documents;
-        this.activity=activity;
-
+    public WorkmatesAdapter(List<DocumentSnapshot> documents) {
+        this.documents = documents;
+        this.tag = null;
     }
 
 
@@ -52,35 +40,23 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> 
     @Override
     public WorkmatesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        context = view.getContext();
+        Context context = view.getContext();
         return new WorkmatesViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WorkmatesViewHolder holder, int position) {
 
-        if (tag.equals(DetailsFragment.TAG)) {
-            documentUser = documents.get(position).toObject(User.class);
-            assert documentUser != null;
-            holder.updateViewWithWorkmatesForDetailsFragment(documentUser);
-        } else {
+        User documentUser;
+        if (tag==null) {
             documentUser = documents.get(position).toObject(User.class);
             assert documentUser != null;
             holder.updateViewWithWorkmates(documentUser);
+        } else if ( tag.equals(DetailsFragment.TAG)){
+            documentUser = documents.get(position).toObject(User.class);
+            assert documentUser != null;
+            holder.updateViewWithWorkmatesForDetailsFragment(documentUser);
         }
-
-
-        holder.itemView.setOnClickListener(v -> {
-            DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment(
-                    activity,
-                    documentUser.getChosenRestaurantId());
-//                if (placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
-//                    DetailsUtil.openDetailsFragment(
-//                            activity,
-//                            placeDetailsResultHashmap.get(Objects.requireNonNull(results.get(position).getPlaceId())));
-//
-//                }
-        });
 
     }
 
