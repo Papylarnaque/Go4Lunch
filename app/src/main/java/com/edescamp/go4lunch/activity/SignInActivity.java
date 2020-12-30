@@ -231,15 +231,14 @@ public class SignInActivity extends BaseActivity {
         String userName = this.getCurrentUser().getDisplayName();
         String userMail = this.getCurrentUser().getEmail();
 
-//        UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
-//            if (documentSnapshot == null) {
+        UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot == null) {
                 UserHelper.createUser(userId, userName, userUrlPicture, userMail)
                         .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
-
-//            } else {
-//                Log.i(TAG, "createUserInFirestore / documentSnapshot :" + documentSnapshot);
-//            }
-//        });
+            } else {
+                Log.i(TAG, "createUserInFirestore / documentSnapshot :" + documentSnapshot);
+            }
+        });
 
         Log.i(TAG, "createUserInFirestore / userId :" + userId);
         startMainActivity(userId);

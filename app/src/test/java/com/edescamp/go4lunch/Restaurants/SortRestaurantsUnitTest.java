@@ -26,7 +26,7 @@ public class SortRestaurantsUnitTest {
     List<ResultAPIMap> distanceSortedList = new ArrayList<>();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         resultAPIMap1.setName("resultAPIMap1");
         resultAPIMap1.setPlaceId("resultAPIMap1Id");

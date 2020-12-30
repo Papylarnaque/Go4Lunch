@@ -6,7 +6,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.edescamp.go4lunch.activity.MainActivity;
-import com.edescamp.go4lunch.activity.SignInActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,9 +21,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
-
-    SignInActivity signInActivity;
-
 
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule
@@ -87,6 +83,19 @@ public class MainActivityTest {
         // Check SignIn is Displayed
         onView(withId(R.id.signin_layout_main)).check(matches(isDisplayed()));
 
+    }
+
+    @Test
+    public void clickOnRestaurantList_whenNoRestaurantsAround_shouldShowNoRestaurantsAlert() throws InterruptedException {
+        MainActivity.RADIUS_INIT=0;
+        // Open Restaurants
+
+
+        onView(withId(R.id.navigation_listview))
+                .perform(click());
+        onView(withId(R.id.fragment_restaurant_list)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.restaurant_List_no_restaurants_to_show)).check(matches(isDisplayed()));
     }
 
 
