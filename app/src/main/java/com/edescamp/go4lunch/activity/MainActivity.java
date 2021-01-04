@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateUserSnapshot() {
         if (uid != null) {
-            UserHelper.getUser(uid).addOnSuccessListener(documentSnapshot -> updateUI(documentSnapshot));
+            UserHelper.getUser(uid).addOnSuccessListener(this::updateUI);
         }
     }
 
