@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class SortRestaurantsUtil {
-
-    // TODO return sur chaque tri
-
+    
     // Data
     public static HashMap<String, Integer> workmatesCountHashMap = new HashMap<>();
     public static HashMap<String, Integer> distanceHashMap = new HashMap<>();

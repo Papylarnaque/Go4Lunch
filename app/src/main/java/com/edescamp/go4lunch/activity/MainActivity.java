@@ -38,7 +38,6 @@ import com.edescamp.go4lunch.util.NotificationHelper;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -242,30 +241,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void updateUserSnapshot() {
         if (uid != null) {
-            UserHelper.getUser(uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    updateUI(documentSnapshot);
-                }
-            });
+            UserHelper.getUser(uid).addOnSuccessListener(documentSnapshot -> updateUI(documentSnapshot));
         }
-//        if (uid != null) {
-//            DocumentReference docRef = UserHelper.getUsersCollection().document(uid);
-//            docRef.addSnapshotListener((snapshot, e) -> {
-//                if (e != null) {
-//                    Log.w(TAG, "Listen failed.", e);
-//                    return;
-//                }
-//
-//                if (snapshot != null) {
-//                    Log.d(TAG, "Current data: " + snapshot.getData());
-//                    updateUI(snapshot);
-//
-//                } else {
-//                    Log.d(TAG, "Current data: null");
-//                }
-//            });
-//        }
     }
 
     // Handle user data to show in drawer layout
@@ -301,7 +278,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void getWorkmates() {
         UserHelper.getUsersWithChosenRestaurant()
                 .addOnSuccessListener(queryDocumentSnapshots -> workmates = queryDocumentSnapshots.getDocuments());
-// TODO live update workmates selections
     }
 
 
