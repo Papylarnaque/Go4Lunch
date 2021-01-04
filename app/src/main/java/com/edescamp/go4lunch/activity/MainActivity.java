@@ -38,15 +38,16 @@ import com.edescamp.go4lunch.util.NotificationHelper;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
 import java.util.Objects;
 
+import static com.edescamp.go4lunch.activity.fragment.MapFragment.MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.edescamp.go4lunch.service.AutoCompleteService.getAutocomplete;
 import static com.edescamp.go4lunch.service.AutoCompleteService.listenAutoCompletePredictions;
 import static com.edescamp.go4lunch.util.DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment;
@@ -74,7 +75,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public static String uid;
 
-
     // UI
     public Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -86,18 +86,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // DATA
     private String restaurantChoice;
-    //    public static MutableLiveData<List<DocumentSnapshot>> listenWorkmates = new MutableLiveData<>();
-//    public static LiveData<List<DocumentSnapshot>> workmates = listenWorkmates;
     public static List<DocumentSnapshot> workmates;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            uid = bundle.getString("USER");
-        }
+
+        uid = SharedPrefs.getUserId(getApplicationContext());
 
         configureToolbar();
         configureDrawerLayout();
@@ -107,7 +104,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         configureInitialState();
 
-        getUserInformationForDrawer();
+        updateUserSnapshot();
 
         autoCompleteTextListener();
 
@@ -116,6 +113,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 SharedPrefs.getNotifications(getApplicationContext()));
 
     }
+
 
     // ------------------------ LAYOUT CONFIGURATIONS  -----------------------//
 
@@ -131,6 +129,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         autoCompleteTextView = findViewById(R.id.autoCompleteTextViewPlace);
+
     }
 
     @Override
@@ -179,12 +178,42 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
     }
 
+    private void showSearch() {
+        findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
+    }
+
+    private void hideSearch() {
+        if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
+            autoCompleteTextView.setVisibility(View.GONE);
+        }
+        findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
+    }
+
     // DRAWER configuration //
     private void configureDrawerLayout() {
         mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                updateUserSnapshot();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+            }
+        };
         mDrawerLayout.addDrawerListener(toggle);
+
         toggle.syncState();
 
         //Use Navigation Callback listener as follows
@@ -211,51 +240,36 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // ----------- DATA -------------------- //
 
-    private void getWorkmates() {
-
-        UserHelper.getUsersCollection().addSnapshotListener((value, e) -> {
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e);
-                return;
-            }
-
-
-            assert value != null;
-            Log.d(TAG, "value.getDocuments() " + value.getDocuments());
-            MainActivity.workmates = value.getDocuments();
-        });
-
-
-//        UserHelper.getUsersWithChosenRestaurant().addOnSuccessListener
-//                (queryDocumentSnapshots ->
-//                        workmates = queryDocumentSnapshots.getDocuments()
-//                );
-
-// TODO live update workmates selections
-    }
-
-    private void getUserInformationForDrawer() {
+    private void updateUserSnapshot() {
         if (uid != null) {
-            DocumentReference docRef = UserHelper.getUsersCollection().document(uid);
-            docRef.addSnapshotListener((snapshot, e) -> {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    updateDrawerUserInformation(snapshot);
-
-                } else {
-                    Log.d(TAG, "Current data: null");
+            UserHelper.getUser(uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    updateUI(documentSnapshot);
                 }
             });
         }
+//        if (uid != null) {
+//            DocumentReference docRef = UserHelper.getUsersCollection().document(uid);
+//            docRef.addSnapshotListener((snapshot, e) -> {
+//                if (e != null) {
+//                    Log.w(TAG, "Listen failed.", e);
+//                    return;
+//                }
+//
+//                if (snapshot != null) {
+//                    Log.d(TAG, "Current data: " + snapshot.getData());
+//                    updateUI(snapshot);
+//
+//                } else {
+//                    Log.d(TAG, "Current data: null");
+//                }
+//            });
+//        }
     }
 
     // Handle user data to show in drawer layout
-    private void updateDrawerUserInformation(DocumentSnapshot result) {
+    private void updateUI(DocumentSnapshot result) {
 
         if (result.get("username") != null) {
             userName.setText(result.getString("username"));
@@ -282,6 +296,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Log.i(TAG, "firebaseUser/chosenRestaurantId : " + restaurantChoice);
         }
 
+    }
+
+    private void getWorkmates() {
+        UserHelper.getUsersWithChosenRestaurant()
+                .addOnSuccessListener(queryDocumentSnapshots -> workmates = queryDocumentSnapshots.getDocuments());
+// TODO live update workmates selections
     }
 
 
@@ -360,16 +380,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    private void showSearch() {
-        findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
-    }
-
-    private void hideSearch() {
-        if (autoCompleteTextView.getVisibility() == View.VISIBLE) {
-            autoCompleteTextView.setVisibility(View.GONE);
-        }
-        findViewById(R.id.main_activity_menu_search).setVisibility(View.GONE);
-    }
 
     private void autoCompleteTextListener() {
 
@@ -377,6 +387,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
@@ -395,16 +406,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     clearButton.setVisible(false);
                     findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
                 }
+
+
             }
         });
 
         listenAutoCompletePredictions.observe(this, this::filterAutocompleteResults);
+
 
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
             // Handles no results click
             if (parent.getItemAtPosition(position) == getResources().getString(R.string.autoCompleteTextView_noresult)) {
                 autoCompleteTextView.setText("");
             } else {
+
                 // Handles click on an autocomplete search dropdown result
                 String placeId = null;
                 for (PredictionAPIAutocomplete prediction : Objects.requireNonNull(AutoCompleteService.predictions.getValue())) {
@@ -412,19 +427,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         placeId = prediction.getPlace_id();
                     }
                 }
+
                 DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment(this, placeId);
+
             }
+
         });
+
     }
 
-    private void filterAutocompleteResults(List<PredictionAPIAutocomplete> predictionAPIAutocompleteList) {
+
+    private void filterAutocompleteResults(List<PredictionAPIAutocomplete> predictionAPIAutocompletes) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),
                 android.R.layout.simple_dropdown_item_1line);
         adapter.setNotifyOnChange(true);
         //attach the adapter to textview
         autoCompleteTextView.setAdapter(adapter);
 
-        for (PredictionAPIAutocomplete prediction : predictionAPIAutocompleteList) {
+        for (PredictionAPIAutocomplete prediction : predictionAPIAutocompletes) {
             if (prediction.getTypes().contains(API_AUTOCOMPLETE_FILTER_KEYWORD)) {
                 // only return places as establishment of type "food"
                 Log.d(TAG, "getAutocompleteSearch : prediction = " + prediction.getDescription());
@@ -478,11 +498,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    //     ------------------- HANDLES LOCATION PERMISSIONS RESPONSE ---------------------//
+    // ------------------- HANDLES LOCATION PERMISSIONS RESPONSE ---------------------//
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        if (requestCode == MapFragment.MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+        if (requestCode == MAP_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             // Received permission result for location permission.
             Log.i(TAG, "Received response for LOCATION permission request from MapFragment.");
 
@@ -510,8 +530,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 // Location permission has been granted, preview can be displayed
                 Log.i(TAG, "LOCATION permission was NOT granted.");
                 Toast.makeText(getApplicationContext(), R.string.permissions_not_granted, Toast.LENGTH_SHORT).show();
+
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWorkmates();
+
     }
 
 

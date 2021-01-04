@@ -22,7 +22,6 @@ import com.edescamp.go4lunch.service.LocationService;
 import com.edescamp.go4lunch.service.NearByPlacesService;
 import com.edescamp.go4lunch.util.SortRestaurantsUtil;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
@@ -38,10 +37,6 @@ public class RestaurantsFragment extends BaseFragment {
     // UI parameters
     private ProgressBar progressBar;
     private TextView noRestaurants;
-
-    // Data
-    public static HashMap<String, Integer> workmatesCountHashMap = new HashMap<>();
-    public static HashMap<String, Integer> distanceHashMap = new HashMap<>();
 
 
     @Override
@@ -111,18 +106,15 @@ public class RestaurantsFragment extends BaseFragment {
         switch (id) {
             // Sort AZ
             case main_activity_restaurants_sort_name_asc:
-                SortRestaurantsUtil.sortAZ(nearbyPlacesResults.getValue());
-                sendResultsToAdapter(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(SortRestaurantsUtil.sortAZ(nearbyPlacesResults.getValue()));
                 return true;
             // Sort ZA
             case main_activity_restaurants_sort_name_desc:
-                SortRestaurantsUtil.sortZA(nearbyPlacesResults.getValue());
-                sendResultsToAdapter(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(SortRestaurantsUtil.sortZA(nearbyPlacesResults.getValue()));
                 return true;
             // Sort Rating
             case main_activity_restaurants_sort_rating_desc:
-                SortRestaurantsUtil.sortRatingDesc(nearbyPlacesResults.getValue());
-                sendResultsToAdapter(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(SortRestaurantsUtil.sortRatingDesc(nearbyPlacesResults.getValue()));
                 return true;
             // Sort Workmates
             case main_activity_restaurants_sort_workmates_desc:
@@ -130,8 +122,7 @@ public class RestaurantsFragment extends BaseFragment {
                 return true;
             // Sort Distance
             case main_activity_restaurants_sort_distance_asc:
-                SortRestaurantsUtil.sortDistanceAsc(nearbyPlacesResults.getValue());
-                sendResultsToAdapter(nearbyPlacesResults.getValue());
+                sendResultsToAdapter(SortRestaurantsUtil.sortDistanceAsc(nearbyPlacesResults.getValue()));
                 return true;
             default:
                 break;
@@ -144,15 +135,14 @@ public class RestaurantsFragment extends BaseFragment {
 
     private void sortByWorkmates() {
         boolean sortWorkmates = false;
-        for (Integer values : RestaurantsFragment.workmatesCountHashMap.values()) {
+        for (Integer values : SortRestaurantsUtil.workmatesCountHashMap.values()) {
             if (values > 0) {
                 sortWorkmates = true;
                 break;
             }
         }
         if (sortWorkmates) {
-            SortRestaurantsUtil.sortWorkmatesDesc(nearbyPlacesResults.getValue());
-            sendResultsToAdapter(nearbyPlacesResults.getValue());
+            sendResultsToAdapter(SortRestaurantsUtil.sortWorkmatesDesc(nearbyPlacesResults.getValue()));
         } else {
             Toast.makeText(getContext(), getString(R.string.main_activity_restaurants_no_workmates_to_sort_toast), Toast.LENGTH_SHORT).show();
         }

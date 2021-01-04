@@ -22,6 +22,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
+    // TODO MockWebServer
+
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule
             = new ActivityScenarioRule<>(MainActivity.class);
@@ -89,7 +91,6 @@ public class MainActivityTest {
     public void clickOnRestaurantList_whenNoRestaurantsAround_shouldShowNoRestaurantsAlert() throws InterruptedException {
         MainActivity.RADIUS_INIT=0;
         // Open Restaurants
-
 
         onView(withId(R.id.navigation_listview))
                 .perform(click());

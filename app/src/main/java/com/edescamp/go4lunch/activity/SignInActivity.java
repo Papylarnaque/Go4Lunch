@@ -40,7 +40,6 @@ public class SignInActivity extends BaseActivity {
     // --------------------
 
     private static final String TAG = "SIGN";
-    static String userId;
 
     // LOGIN REQUEST CODE
     private static final int RC_SIGN_IN = 3;
@@ -64,24 +63,18 @@ public class SignInActivity extends BaseActivity {
         });
 
         checkConnectivity();
-
     }
 
     private void checkConnectivity() {
-        if (!CheckConnectivity.isConnected(getApplicationContext())) {
+        if (!CheckConnectivity.isConnected(getApplicationContext())){
             pullToRefresh.setVisibility(View.VISIBLE);
 
         } else {
             pullToRefresh.setVisibility(View.GONE);
             firebaseAuth = FirebaseAuth.getInstance();
 
-            // check if user is already logged in
-            userId = SharedPrefs.getUserId(getApplicationContext());
-            // means user is logged in token was found
-            if (userId != null) {
-                UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot != null) startMainActivity(userId);
-                });
+            if (SharedPrefs.getUserId(getApplicationContext()) != null) {
+                startMainActivity();
             }
 
             configFacebookAuth();
@@ -191,6 +184,7 @@ public class SignInActivity extends BaseActivity {
                         createUserInFirestore();
 
                     } else {
+                        // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Toast.makeText(SignInActivity.this, "Facebook Authentication Failed.",
@@ -210,6 +204,7 @@ public class SignInActivity extends BaseActivity {
                         createUserInFirestore();
 
                     } else {
+                        // TODO Handle merging users account / linking providers to account
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Snackbar.make(findViewById(R.id.signin_layout), "Google Authentication Failed.", Snackbar.LENGTH_SHORT).show();
@@ -225,32 +220,20 @@ public class SignInActivity extends BaseActivity {
         // SAVE THE USER DETAILS
         SharedPrefs.saveUserId(getApplicationContext(), userId);
 
-        String userUrlPicture =
-                (Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl() != null)
-                        ? Objects.requireNonNull(this.getCurrentUser().getPhotoUrl()).toString() : null;
+        String userUrlPicture = (Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl() != null) ? Objects.requireNonNull(this.getCurrentUser().getPhotoUrl()).toString() : null;
         String userName = this.getCurrentUser().getDisplayName();
         String userMail = this.getCurrentUser().getEmail();
 
-        UserHelper.getUser(userId).addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot == null) {
                 UserHelper.createUser(userId, userName, userUrlPicture, userMail)
                         .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
-            } else {
-                Log.i(TAG, "createUserInFirestore / documentSnapshot :" + documentSnapshot);
-            }
-        });
 
-        Log.i(TAG, "createUserInFirestore / userId :" + userId);
-        startMainActivity(userId);
+        startMainActivity();
     }
 
 
-    private void startMainActivity(String userId) {
+    private void startMainActivity() {
         launchProgressBar();
         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("USER", userId); //Your id
-        intent.putExtras(bundle);
         startActivity(intent);
     }
 

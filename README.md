@@ -8,7 +8,7 @@ App is coded in JAVA
 >* Google Maps embedded with location of the user ;
 >* show the restaurants around the user on the map (through Google Places api queries) ;
 >* show a difference on restaurants chosen by other workmates ;
->* a list of the restaurants ;
+>* a list of the restaurants with sort options like: by rating, by workmates number, by distance ;
 >* a list of the workmates with their restaurant choices ;
 >* the possibility to search for a specific restaurant in the searchbar ;
 >* the possibility to see details of a restaurant: phone number, rating, address, opening hours (through Google Details api queries) ;

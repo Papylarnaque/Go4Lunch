@@ -1,46 +1,64 @@
 package com.edescamp.go4lunch.util;
 
-import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class SortRestaurantsUtil {
 
+    // TODO return sur chaque tri
 
-    public static void sortAZ(List<ResultAPIMap> nearbyPlacesResults) {
-        Collections.sort(nearbyPlacesResults, (obj1, obj2) -> obj1.getName().compareToIgnoreCase(obj2.getName()));
+    // Data
+    public static HashMap<String, Integer> workmatesCountHashMap = new HashMap<>();
+    public static HashMap<String, Integer> distanceHashMap = new HashMap<>();
+
+    public static List<ResultAPIMap> sortAZ(List<ResultAPIMap> nearbyPlacesResults) {
+        List<ResultAPIMap> sortedList = new ArrayList<>(nearbyPlacesResults);
+        Collections.sort(sortedList, (obj1, obj2) -> obj1.getName().compareToIgnoreCase(obj2.getName()));
+        return sortedList;
     }
 
-    public static void sortZA(List<ResultAPIMap> nearbyPlacesResults) {
-        Collections.sort(nearbyPlacesResults, (obj1, obj2) -> obj2.getName().compareToIgnoreCase(obj1.getName()));
+    public static List<ResultAPIMap> sortZA(List<ResultAPIMap> nearbyPlacesResults) {
+        List<ResultAPIMap> sortedList = new ArrayList<>(nearbyPlacesResults);
+        Collections.sort(sortedList, (obj1, obj2) -> obj2.getName().compareToIgnoreCase(obj1.getName()));
+        return sortedList;
     }
 
-    public static void sortRatingDesc(List<ResultAPIMap> nearbyPlacesResults) {
-        Collections.sort(nearbyPlacesResults, (obj1, obj2) -> obj2.getRating().compareTo(obj1.getRating()));
+    public static List<ResultAPIMap> sortRatingDesc(List<ResultAPIMap> nearbyPlacesResults) {
+        List<ResultAPIMap> sortedList = new ArrayList<>(nearbyPlacesResults);
+        Collections.sort(sortedList, (obj1, obj2) ->
+                obj2.getRating().compareTo(obj1.getRating()));
+
+        return sortedList;
     }
 
-    public static void sortWorkmatesDesc(List<ResultAPIMap> nearbyPlacesResults) {
-        Collections.sort(nearbyPlacesResults, (obj1, obj2) -> {
-            if (RestaurantsFragment.workmatesCountHashMap.containsKey(obj1.getPlaceId())
-                    && RestaurantsFragment.workmatesCountHashMap.containsKey(obj2.getPlaceId())) {
-                return Objects.requireNonNull(RestaurantsFragment.workmatesCountHashMap.get(obj2.getPlaceId()))
-                        .compareTo(Objects.requireNonNull(RestaurantsFragment.workmatesCountHashMap.get(obj1.getPlaceId())));
+    public static List<ResultAPIMap> sortWorkmatesDesc(List<ResultAPIMap> nearbyPlacesResults) {
+        List<ResultAPIMap> sortedList = new ArrayList<>(nearbyPlacesResults);
+        Collections.sort(sortedList, (obj1, obj2) -> {
+            if (workmatesCountHashMap.containsKey(obj1.getPlaceId())
+                    && workmatesCountHashMap.containsKey(obj2.getPlaceId())) {
+                return Objects.requireNonNull(workmatesCountHashMap.get(obj2.getPlaceId()))
+                        .compareTo(Objects.requireNonNull(workmatesCountHashMap.get(obj1.getPlaceId())));
             }
             return 0;
         });
+        return sortedList;
     }
 
-    public static void sortDistanceAsc(List<ResultAPIMap> nearbyPlacesResults) {
-        Collections.sort(nearbyPlacesResults, (obj1, obj2) -> {
-            if (RestaurantsFragment.distanceHashMap.containsKey(obj1.getPlaceId())
-                    && RestaurantsFragment.distanceHashMap.containsKey(obj2.getPlaceId())) {
-                return Objects.requireNonNull(RestaurantsFragment.distanceHashMap.get(obj1.getPlaceId()))
-                        .compareTo(Objects.requireNonNull(RestaurantsFragment.distanceHashMap.get(obj2.getPlaceId())));
+    public static List<ResultAPIMap> sortDistanceAsc(List<ResultAPIMap> nearbyPlacesResults) {
+        List<ResultAPIMap> sortedList = new ArrayList<>(nearbyPlacesResults);
+        Collections.sort(sortedList, (obj1, obj2) -> {
+            if (distanceHashMap.containsKey(obj1.getPlaceId())
+                    && distanceHashMap.containsKey(obj2.getPlaceId())) {
+                return Objects.requireNonNull(distanceHashMap.get(obj1.getPlaceId()))
+                        .compareTo(Objects.requireNonNull(distanceHashMap.get(obj2.getPlaceId())));
             }
             return 0;
         });
+        return sortedList;
     }
 }

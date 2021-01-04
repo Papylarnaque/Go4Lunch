@@ -1,6 +1,5 @@
 package com.edescamp.go4lunch.Restaurants;
 
-import com.edescamp.go4lunch.activity.fragment.RestaurantsFragment;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
 import com.edescamp.go4lunch.util.SortRestaurantsUtil;
 
@@ -71,51 +70,51 @@ public class SortRestaurantsUnitTest {
         workmatesSortedList.add(resultAPIMap3);
         workmatesSortedList.add(resultAPIMap1);
 
-        distanceSortedList.add(resultAPIMap2);
         distanceSortedList.add(resultAPIMap3);
         distanceSortedList.add(resultAPIMap1);
+        distanceSortedList.add(resultAPIMap2);
     }
 
     private void initWorkmatesHashMap() {
-        RestaurantsFragment.workmatesCountHashMap.put(resultAPIMap1.getPlaceId(), 1);
-        RestaurantsFragment.workmatesCountHashMap.put(resultAPIMap2.getPlaceId(), 5);
-        RestaurantsFragment.workmatesCountHashMap.put(resultAPIMap3.getPlaceId(), 4);
+        SortRestaurantsUtil.workmatesCountHashMap.put(resultAPIMap1.getPlaceId(), 1);
+        SortRestaurantsUtil.workmatesCountHashMap.put(resultAPIMap2.getPlaceId(), 5);
+        SortRestaurantsUtil.workmatesCountHashMap.put(resultAPIMap3.getPlaceId(), 4);
     }
 
     private void initDistanceHashMap() {
-        RestaurantsFragment.distanceHashMap.put(resultAPIMap1.getPlaceId(), 500);
-        RestaurantsFragment.distanceHashMap.put(resultAPIMap2.getPlaceId(), 1300);
-        RestaurantsFragment.distanceHashMap.put(resultAPIMap3.getPlaceId(), 40);
+        SortRestaurantsUtil.distanceHashMap.put(resultAPIMap1.getPlaceId(), 500);
+        SortRestaurantsUtil.distanceHashMap.put(resultAPIMap2.getPlaceId(), 1300);
+        SortRestaurantsUtil.distanceHashMap.put(resultAPIMap3.getPlaceId(), 40);
     }
 
 
     @Test
     public void testSortZA() {
-        SortRestaurantsUtil.sortZA(listToSort);
-        Assert.assertEquals(listToSort, zaSortedList);
+        List<ResultAPIMap> resultAPIMaps =SortRestaurantsUtil.sortZA(listToSort);
+        Assert.assertEquals(resultAPIMaps, zaSortedList);
     }
 
     @Test
     public void testSortAZ() {
-        SortRestaurantsUtil.sortAZ(listToSort);
-        Assert.assertEquals(listToSort, azSortedList);
+        List<ResultAPIMap> resultAPIMaps = SortRestaurantsUtil.sortAZ(listToSort);
+        Assert.assertEquals(resultAPIMaps, azSortedList);
     }
 
     @Test
     public void testSortRating() {
-        SortRestaurantsUtil.sortRatingDesc(listToSort);
-        Assert.assertEquals(listToSort, ratingSortedList);
+        List<ResultAPIMap> resultAPIMaps = SortRestaurantsUtil.sortRatingDesc(listToSort);
+        Assert.assertEquals(resultAPIMaps, ratingSortedList);
     }
 
     @Test
     public void testSortWorkmates() {
-        SortRestaurantsUtil.sortRatingDesc(listToSort);
-        Assert.assertEquals(listToSort, workmatesSortedList);
+        List<ResultAPIMap> resultAPIMaps = SortRestaurantsUtil.sortWorkmatesDesc(listToSort);
+        Assert.assertEquals(resultAPIMaps, workmatesSortedList);
     }
 
     @Test
     public void testSortDistance() {
-        SortRestaurantsUtil.sortRatingDesc(listToSort);
-        Assert.assertEquals(listToSort, distanceSortedList);
+        List<ResultAPIMap> resultAPIMaps = SortRestaurantsUtil.sortDistanceAsc(listToSort);
+        Assert.assertEquals(resultAPIMaps, distanceSortedList);
     }
 }

@@ -20,8 +20,8 @@ import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.workmates;
-import static com.edescamp.go4lunch.activity.fragment.RestaurantsFragment.distanceHashMap;
-import static com.edescamp.go4lunch.activity.fragment.RestaurantsFragment.workmatesCountHashMap;
+import static com.edescamp.go4lunch.util.SortRestaurantsUtil.distanceHashMap;
+import static com.edescamp.go4lunch.util.SortRestaurantsUtil.workmatesCountHashMap;
 import static com.edescamp.go4lunch.service.PlaceDetailsService.placeDetailsResultHashmap;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHolder> {
