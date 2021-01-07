@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_restaurant_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -145,7 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/restaurant_details_cardview"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/fragment_restaurant_details_button_restaurant_choice_description" />
 
     <ImageButton
         android:id="@+id/fragment_restaurant_details_button_backpress"
@@ -158,7 +157,7 @@
         android:tint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/fragment_restaurant_details_button_backpress_description" />
 
     <TextView
         android:id="@+id/restaurant_details_no_picture_text"
@@ -174,7 +173,6 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/restaurant_details_buttonbar">

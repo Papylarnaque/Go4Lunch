@@ -24,8 +24,8 @@ public class AutoCompleteService {
 
     private static final String TAG = "AutoCompleteService";
 
-    public static MutableLiveData<List<PredictionAPIAutocomplete>> listenAutoCompletePredictions = new MutableLiveData<>();
-    public static LiveData<List<PredictionAPIAutocomplete>> predictions = listenAutoCompletePredictions;
+    public static final MutableLiveData<List<PredictionAPIAutocomplete>> listenAutoCompletePredictions = new MutableLiveData<>();
+    public static final LiveData<List<PredictionAPIAutocomplete>> predictions = listenAutoCompletePredictions;
 
     public static void getAutocomplete(String input) {
         APIRequest apiAutocomplete = APIClient.getClient().create(APIRequest.class);

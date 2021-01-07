@@ -111,7 +111,6 @@
         android:visibility="gone">
 
         <ImageView
-            android:id="@+id/signin_progress_bar_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorWhite"
@@ -139,12 +138,10 @@
         android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/signin_no_connection_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/signin_no_connection_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"
@@ -162,10 +159,10 @@
                 android:src="@drawable/ic__wifi_off_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/signin_no_connection_image_description" />
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/signin_no_connection_text"

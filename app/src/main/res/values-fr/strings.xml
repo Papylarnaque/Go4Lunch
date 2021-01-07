@@ -40,7 +40,6 @@
     <string name="restaurant_details_website">SITE</string>
     <string name="fragment_settings_radius_search">Rayon de recherche: %1$d metres</string>
     <string name="no_picture">Pas de photo</string>
-    <string name="fragment_settings_update_username_text">Modifier votre surnom:</string>
     <string name="item_workmates_restaurant_text">a choisi le restaurant: \n  %1$s.</string>
     <string name="item_workmates_restaurant_text_null">n\'a pas encore choisi.</string>
     <string name="restaurant_Chosen">Vous avez choisi le restaurant %1$s.</string>
@@ -49,15 +48,10 @@
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_message">Voulez-vous annuler ce choix de restaurant?</string>
     <string name="item_restaurant_no_opening_hours">Aucun horaire connu</string>
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title">Annuler ce choix de restaurant?</string>
-    <string name="autoCompleteTextView_noresult_toast">Pas de resultats pour %1$s</string>
     <string name="fragment_settings_update_notifications_text">Notifications</string>
-    <string name="fragment_setting_validate_username_text">Valider</string>
     <string name="main_activity_lunch_no_restaurant_chosen">Vous n\'avez pas encore choisi de restaurant!</string>
-    <string name="fragment_settings_update_dark_mode_text">Mode Sombre</string>
-    <string name="fragment_settings_update_notifications_hint">Une notification sera envoyee tous les jours a midi</string>
 
     <string name="notification_lunch_title">Votre dejeuner du jour!</string>
-    <string name="notification_message">" Vous avez choisi le restaurant: %1$s\n situe au %2$s. \n Vous dejeunerez avec: %3$s"</string>
     <string name="notification_no_lunch_chosen">Malheureusement, vous n\'avez pas choisi de restaurant aujourd\'hui!</string>
     <string name="notification_lunch_alone">Vous avez choisi le restaurant: %1$s\nsitue au %2$s\n Maheureusement, vous mangerez seul…</string>
     <string name="notification_lunch_with_one_workmate">Vous avez choisi le restauant: %1$s \nsitue au %2$s \nVous dejeunerez avec un collegue : %3$s.</string>

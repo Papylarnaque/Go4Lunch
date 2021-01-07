@@ -87,7 +87,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private String restaurantChoice;
     public static List<DocumentSnapshot> workmates;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +111,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 SharedPrefs.getNotifications(getApplicationContext()));
 
     }
-
 
     // ------------------------ LAYOUT CONFIGURATIONS  -----------------------//
 
@@ -280,7 +278,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .addOnSuccessListener(queryDocumentSnapshots -> workmates = queryDocumentSnapshots.getDocuments());
     }
 
-
     // ------------------------ DRAWER options INTERFACE  -----------------------//
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -322,7 +319,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-
     // ---------------------- AUTOCOMPLETE SEARCH -----------------------//
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -355,7 +351,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             autoCompleteTextView.setVisibility(View.VISIBLE);
         }
     }
-
 
     private void autoCompleteTextListener() {
 
@@ -412,7 +407,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
-
     private void filterAutocompleteResults(List<PredictionAPIAutocomplete> predictionAPIAutocompletes) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),
                 android.R.layout.simple_dropdown_item_1line);
@@ -436,7 +430,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
-
     // ----------------------------- LOGOUT ----------------------------//
     private void deleteAuthAndLogOut() {
         SharedPrefs.deleteUserId(getApplicationContext());
@@ -447,7 +440,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         startActivity(intent);
     }
 
-
     // ------------------- FRAGMENT Navigations ----------------------//
     public void showFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
@@ -455,7 +447,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .addToBackStack(null)
                 .commit();
     }
-
 
     // DRAWER closed with back button
     @Override

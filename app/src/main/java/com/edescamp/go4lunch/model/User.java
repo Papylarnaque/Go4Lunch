@@ -2,7 +2,6 @@ package com.edescamp.go4lunch.model;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -30,27 +29,6 @@ public class User {
         this.urlPicture = urlPicture;
         this.chosenRestaurantName = chosenRestaurantName;
     }
-
-
-
-    public void addLikedRestaurant(String restaurantUid){
-        if(likedRestaurants == null) {
-            this.likedRestaurants = new ArrayList<>();
-        }
-        this.likedRestaurants.add(restaurantUid);
-    }
-
-    public void removeLikedRestaurant(String restaurantUid){
-        if(likedRestaurants != null) {
-            int position = 0;
-            for (String uid : likedRestaurants) {
-                if (uid.equals(restaurantUid)) likedRestaurants.remove(position);
-                position += 1;
-            }
-        }
-    }
-
-
 
 
     // --- GETTERS ---

@@ -11,8 +11,8 @@ import java.util.Objects;
 public class SortRestaurantsUtil {
     
     // Data
-    public static HashMap<String, Integer> workmatesCountHashMap = new HashMap<>();
-    public static HashMap<String, Integer> distanceHashMap = new HashMap<>();
+    public static final HashMap<String, Integer> workmatesCountHashMap = new HashMap<>();
+    public static final HashMap<String, Integer> distanceHashMap = new HashMap<>();
 
     public static List<ResultAPIMap> sortAZ(List<ResultAPIMap> nearbyPlacesResults) {
         List<ResultAPIMap> sortedList = new ArrayList<>(nearbyPlacesResults);

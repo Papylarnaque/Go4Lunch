@@ -22,6 +22,7 @@ import com.edescamp.go4lunch.service.LocationService;
 import com.edescamp.go4lunch.service.NearByPlacesService;
 import com.edescamp.go4lunch.util.SortRestaurantsUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
@@ -41,7 +42,7 @@ public class RestaurantsFragment extends BaseFragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
@@ -63,7 +64,6 @@ public class RestaurantsFragment extends BaseFragment {
                 locationDenied();
             }
 
-//            NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
             NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
                 //Do something with the changed value
                 if (changedNearbyPlacesResults != null) {
@@ -73,7 +73,6 @@ public class RestaurantsFragment extends BaseFragment {
                 }
             });
         } else {
-//            sendResultsToAdapter(nearbyPlacesResults);
             sendResultsToAdapter(nearbyPlacesResults.getValue());
         }
 
@@ -161,7 +160,11 @@ public class RestaurantsFragment extends BaseFragment {
     }
 
     private void sendResultsToAdapter(List<ResultAPIMap> results) {
-        recyclerView.setAdapter(new RestaurantsAdapter(results, LocationService.userLocation, this.getActivity()));
+        if (results == null) {
+            recyclerView.setAdapter(new RestaurantsAdapter(new ArrayList<>(), LocationService.userLocation, this.getActivity()));
+        } else {
+            recyclerView.setAdapter(new RestaurantsAdapter(results, LocationService.userLocation, this.getActivity()));
+        }
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
     }

@@ -28,8 +28,8 @@ public class NearByPlacesService {
 
     // Nearby Places API variables
 //    public static List<ResultAPIMap> nearbyPlacesResults;
-    public static MutableLiveData<List<ResultAPIMap>> listenNearbyPlacesResults = new MutableLiveData<>();
-    public static LiveData<List<ResultAPIMap>> nearbyPlacesResults = listenNearbyPlacesResults;
+    public static final MutableLiveData<List<ResultAPIMap>> listenNearbyPlacesResults = new MutableLiveData<>();
+    public static final LiveData<List<ResultAPIMap>> nearbyPlacesResults = listenNearbyPlacesResults;
 
     public static void getNearbyPlaces(String userLocationStr) {
         APIRequest apiMap = APIClient.getClient().create(APIRequest.class);

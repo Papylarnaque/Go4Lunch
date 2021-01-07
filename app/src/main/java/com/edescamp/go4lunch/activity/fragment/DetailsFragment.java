@@ -303,9 +303,7 @@ public class DetailsFragment extends Fragment {
 
         AlertDialog dialogRestaurantChosen = builder.create();
 
-        dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> {
-            saveRestaurantChoice();
-        });
+        dialogRestaurantChosen.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.YES), (dialog1, which) -> saveRestaurantChoice());
 
         dialogRestaurantChosen.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.NO), (dialog12, which) -> dialog12.dismiss());
 

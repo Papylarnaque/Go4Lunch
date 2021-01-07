@@ -2,7 +2,7 @@
     <!-- ////////////////////   NOT TRANSLATABLE \\\\\\\\\\\\\\\\\\\\ -->
     <!-- SignIN -->
     <string name="appName" translatable="false">Go4Lunch</string>
-    <string name="twitter" translatable="false">twitter.com</string>
+    <string name="signin_no_connection_image_description" translatable="false">signin_no_connection_image</string>
 
     <!--     Restaurant Fragment-->
     <string name="text_restaurant_first_line" translatable="false">Restaurant_Name</string>
@@ -12,14 +12,14 @@
     <string name="restaurant_text_number_workmates" translatable="false">(2)</string>
     <string name="restaurant_rating" translatable="false">restaurant_rating</string>
     <string name="restaurant_picture" translatable="false">restaurant_picture</string>
-    <string name="no_items" translatable="false">No items.</string>
     <string name="menu_main_activity_search" translatable="false">Search</string>
     <string name="text_workmate" translatable="false">text_workmate_name</string>
     <string name="workmate_picture" translatable="false">workmate_picture</string>
+    <string name="fragment_restaurant_details_button_restaurant_choice_description" translatable="false">fragment_restaurant_details_button_restaurant_choice</string>
+    <string name="fragment_restaurant_details_button_backpress_description" translatable="false">fragment_restaurant_details_button_backpress</string>
+
 
     <!-- Details Fragment-->
-    <string name="restaurant_details_picture" translatable="false">restaurant_details_picture</string>
-    <string name="activity_splash_logo" translatable="false">activity_splash_logo</string>
     <string name="error_unknown_error" translatable="false" tools:ignore="MissingTranslation">Unknown error while creating user</string>
     <string name="fragment_settings_backpress_description" translatable="false">fragment_settings_backpress_description</string>
     <string name="activity_main_drawer_logo_description" translatable="false">activity_main_drawer_logo_description</string>
@@ -27,7 +27,6 @@
     <string name="restaurant_details_star1_description" translatable="false">restaurant_details_star1</string>
     <string name="restaurant_details_star2_description" translatable="false">restaurant_details_star2</string>
     <string name="restaurant_details_star3_description" translatable="false">restaurant_details_star3</string>
-    <string name="website_image" translatable="false">website_image</string>
     <string name="menu_main_activity_clear" translatable="false">Clear</string>
 
 
@@ -83,9 +82,8 @@
     <string name="restaurant_details_like">LIKE</string>
     <string name="restaurant_details_unlike">UNLIKE</string>
     <string name="restaurant_details_website">WEBSITE</string>
-    <string name="fragment_settings_radius_search">Radius search: %1$d meters</string>
+    <string name="fragment_settings_radius_search" tools:ignore="PluralsCandidate">Radius search: %1$d meters</string>
     <string name="no_picture">No picture</string>
-    <string name="fragment_settings_update_username_text">Update your username:</string>
     <string name="item_workmates_restaurant_text_null">has\'nt decided yet.</string>
     <string name="restaurant_Chosen">You chose the restaurant %1$s.</string>
     <string name="details_fragment_alertdialog_restaurant_choice_change_message">Do you want to cancel your previous restaurant choice for the %1$s restaurant ?</string>
@@ -95,18 +93,13 @@
     <string name="details_fragment_alertdialog_restaurant_choice_cancellation_title" tools:ignore="MissingTranslation">Cancel this restaurant choice?</string>
     <string name="item_restaurant_no_opening_hours" type="id">No opening hours available</string>
     <string name="item_workmates_restaurant_text_detailsFragment">is joining !</string>
-    <string name="autoCompleteTextView_noresult_toast">No results for %1$s</string>
     <string name="fragment_settings_update_notifications_text">Notifications</string>
-    <string name="fragment_setting_validate_username_text">Validate</string>
-    <string name="fragment_settings_update_notifications_hint">A notification will be sent everyday at noon</string>
-    <string name="fragment_settings_update_dark_mode_text">Dark Mode</string>
 
     <string name="notification_lunch_title">Your lunch for today!</string>
     <string name="notification_no_lunch_chosen">Unfortunately, you did not chose a restaurant today!</string>
     <string name="notification_lunch_alone">" You chose the restaurant: %1$s.\nlocated at %2$s\nUnfortunately, you will eat alone…"</string>
     <string name="notification_lunch_with_one_workmate">You chose the restaurant: %1$s \nlocated at %2$s \nYou will lunch with one workmate: %3$s.</string>
-    <string name="notification_lunch_with_few_workmate">You chose the restaurant: %1$s \n located at %2$s.\n You will lunch with %3$d workmates: %4$s.</string>
-    <string name="notification_message">You chose the restaurant %1$s \nlocated at %2$s. \nYou will lunch with %3$s</string>
+    <string name="notification_lunch_with_few_workmate" tools:ignore="PluralsCandidate">You chose the restaurant: %1$s \n located at %2$s.\n You will lunch with %3$d workmates: %4$s.</string>
     <string name="notification_workmatesstring_builder_and">" and "</string>
 
     <string name="channel_name" translatable="false">notifications_chanel_name</string>
@@ -123,6 +116,7 @@
     <string name="main_activity_restaurants_no_workmates_to_sort_toast">No workmates chose a restaurant up to now.</string>
     <string name="signin_no_connection_text">You are not connected\nto the Internet.\nPlease connect your device</string>
     <string name="details_phone">phone:</string>
+
 
 
 </resources>

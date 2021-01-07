@@ -82,7 +82,6 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
-
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -226,7 +225,6 @@ public class SignInActivity extends BaseActivity {
 
         startMainActivity();
     }
-
 
     private void startMainActivity() {
         launchProgressBar();

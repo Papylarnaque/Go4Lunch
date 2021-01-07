@@ -22,7 +22,7 @@ public class PlaceDetailsService {
 
 
     private static final String TAG = "PlaceDetailsService";
-    public static HashMap<String, ResultAPIDetails> placeDetailsResultHashmap = new HashMap<>();
+    public static final HashMap<String, ResultAPIDetails> placeDetailsResultHashmap = new HashMap<>();
 
     public static void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);

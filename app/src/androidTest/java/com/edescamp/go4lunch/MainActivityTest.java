@@ -22,8 +22,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
-    // TODO MockWebServer
-
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule
             = new ActivityScenarioRule<>(MainActivity.class);
@@ -86,18 +84,5 @@ public class MainActivityTest {
         onView(withId(R.id.signin_layout_main)).check(matches(isDisplayed()));
 
     }
-
-    @Test
-    public void clickOnRestaurantList_whenNoRestaurantsAround_shouldShowNoRestaurantsAlert() throws InterruptedException {
-        MainActivity.RADIUS_INIT=0;
-        // Open Restaurants
-
-        onView(withId(R.id.navigation_listview))
-                .perform(click());
-        onView(withId(R.id.fragment_restaurant_list)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.restaurant_List_no_restaurants_to_show)).check(matches(isDisplayed()));
-    }
-
 
 }

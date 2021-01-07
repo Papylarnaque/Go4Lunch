@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
-    <option name="SPLITTER_PROPORTION" value="0.26866665" />
+    <option name="SPLITTER_PROPORTION" value="0.3371284" />
   </component>
   <component name="AndroidLayouts">
     <shared>
@@ -51,7 +51,61 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="656d221b-9fb2-4e0a-8f34-4c9b7695c7d7" name="Default Changelist" comment="Project structure modifications" />
+    <list default="true" id="656d221b-9fb2-4e0a-8f34-4c9b7695c7d7" name="Default Changelist" comment="Project structure modifications">
+      <change afterPath="$PROJECT_DIR$/app/resources/nearbysearch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/resources/placedetails" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/edescamp/go4lunch/NavigationsFragmentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Go4Lunch.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Go4Lunch.app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/edescamp/go4lunch/DetailsFragmentTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/edescamp/go4lunch/MainActivityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/edescamp/go4lunch/MainActivityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/edescamp/go4lunch/SignInTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/SignInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/SignInActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/DetailsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/DetailsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/RestaurantsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/RestaurantsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/view/WorkmatesAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/fragment/view/WorkmatesAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/service/AutoCompleteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/service/AutoCompleteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/service/NearByPlacesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/service/NearByPlacesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/service/PlaceDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/service/PlaceDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/util/CheckConnectivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/util/CheckConnectivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/util/SortRestaurantsUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/util/SortRestaurantsUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/twitter_button.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_search_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_search_24.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_not_interested_24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_sharp_clear_24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_principal_nav_drawer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_principal_nav_drawer.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_restaurant_details.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_restaurant_details.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_workmate.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_workmate.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-fr/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/private_keys.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/private_keys.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/edescamp/go4lunch/MainActivityUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/edescamp/go4lunch/MapUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/edescamp/go4lunch/Restaurants/DetailsFragmentUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/edescamp/go4lunch/Restaurants/SortRestaurantsUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/com/edescamp/go4lunch/restaurants/SortRestaurantsUnitTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -155,7 +209,7 @@
     <property name="android-custom-viewC:/Users/desca/.gradle/caches/modules-2/files-2.1/androidx.drawerlayout/drawerlayout/1.1.1/d95f7d9cd7d95cc0c038bbcf9c65f521b56fee55/drawerlayout-1.1.1-sources.jar!/androidx/drawerlayout/widget/DrawerLayout.java_SELECTED" value="DrawerLayout" />
     <property name="android.recentlyUsedThemes" value="Theme.MaterialComponents.DayNight&#10;Base.Theme.MaterialComponents" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RealEstateManager" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Go4Lunch_SmilingPlatipus" />
     <property name="multi-representation-previewC:/Users/Etienne/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.2.0/13e8ff89631c2e101eb6bddd12c2fb4bbd74b15d/appcompat-1.2.0-sources.jar!/androidx/appcompat/widget/AppCompatEditText.java_selected" value="Custom views" />
     <property name="multi-representation-previewC:/Users/Etienne/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_selected" value="Custom views" />
     <property name="multi-representation-previewC:/Users/Etienne/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-login/5.15.3/6e188167f35ef56be6b446d7a6b5d0eedee09edc/facebook-login-5.15.3-sources.jar!/com/facebook/login/widget/LoginButton.java_selected" value="Custom views" />
@@ -211,12 +265,12 @@
       <useClassPathOnly />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.edescamp.go4lunch.Restaurants.*" />
+          <option name="PATTERN" value="com.edescamp.go4lunch.restaurants.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.edescamp.go4lunch.Restaurants" />
-      <option name="MAIN_CLASS_NAME" value="com.edescamp.go4lunch.Restaurants.SortRestaurantsUnitTest" />
+      <option name="PACKAGE_NAME" value="com.edescamp.go4lunch.restaurants" />
+      <option name="MAIN_CLASS_NAME" value="com.edescamp.go4lunch.restaurants.SortRestaurantsUnitTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="PARAMETERS" value="" />
@@ -231,33 +285,13 @@
       <useClassPathOnly />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.edescamp.go4lunch.Restaurants.*" />
+          <option name="PATTERN" value="com.edescamp.go4lunch.restaurants.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.edescamp.go4lunch.Restaurants" />
-      <option name="MAIN_CLASS_NAME" value="com.edescamp.go4lunch.Restaurants.SortRestaurantsUnitTest" />
+      <option name="PACKAGE_NAME" value="com.edescamp.go4lunch.restaurants" />
+      <option name="MAIN_CLASS_NAME" value="com.edescamp.go4lunch.restaurants.SortRestaurantsUnitTest" />
       <option name="METHOD_NAME" value="testSortDistance" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SortRestaurantsUnitTest.testSortRating" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Go4Lunch.app" />
-      <shortenClasspath name="CLASSPATH_FILE" />
-      <useClassPathOnly />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.edescamp.go4lunch.Restaurants.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.edescamp.go4lunch.Restaurants" />
-      <option name="MAIN_CLASS_NAME" value="com.edescamp.go4lunch.Restaurants.SortRestaurantsUnitTest" />
-      <option name="METHOD_NAME" value="testSortRating" />
       <option name="TEST_OBJECT" value="method" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -355,7 +389,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainActivityTest" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests" temporary="true" nameIsGenerated="true">
+    <configuration name="MainActivityTest" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests" nameIsGenerated="true">
       <module name="Go4Lunch.app" />
       <option name="TESTING_TYPE" value="2" />
       <option name="METHOD_NAME" value="" />
@@ -406,13 +440,115 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NavigationsFragmentT..." type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests" temporary="true" nameIsGenerated="true">
+      <module name="Go4Lunch.app" />
+      <option name="TESTING_TYPE" value="2" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="com.edescamp.go4lunch.NavigationsFragmentTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="INCLUDE_GRADLE_EXTRA_OPTIONS" value="true" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="clickOnFavorite_sh...()" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests" temporary="true" nameIsGenerated="true">
+      <module name="Go4Lunch.app" />
+      <option name="TESTING_TYPE" value="3" />
+      <option name="METHOD_NAME" value="clickOnFavorite_shouldAddRestaurantToFavorites" />
+      <option name="CLASS_NAME" value="com.edescamp.go4lunch.NavigationsFragmentTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="INCLUDE_GRADLE_EXTRA_OPTIONS" value="true" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Android Instrumented Tests.NavigationsFragmentT..." />
+        <item itemvalue="Android Instrumented Tests.clickOnFavorite_sh...()" />
         <item itemvalue="Android JUnit.SortRestaurantsUnitTest" />
-        <item itemvalue="Android Instrumented Tests.MainActivityTest" />
         <item itemvalue="Android JUnit.UserUnitTest" />
         <item itemvalue="Android JUnit.SortRestaurantsUnitTest.testSortDistance" />
-        <item itemvalue="Android JUnit.SortRestaurantsUnitTest.testSortRating" />
       </list>
     </recent_temporary>
   </component>
@@ -441,7 +577,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609791309473</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Code cleaning">
+      <created>1609791384305</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1609791384305</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -471,7 +614,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project structure modifications" />
     <MESSAGE value="Code cleaning" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code cleaning" />
+    <MESSAGE value="add Tests + upgrade SDK gradle + clean code" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Tests + upgrade SDK gradle + clean code" />
   </component>
   <component name="WindowStateProjectService">
     <state x="225" y="5" key="#&lt;template&gt;_of_Android_JUnit" timestamp="1608826721796">
@@ -536,17 +680,22 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="92" y="92" width="1496" height="836" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1609354405980" />
+    <state x="590" y="312" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1609792438366">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="590" y="312" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1680.1020@0.0.1680.1020" timestamp="1609792438366" />
     <state x="627" y="145" key="#com.intellij.ide.ui.customization.CustomizableActionsPanel.FindAvailableActionsDialog" timestamp="1604090434869">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="627" y="145" key="#com.intellij.ide.ui.customization.CustomizableActionsPanel.FindAvailableActionsDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604090434869" />
-    <state x="605" y="136" key="#com.intellij.ide.util.MemberChooser" timestamp="1609067146292">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="635" y="161" key="#com.intellij.ide.util.MemberChooser" timestamp="1609796188123">
+      <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="605" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606660353169" />
     <state x="605" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604084213958" />
     <state x="605" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606254920591" />
     <state x="605" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1609067146291" />
+    <state x="635" y="161" key="#com.intellij.ide.util.MemberChooser/0.0.1680.1020@0.0.1680.1020" timestamp="1609796188123" />
     <state x="529" y="220" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1604244669120">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -556,12 +705,12 @@
     </state>
     <state x="353" y="354" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606518938609" />
     <state x="353" y="354" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1600.860@0.0.1600.860" timestamp="1608557632862" />
-    <state x="612" y="355" width="668" height="270" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1609348136730">
+    <state x="612" y="355" width="433" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1609797221371">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="583" y="299" width="433" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606330169163" />
     <state x="583" y="299" width="668" height="270" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1600.860@0.0.1600.860" timestamp="1608408304997" />
-    <state x="612" y="355" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1680.1020@0.0.1680.1020" timestamp="1609348136730" />
+    <state x="612" y="355" width="433" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1680.1020@0.0.1680.1020" timestamp="1609797221371" />
     <state x="596" y="311" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1606518939687">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -580,14 +729,14 @@
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604947976601" />
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606256111106" />
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1600.860@0.0.1600.860" timestamp="1608628234934" />
-    <state x="557" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1609278503605">
+    <state x="557" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1610048048752">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="530" y="177" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606647612917" />
     <state x="530" y="177" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604090291886" />
     <state x="530" y="177" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606252215338" />
     <state x="530" y="177" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1600.860@0.0.1600.860" timestamp="1608970565185" />
-    <state x="557" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1609278503605" />
+    <state x="557" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1610048048752" />
     <state x="530" y="177" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog" timestamp="1608223290295">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -598,12 +747,13 @@
     </state>
     <state x="555" y="133" key="#xdebugger.evaluate/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606682962173" />
     <state x="555" y="133" key="#xdebugger.evaluate/0.0.1600.860@0.0.1600.860" timestamp="1607552697984" />
-    <state x="109" y="244" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1608565960048">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="114" y="289" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1610048445472">
+      <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="478" y="264" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604514163442" />
     <state x="478" y="264" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606263311779" />
     <state x="109" y="244" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1600.860@0.0.1600.860" timestamp="1608565960048" />
+    <state x="114" y="289" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1680.1020@0.0.1680.1020" timestamp="1610048445472" />
     <state x="92" y="92" width="1416" height="676" key="AVDManager" timestamp="1608378767517">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -620,14 +770,14 @@
     <state x="380" y="185" key="AndroidCreateResourceFileDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604089396982" />
     <state x="380" y="185" key="AndroidCreateResourceFileDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606069206671" />
     <state x="380" y="185" key="AndroidCreateResourceFileDialog/0.0.1600.860@0.0.1600.860" timestamp="1608565864938" />
-    <state x="866" y="325" key="AndroidCreateXmlResourceDialog" timestamp="1609278909018">
+    <state x="866" y="325" key="AndroidCreateXmlResourceDialog" timestamp="1610048853866">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606681795170" />
     <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604090053868" />
     <state x="645" y="237" key="AndroidCreateXmlResourceDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606431347115" />
     <state x="825" y="274" key="AndroidCreateXmlResourceDialog/0.0.1600.860@0.0.1600.860" timestamp="1609070390014" />
-    <state x="866" y="325" key="AndroidCreateXmlResourceDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1609278909018" />
+    <state x="866" y="325" key="AndroidCreateXmlResourceDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1610048853866" />
     <state x="598" y="176" key="AndroidProcessChooserDialog" timestamp="1606057714144">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -645,14 +795,14 @@
     <state x="92" y="92" width="1416" height="676" key="DiffContextDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606247084699" />
     <state x="92" y="102" width="1416" height="676" key="DiffContextDialog/0.0.1600.860@0.0.1600.860" timestamp="1608228588967" />
     <state x="59" y="-10" width="1487" height="802" key="DiffContextDialog/0.0.1680.1020@0.0.1680.1020" timestamp="1609598138370" />
-    <state x="609" y="219" key="FileChooserDialogImpl" timestamp="1609616613181">
+    <state x="609" y="219" key="FileChooserDialogImpl" timestamp="1609855299262">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1604945706585" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1603906180270" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1608475311886" />
-    <state x="609" y="219" key="FileChooserDialogImpl/0.0.1680.1020@0.0.1680.1020" timestamp="1609616613181" />
-    <state width="1637" height="367" key="GridCell.Tab.0.bottom" timestamp="1609777797565">
+    <state x="609" y="219" key="FileChooserDialogImpl/0.0.1680.1020@0.0.1680.1020" timestamp="1609855299262" />
+    <state width="1637" height="248" key="GridCell.Tab.0.bottom" timestamp="1610045670199">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state width="1316" height="187" key="GridCell.Tab.0.bottom/0.0.1600.860/-1360.0.1360.768@-1360.0.1360.768" timestamp="1607019585882" />
@@ -660,8 +810,8 @@
     <state width="1095" height="251" key="GridCell.Tab.0.bottom/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483157" />
     <state width="1556" height="401" key="GridCell.Tab.0.bottom/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606432905623" />
     <state width="1556" height="234" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1609089923318" />
-    <state width="1637" height="367" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1609777797565" />
-    <state width="1637" height="367" key="GridCell.Tab.0.center" timestamp="1609777797564">
+    <state width="1637" height="248" key="GridCell.Tab.0.bottom/0.0.1680.1020@0.0.1680.1020" timestamp="1610045670199" />
+    <state width="1637" height="248" key="GridCell.Tab.0.center" timestamp="1610045670199">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state width="1316" height="187" key="GridCell.Tab.0.center/0.0.1600.860/-1360.0.1360.768@-1360.0.1360.768" timestamp="1607019585881" />
@@ -669,8 +819,8 @@
     <state width="1095" height="251" key="GridCell.Tab.0.center/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483156" />
     <state width="1556" height="401" key="GridCell.Tab.0.center/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606432905622" />
     <state width="1556" height="234" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1609089923318" />
-    <state width="1637" height="367" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1609777797564" />
-    <state width="1637" height="367" key="GridCell.Tab.0.left" timestamp="1609777797564">
+    <state width="1637" height="248" key="GridCell.Tab.0.center/0.0.1680.1020@0.0.1680.1020" timestamp="1610045670199" />
+    <state width="1637" height="248" key="GridCell.Tab.0.left" timestamp="1610045670199">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state width="1316" height="187" key="GridCell.Tab.0.left/0.0.1600.860/-1360.0.1360.768@-1360.0.1360.768" timestamp="1607019585881" />
@@ -678,8 +828,8 @@
     <state width="1095" height="251" key="GridCell.Tab.0.left/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483156" />
     <state width="1556" height="401" key="GridCell.Tab.0.left/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606432905622" />
     <state width="1556" height="234" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1609089923317" />
-    <state width="1637" height="367" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1609777797564" />
-    <state width="1637" height="367" key="GridCell.Tab.0.right" timestamp="1609777797565">
+    <state width="1637" height="248" key="GridCell.Tab.0.left/0.0.1680.1020@0.0.1680.1020" timestamp="1610045670199" />
+    <state width="1637" height="248" key="GridCell.Tab.0.right" timestamp="1610045670199">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state width="1316" height="187" key="GridCell.Tab.0.right/0.0.1600.860/-1360.0.1360.768@-1360.0.1360.768" timestamp="1607019585881" />
@@ -687,7 +837,7 @@
     <state width="1095" height="251" key="GridCell.Tab.0.right/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604245483156" />
     <state width="1556" height="401" key="GridCell.Tab.0.right/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606432905623" />
     <state width="1556" height="234" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1609089923318" />
-    <state width="1637" height="367" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1609777797565" />
+    <state width="1637" height="248" key="GridCell.Tab.0.right/0.0.1680.1020@0.0.1680.1020" timestamp="1610045670199" />
     <state width="1637" height="367" key="GridCell.Tab.1.bottom" timestamp="1609777797565">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -753,6 +903,10 @@
     <state x="384" y="148" key="VcsDiffUtil.ChangesDialog/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606661073112" />
     <state x="490" y="164" key="VcsDiffUtil.ChangesDialog/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606247079625" />
     <state x="384" y="148" key="VcsDiffUtil.ChangesDialog/0.0.1600.860@0.0.1600.860" timestamp="1607557185176" />
+    <state x="384" y="258" key="caller.chooser.dialog" timestamp="1610048088801">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="384" y="258" key="caller.chooser.dialog/0.0.1680.1020@0.0.1680.1020" timestamp="1610048088801" />
     <state x="502" y="239" key="com.android.tools.idea.run.deployment.ModifyDeviceSetDialog" timestamp="1606261451026">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -773,14 +927,14 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="508" y="274" key="edit.logcat.filter.dialog.dimensions/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606428887230" />
-    <state x="836" y="132" width="785" height="774" key="find.popup" timestamp="1609759844366">
+    <state x="836" y="132" width="785" height="774" key="find.popup" timestamp="1610048714050">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="507" y="163" width="585" height="592" key="find.popup/0.0.1600.860/-1360.0.1360.768@0.0.1600.860" timestamp="1606684698529" />
     <state x="918" y="167" width="585" height="534" key="find.popup/0.0.1600.860/1600.0.1360.768@0.0.1600.860" timestamp="1604086036998" />
     <state x="455" y="46" width="654" height="670" key="find.popup/0.0.1600.860/1600.126.1360.768@0.0.1600.860" timestamp="1606431703332" />
     <state x="796" y="111" width="747" height="652" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1609073034257" />
-    <state x="836" y="132" width="785" height="774" key="find.popup/0.0.1680.1020@0.0.1680.1020" timestamp="1609759844366" />
+    <state x="836" y="132" width="785" height="774" key="find.popup/0.0.1680.1020@0.0.1680.1020" timestamp="1610048714050" />
     <state x="531" y="222" key="refactoring.ChangeSignatureDialog" timestamp="1609278547733">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -809,12 +963,12 @@
       <breakpoints>
         <line-breakpoint suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/MainActivity.java</url>
-          <line>265</line>
+          <line>263</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/edescamp/go4lunch/activity/MainActivity.java</url>
-          <line>270</line>
+          <line>268</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>

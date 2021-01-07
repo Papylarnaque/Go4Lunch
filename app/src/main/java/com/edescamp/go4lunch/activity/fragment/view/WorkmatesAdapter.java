@@ -1,6 +1,5 @@
 package com.edescamp.go4lunch.activity.fragment.view;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> 
     @Override
     public WorkmatesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        Context context = view.getContext();
         return new WorkmatesViewHolder(view);
     }
 
