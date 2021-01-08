@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -38,7 +39,7 @@ import static com.edescamp.go4lunch.service.LocationService.userLatLng;
 import static com.edescamp.go4lunch.service.LocationService.userLocationStr;
 import static com.edescamp.go4lunch.util.DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment;
 
-public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
     private static final String TAG = "MapFragment";
     private static final float INITIAL_ZOOM = 12f;

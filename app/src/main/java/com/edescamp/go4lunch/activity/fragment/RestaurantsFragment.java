@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +29,7 @@ import java.util.List;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.service.NearByPlacesService.nearbyPlacesResults;
 
-public class RestaurantsFragment extends BaseFragment {
+public class RestaurantsFragment extends Fragment {
 
     private static final String TAG = "RestaurantFragment";
 
