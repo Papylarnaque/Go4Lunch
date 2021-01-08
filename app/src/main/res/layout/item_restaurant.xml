@@ -45,11 +45,11 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="@string/text_third_line"
         android:textColor="@color/colorTextGrey"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_restaurant_address" />
+        app:layout_constraintTop_toBottomOf="@id/item_restaurant_address"
+        tools:text="@string/text_third_line" />
 
     <TextView
         android:id="@+id/item_restaurant_distance"

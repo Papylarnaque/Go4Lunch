@@ -16,6 +16,7 @@ import com.edescamp.go4lunch.model.details.OpeningHoursAPIDetails;
 import com.edescamp.go4lunch.model.map.PhotoAttributesAPIMap;
 import com.edescamp.go4lunch.model.details.ResultAPIDetails;
 import com.edescamp.go4lunch.model.map.ResultAPIMap;
+import com.edescamp.go4lunch.util.RatingUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -48,7 +49,8 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
         rDistance.setText(new StringBuilder().append(distance).append("m"));
         updateRestaurantsWitWorkmates(workmates);
 
-        showRating(result);
+//        showRating(result);
+        RatingUtil.showRating(result.getRating(), star1, star2, star3);
         showPicture(result);
     }
 
@@ -87,6 +89,10 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         }
+        else {
+            rOpeningHours.setText(R.string.item_restaurant_no_opening_hours);
+        }
+
     }
 
     // Handles Rating calculation

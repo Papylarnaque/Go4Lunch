@@ -26,10 +26,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.edescamp.go4lunch.BuildConfig;
 import com.edescamp.go4lunch.R;
 import com.edescamp.go4lunch.activity.MainActivity;
+import com.edescamp.go4lunch.activity.fragment.view.WorkmatesAdapter;
 import com.edescamp.go4lunch.model.details.ResultAPIDetails;
+import com.edescamp.go4lunch.util.RatingUtil;
 import com.edescamp.go4lunch.util.SharedPrefs;
 import com.edescamp.go4lunch.util.UserHelper;
-import com.edescamp.go4lunch.activity.fragment.view.WorkmatesAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -80,7 +81,8 @@ public class DetailsFragment extends Fragment {
         setPicture(view);
 
         restaurantChoiceLayout();
-        showRating();
+//        showRating();
+        RatingUtil.showRating(resultAPIDetails.getRating(), star1, star2, star3);
         populateWorkmates();
 
         setClickableFunctionality();
