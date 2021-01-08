@@ -16,13 +16,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.edescamp.go4lunch.activity.MainActivity.API_AUTOCOMPLETE_KEYWORD;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MAX;
 import static com.edescamp.go4lunch.service.LocationService.userLocationStr;
 
 public class AutoCompleteService {
 
     private static final String TAG = "AutoCompleteService";
+
+    public static final String API_AUTOCOMPLETE_KEYWORD = "establishment";
 
     public static final MutableLiveData<List<PredictionAPIAutocomplete>> listenAutoCompletePredictions = new MutableLiveData<>();
     public static final LiveData<List<PredictionAPIAutocomplete>> predictions = listenAutoCompletePredictions;
@@ -43,11 +44,8 @@ public class AutoCompleteService {
                 if (response.isSuccessful()) {
                     PredictionsAPIAutocomplete predictionsAPIAutocomplete = response.body();
                     if (predictionsAPIAutocomplete != null) {
-//                        predictions = predictionsAPIAutocomplete.getPredictions();
                         listenAutoCompletePredictions.setValue(predictionsAPIAutocomplete.getPredictions());
                     }
-
-
                 }
             }
 

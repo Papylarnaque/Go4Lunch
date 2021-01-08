@@ -63,11 +63,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final int RADIUS_MIN = 2500; // MAX Radius distance in meters
     public static final int RADIUS_STEP = 500; // STEP Radius for slider
 
-    public static final String API_MAP_LANGUAGE = "en";
-    public static final String API_MAP_KEYWORD = "restaurant";
-    public static final String API_AUTOCOMPLETE_KEYWORD = "establishment";
-    public static final String API_MAP_FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
-
     public static final double RATING_MAX = 4.5;
     public static final double RATING_MIDDLE = 2.5;
     public static final double RATING_MIN = 1;
@@ -91,9 +86,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // retrieve userId
         uid = SharedPrefs.getUserId(getApplicationContext());
 
+        // configure
         configureToolbar();
         configureDrawerLayout();
         configureNavigationMenu();

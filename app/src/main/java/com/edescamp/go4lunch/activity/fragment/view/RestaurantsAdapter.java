@@ -20,9 +20,9 @@ import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 import static com.edescamp.go4lunch.activity.MainActivity.workmates;
+import static com.edescamp.go4lunch.service.PlaceDetailsService.placeDetailsResultHashmap;
 import static com.edescamp.go4lunch.util.SortRestaurantsUtil.distanceHashMap;
 import static com.edescamp.go4lunch.util.SortRestaurantsUtil.workmatesCountHashMap;
-import static com.edescamp.go4lunch.service.PlaceDetailsService.placeDetailsResultHashmap;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHolder> {
 
@@ -57,35 +57,38 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     public void onBindViewHolder(@NonNull RestaurantsViewHolder holder, int position) {
         String placeId = results.get(position).getPlaceId();
 
+        setUpClickFunctionality(holder, position);
+
         if (!placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
+            // If place details is not already stored in hashmap we query it from api Details
             PlaceDetailsService.getPlaceDetails(results.get(position).getPlaceId());
             holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
         } else {
+            // If we already got place details, we retrieve them from cache
             getWorkmatesCount(position);
 
             distance = getStraightDistance(results.get(position));
 
             holder.updateRestaurantsWithDetails(Objects.requireNonNull(placeDetailsResultHashmap.get(placeId)));
 
-
             holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
+        }
 
-            holder.itemView.setOnClickListener(v -> {
+
+
+
+    }
+
+    private void setUpClickFunctionality(RestaurantsViewHolder holder, int position) {
+        holder.itemView.setOnClickListener(v ->
                 DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment(
                         activity,
-                        results.get(position).getPlaceId());
-//                if (placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
-//                    DetailsUtil.openDetailsFragment(
-//                            activity,
-//                            placeDetailsResultHashmap.get(Objects.requireNonNull(results.get(position).getPlaceId())));
-//
-//                }
-            });
-        }
+                        results.get(position).getPlaceId()));
     }
 
     private void getWorkmatesCount(int position) {
         workmatesCount = 0;
+        // retrieve workmates with chosenRestaurantId and store the count in hashmap
         for (DocumentSnapshot workmate : Objects.requireNonNull(workmates)) {
             if (Objects.equals(workmate.get("chosenRestaurantId"), results.get(position).getPlaceId())
                     && !Objects.equals(workmate.get("uid"), uid))
@@ -101,6 +104,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
         restaurantLocation.setLatitude(resultAPIMap.getGeometry().getLocation().getLat());
 
         int distance = Math.round(restaurantLocation.distanceTo(userLocation));
+        // store distance in Hashmap placeId/distance
         distanceHashMap.put(resultAPIMap.getPlaceId(), distance);
 
         return distance;

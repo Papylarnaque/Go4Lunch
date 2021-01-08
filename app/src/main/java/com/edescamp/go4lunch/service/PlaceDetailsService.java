@@ -11,22 +11,23 @@ import com.edescamp.go4lunch.model.details.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.DetailsUtil;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_FIELDS;
-
 public class PlaceDetailsService {
 
-
     private static final String TAG = "PlaceDetailsService";
+
+    private static final String API_MAP_FIELDS = "formatted_address,geometry,photos,place_id,name,rating,opening_hours,website,international_phone_number";
     public static final HashMap<String, ResultAPIDetails> placeDetailsResultHashmap = new HashMap<>();
+
 
     public static void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, BuildConfig.GOOGLE_MAPS_KEY);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, Locale.getDefault().getLanguage(), BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
@@ -55,7 +56,7 @@ public class PlaceDetailsService {
 
     public static void getPlaceDetailsAndOpenDetailsFragment(String placeId, FragmentActivity activity) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, BuildConfig.GOOGLE_MAPS_KEY);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, Locale.getDefault().getLanguage(), BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override

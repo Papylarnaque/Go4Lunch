@@ -56,24 +56,26 @@ public class RestaurantsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.restaurants_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
+        // Show the progressBar
         progressBar.setVisibility(View.VISIBLE);
 
 
         if (nearbyPlacesResults == null) {
+            // Check Location permission
             LocationService locationService = new LocationService(requireActivity());
             if (!locationService.getLocationPermission()) {
                 locationDenied();
             }
 
             NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
-                //Do something with the changed value
                 if (changedNearbyPlacesResults != null) {
+                    // send changed value to the view through adapter
                     sendResultsToAdapter(changedNearbyPlacesResults);
                 } else {
                     noRestaurantsToShow();
                 }
             });
-        } else {
+        } else {  // nearbyPlacesResults not null
             sendResultsToAdapter(nearbyPlacesResults.getValue());
         }
 
@@ -96,6 +98,8 @@ public class RestaurantsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // SORT restaurants
+
         int id = item.getItemId();
         final int main_activity_restaurants_sort_name_asc = R.id.main_activity_restaurants_sort_name_asc;
         final int main_activity_restaurants_sort_name_desc = R.id.main_activity_restaurants_sort_name_desc;
@@ -127,7 +131,6 @@ public class RestaurantsFragment extends Fragment {
             default:
                 break;
         }
-
 
         return super.onOptionsItemSelected(item);
 

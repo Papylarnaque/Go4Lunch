@@ -24,6 +24,7 @@ public interface APIRequest {
     Call<ResultsAPIDetails> getPlaceDetails(
             @Query("place_id") String place_id,
             @Query("fields") String fields,
+            @Query("language") String language,
             @Query("key") String key
     );
 

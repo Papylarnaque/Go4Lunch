@@ -11,23 +11,25 @@ import com.edescamp.go4lunch.model.map.ResultAPIMap;
 import com.edescamp.go4lunch.model.map.ResultsAPIMap;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_KEYWORD;
-import static com.edescamp.go4lunch.activity.MainActivity.API_MAP_LANGUAGE;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.service.PlaceDetailsService.getPlaceDetails;
 import static com.edescamp.go4lunch.service.PlaceDetailsService.placeDetailsResultHashmap;
 
 public class NearByPlacesService {
 
+
     private static final String TAG = "NearByPlacesService";
 
+    public static final String API_MAP_KEYWORD = "restaurant";
+
     // Nearby Places API variables
-//    public static List<ResultAPIMap> nearbyPlacesResults;
+
     public static final MutableLiveData<List<ResultAPIMap>> listenNearbyPlacesResults = new MutableLiveData<>();
     public static final LiveData<List<ResultAPIMap>> nearbyPlacesResults = listenNearbyPlacesResults;
 
@@ -36,7 +38,7 @@ public class NearByPlacesService {
         Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(
                 userLocationStr,
                 RADIUS_INIT,
-                API_MAP_LANGUAGE,
+                Locale.getDefault().getLanguage(),
                 API_MAP_KEYWORD,
                 BuildConfig.GOOGLE_MAPS_KEY);
 
@@ -46,7 +48,6 @@ public class NearByPlacesService {
                 if (response.isSuccessful()) {
                     ResultsAPIMap body = response.body();
                     if (body != null) {
-//                        nearbyPlacesResults = body.getResults();
                         listenNearbyPlacesResults.setValue(body.getResults());
                         for (ResultAPIMap nearbyPlacesResult : body.getResults()) {
                             if (!placeDetailsResultHashmap.containsKey(nearbyPlacesResult.getPlaceId())) {
