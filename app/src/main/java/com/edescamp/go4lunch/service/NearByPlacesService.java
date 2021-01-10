@@ -1,5 +1,6 @@
 package com.edescamp.go4lunch.service;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,6 @@ import com.edescamp.go4lunch.model.map.ResultsAPIMap;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -39,7 +39,8 @@ public class NearByPlacesService {
         Call<ResultsAPIMap> nearbyPlaces = apiMap.getNearbyPlaces(
                 userLocationStr,
                 RADIUS_INIT,
-                Locale.getDefault().getLanguage(),
+                Resources.getSystem().getConfiguration().locale.getLanguage(),
+//                Locale.getDefault().getLanguage(),
                 API_MAP_KEYWORD,
                 BuildConfig.GOOGLE_MAPS_KEY);
 

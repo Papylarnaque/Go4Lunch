@@ -1,5 +1,6 @@
 package com.edescamp.go4lunch.service;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,6 @@ import com.edescamp.go4lunch.model.details.ResultsAPIDetails;
 import com.edescamp.go4lunch.util.DetailsUtil;
 
 import java.util.HashMap;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +27,12 @@ public class PlaceDetailsService {
 
     public static void getPlaceDetails(String placeId) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, Locale.getDefault().getLanguage(), BuildConfig.GOOGLE_MAPS_KEY);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(
+                placeId,
+                API_MAP_FIELDS,
+                Resources.getSystem().getConfiguration().locale.getLanguage(),
+//                Locale.getDefault().getLanguage(),
+                BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
@@ -56,7 +61,12 @@ public class PlaceDetailsService {
 
     public static void getPlaceDetailsAndOpenDetailsFragment(String placeId, FragmentActivity activity) {
         APIRequest apiDetails = APIClient.getClient().create(APIRequest.class);
-        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(placeId, API_MAP_FIELDS, Locale.getDefault().getLanguage(), BuildConfig.GOOGLE_MAPS_KEY);
+        Call<ResultsAPIDetails> placeDetails = apiDetails.getPlaceDetails(
+                placeId,
+                API_MAP_FIELDS,
+                Resources.getSystem().getConfiguration().locale.getLanguage(),
+//                Locale.getDefault().getLanguage(),
+                BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
             @Override
