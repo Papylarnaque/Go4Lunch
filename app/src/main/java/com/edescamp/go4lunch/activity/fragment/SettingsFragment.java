@@ -20,8 +20,6 @@ import java.util.Objects;
 
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MAX;
-import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MIN;
-import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_STEP;
 
 public class SettingsFragment extends Fragment {
 
@@ -31,6 +29,7 @@ public class SettingsFragment extends Fragment {
     private Slider sliderRadius;
     private ImageButton buttonBackPress;
     private SwitchCompat switchNotifications;
+
 
     @Override
     public View onCreateView(
@@ -86,8 +85,12 @@ public class SettingsFragment extends Fragment {
 
         sliderRadius.setValue(RADIUS_INIT);
         sliderRadius.setValueTo(RADIUS_MAX);
+        // MAX Radius distance in meters
+        int RADIUS_MIN = 2500;
         sliderRadius.setValueFrom(RADIUS_MIN);
         sliderRadius.setLabelFormatter(value -> String.valueOf(RADIUS_INIT));
+        // STEP Radius for slider
+        int RADIUS_STEP = 500;
         sliderRadius.setStepSize(RADIUS_STEP);
 
         switchNotifications.setChecked(SharedPrefs.getNotifications(requireContext()));

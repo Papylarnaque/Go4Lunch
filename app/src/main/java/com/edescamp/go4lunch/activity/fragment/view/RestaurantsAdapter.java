@@ -62,7 +62,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
         if (!placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
             // If place details is not already stored in hashmap we query it from api Details
             PlaceDetailsService.getPlaceDetails(results.get(position).getPlaceId());
-            holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
         } else {
             // If we already got place details, we retrieve them from cache
             getWorkmatesCount(position);
@@ -70,11 +69,9 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             distance = getStraightDistance(results.get(position));
 
             holder.updateRestaurantsWithDetails(Objects.requireNonNull(placeDetailsResultHashmap.get(placeId)));
-
-            holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
         }
 
-
+        holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
 
 
     }

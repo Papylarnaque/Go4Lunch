@@ -23,7 +23,6 @@ import com.edescamp.go4lunch.service.LocationService;
 import com.edescamp.go4lunch.service.NearByPlacesService;
 import com.edescamp.go4lunch.util.SortRestaurantsUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
@@ -58,7 +57,6 @@ public class RestaurantsFragment extends Fragment {
 
         // Show the progressBar
         progressBar.setVisibility(View.VISIBLE);
-
 
         if (nearbyPlacesResults == null) {
             // Check Location permission
@@ -133,7 +131,6 @@ public class RestaurantsFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-
     }
 
     private void sortByWorkmates() {
@@ -164,8 +161,8 @@ public class RestaurantsFragment extends Fragment {
     }
 
     private void sendResultsToAdapter(List<ResultAPIMap> results) {
-        if (results == null) {
-            recyclerView.setAdapter(new RestaurantsAdapter(new ArrayList<>(), LocationService.userLocation, this.getActivity()));
+        if (results == null || results.isEmpty()) {
+            noRestaurantsToShow();
         } else {
             recyclerView.setAdapter(new RestaurantsAdapter(results, LocationService.userLocation, this.getActivity()));
         }

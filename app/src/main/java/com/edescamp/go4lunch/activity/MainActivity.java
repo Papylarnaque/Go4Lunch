@@ -58,14 +58,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "MAIN_ACTIVITY";
     private static final String API_AUTOCOMPLETE_FILTER_KEYWORD = "food";
 
-    public static int RADIUS_INIT = 2500; // radius in meters around user for search
+    public static int RADIUS_INIT = 0; // radius in meters around user for search
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
-    public static final int RADIUS_MIN = 2500; // MAX Radius distance in meters
-    public static final int RADIUS_STEP = 500; // STEP Radius for slider
-
-    public static final double RATING_MAX = 4.5;
-    public static final double RATING_MIDDLE = 2.5;
-    public static final double RATING_MIN = 1;
 
     public static String uid;
 
@@ -105,7 +99,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         NotificationHelper.setAlarmForNotifications(
                 getApplicationContext(),
                 SharedPrefs.getNotifications(getApplicationContext()));
-
     }
 
     // ------------------------ LAYOUT CONFIGURATIONS  -----------------------//
@@ -122,7 +115,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         autoCompleteTextView = findViewById(R.id.autoCompleteTextViewPlace);
-
     }
 
     @Override
@@ -335,9 +327,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
         }
 
-
         return super.onOptionsItemSelected(item);
-
     }
 
     private void showOrHideAutocompleteItem() {
@@ -373,13 +363,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     clearButton.setVisible(false);
                     findViewById(R.id.main_activity_menu_search).setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
 
         listenAutoCompletePredictions.observe(this, this::filterAutocompleteResults);
-
 
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
             // Handles no results click
@@ -394,11 +381,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         placeId = prediction.getPlace_id();
                     }
                 }
-
                 DetailsUtil.openDetailsFragmentOrCallApiThenOpenDetailsFragment(this, placeId);
-
             }
-
         });
 
     }
@@ -497,14 +481,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getWorkmates();
-
-    }
-
 
 }
 
