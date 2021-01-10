@@ -27,7 +27,7 @@
     <string name="NO">NON</string>
 
     <!--  RestaurantList Fragment  -->
-    <string name="restaurant_list_no_restaurants_to_show">Pas de restaurant a une distance de %1$dm</string>
+    <string name="restaurant_list_no_restaurants_to_show">Pas de restaurant à afficher</string>
 
     <!--  Details Fragment  -->
     <string name="no_phone_number">Pas de numero de telephone</string>

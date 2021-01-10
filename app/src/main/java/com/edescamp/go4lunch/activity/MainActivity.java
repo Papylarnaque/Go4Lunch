@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "MAIN_ACTIVITY";
     private static final String API_AUTOCOMPLETE_FILTER_KEYWORD = "food";
 
-    public static int RADIUS_INIT = 0; // radius in meters around user for search
+    public static int RADIUS_INIT = 2000; // radius in meters around user for search
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
 
     public static String uid;
@@ -456,11 +456,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // Check if the only required permission has been granted
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Location permission has been granted, preview can be displayed
-                Log.i(TAG, "LOCATION permission has now been granted. Showing preview.");
+                Log.i(TAG, "LOCATION permission has now been granted in MapFragment view.");
                 showFragment(new MapFragment());
             } else {
                 // Location permission has been granted, preview can be displayed
-                Log.i(TAG, "LOCATION permission was NOT granted.");
+                Log.i(TAG, "LOCATION permission was NOT granted in MapFragment view.");
                 Toast.makeText(getApplicationContext(), R.string.permissions_not_granted, Toast.LENGTH_SHORT).show();
             }
 
@@ -470,9 +470,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             // Check if the only required permission has been granted
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Location permission has been granted, preview can be displayed
-                Log.i(TAG, "LOCATION permission has now been granted. Showing preview.");
-                showFragment(new RestaurantsFragment());
+                // Location permission has been granted, return to MapView to show the restaurants
+                Log.i(TAG, "LOCATION permission has now been granted in RestaurantsFragment view.");
+                showFragment(new MapFragment());
             } else {
                 // Location permission has been granted, preview can be displayed
                 Log.i(TAG, "LOCATION permission was NOT granted.");
