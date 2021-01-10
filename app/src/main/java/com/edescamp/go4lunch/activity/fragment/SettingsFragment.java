@@ -86,7 +86,7 @@ public class SettingsFragment extends Fragment {
         sliderRadius.setValue(RADIUS_INIT);
         sliderRadius.setValueTo(RADIUS_MAX);
         // MAX Radius distance in meters
-        int RADIUS_MIN = 2000;
+        int RADIUS_MIN = 1000;
         sliderRadius.setValueFrom(RADIUS_MIN);
         sliderRadius.setLabelFormatter(value -> String.valueOf(RADIUS_INIT));
         // STEP Radius for slider

@@ -31,8 +31,7 @@ public class NearByPlacesService {
     public static final String API_MAP_KEYWORD = "restaurant";
 
     // Nearby Places API variables
-
-    public static MutableLiveData<List<ResultAPIMap>> listenNearbyPlacesResults = new MutableLiveData<>();
+    private static final MutableLiveData<List<ResultAPIMap>> listenNearbyPlacesResults = new MutableLiveData<>();
     public static LiveData<List<ResultAPIMap>> nearbyPlacesResults = listenNearbyPlacesResults;
 
     public static void getNearbyPlaces(String userLocationStr) {
@@ -56,16 +55,13 @@ public class NearByPlacesService {
                                 getPlaceDetails(nearbyPlacesResult.getPlaceId());
                             }
                         }
-
                         // Handle more than 20 results
                         if (body.getNext_page_token() != null) {
                             getNearbyPlacesNextPage(body.getNext_page_token());
                         }
-
                     }
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<ResultsAPIMap> call, @NonNull Throwable t) {
                 Log.d(TAG, "getPlace failure" + t);

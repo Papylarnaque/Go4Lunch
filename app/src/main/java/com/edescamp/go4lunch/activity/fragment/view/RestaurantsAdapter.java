@@ -56,8 +56,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     @Override
     public void onBindViewHolder(@NonNull RestaurantsViewHolder holder, int position) {
         String placeId = results.get(position).getPlaceId();
-
         setUpClickFunctionality(holder, position);
+        String API_KEY = holder.itemView.getContext().getResources().getString(R.string.google_api_key);
 
         if (!placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
             // If place details is not already stored in hashmap we query it from api Details
@@ -69,12 +69,14 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             distance = getStraightDistance(results.get(position));
 
             holder.updateRestaurantsWithDetails(Objects.requireNonNull(placeDetailsResultHashmap.get(placeId)));
-        }
 
-        holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
+            holder.createViewWithRestaurants(results.get(position), distance, workmatesCount);
+
+        }
 
 
     }
+
 
     private void setUpClickFunctionality(RestaurantsViewHolder holder, int position) {
         holder.itemView.setOnClickListener(v ->

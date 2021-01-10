@@ -63,23 +63,22 @@ public class RestaurantsFragment extends Fragment {
     }
 
     private void getRestaurants() {
-            LocationService locationService = new LocationService(requireActivity());
-            if (!locationService.getLocationPermission()) {
-                locationDenied();
-            }
-
-            NearByPlacesService.listenNearbyPlacesResults.observe(
-                    requireActivity(),
-                    changedNearbyPlacesResults -> {
-                        if (changedNearbyPlacesResults != null) {
-                            // send changed value to the view through adapter
-                            sendResultsToAdapter(changedNearbyPlacesResults);
-                        } else {
-                            noRestaurantsToShow();
-                        }
-                    });
+        LocationService locationService = new LocationService(requireActivity());
+        if (!locationService.getLocationPermission()) {
+            locationDenied();
         }
-
+        NearByPlacesService.nearbyPlacesResults.observe(
+                requireActivity(),
+                changedNearbyPlacesResults -> {
+                    if (changedNearbyPlacesResults != null) {
+                        // send changed value to the view through adapter
+                        // Default sorting by distance
+                        sendResultsToAdapter(changedNearbyPlacesResults);
+                    } else {
+                        noRestaurantsToShow();
+                    }
+                });
+    }
 
 
     @Override

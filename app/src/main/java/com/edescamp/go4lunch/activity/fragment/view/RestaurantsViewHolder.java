@@ -39,12 +39,12 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void createViewWithRestaurants(ResultAPIMap result, int distance, Integer workmates) {
+    public void createViewWithRestaurants(ResultAPIMap result, int distance, Integer workmatesCount) {
         rName.setText(String.valueOf(result.getName()));
         rAddress.setText(String.valueOf(result.getVicinity()));
         rDistance.setText(new StringBuilder().append(distance).append("m"));
-        updateRestaurantsWitWorkmates(workmates);
 
+        showWorkmates(workmatesCount);
         RatingUtil.showRating(result.getRating(), star1, star2, star3);
         showPicture(result);
     }
@@ -57,7 +57,7 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void updateRestaurantsWitWorkmates(int workmates) {
+    public void showWorkmates(int workmates) {
         if (workmates > 0) {
             rWorkmates.setText(String.valueOf(workmates));
         } else {
@@ -114,6 +114,5 @@ public class RestaurantsViewHolder extends RecyclerView.ViewHolder {
         }
 
     }
-
 
 }

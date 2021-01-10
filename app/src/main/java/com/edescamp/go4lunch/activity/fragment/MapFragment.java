@@ -91,7 +91,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             moveCompassButton(mapView);
         }
 
-        NearByPlacesService.listenNearbyPlacesResults.observe(
+        NearByPlacesService.nearbyPlacesResults.observe(
                 requireActivity(),
                 changedNearbyPlacesResults -> {
                     //Do something with the changed value

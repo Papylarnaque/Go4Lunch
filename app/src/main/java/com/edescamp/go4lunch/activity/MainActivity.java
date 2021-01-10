@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "MAIN_ACTIVITY";
     private static final String API_AUTOCOMPLETE_FILTER_KEYWORD = "food";
 
-    public static int RADIUS_INIT = 2000; // radius in meters around user for search
+    public static int RADIUS_INIT = 1000; // radius in meters around user for search
     public static final int RADIUS_MAX = 5000; // MAX Radius distance in meters
 
     public static String uid;
