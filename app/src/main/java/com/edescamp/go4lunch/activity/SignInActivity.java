@@ -66,7 +66,7 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void checkConnectivity() {
-        if (!CheckConnectivity.isConnected(getApplicationContext())){
+        if (!CheckConnectivity.isConnected(getApplicationContext())) {
             pullToRefresh.setVisibility(View.VISIBLE);
 
         } else {
@@ -124,9 +124,7 @@ public class SignInActivity extends BaseActivity {
 
     // FACEBOOK AUTH
     private void configFacebookAuth() {
-
         facebookCallbackManager = CallbackManager.Factory.create();
-        // UI
         LoginButton facebookSignInButton = findViewById(R.id.login_button_facebook);
         facebookSignInButton.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
@@ -138,19 +136,15 @@ public class SignInActivity extends BaseActivity {
                     @Override
                     public void onCancel() {
                         Log.d(TAG, "facebook:onCancel");
-                        // ...
                     }
 
                     @Override
                     public void onError(FacebookException error) {
                         Log.d(TAG, "facebook:onError", error);
-                        // ...
                     }
                 }
         );
-
         facebookSignInButton.setHeight((int) getResources().getDimension(R.dimen.signin_button_height));
-
     }
 
     // GOOGLE AUTH
@@ -216,12 +210,23 @@ public class SignInActivity extends BaseActivity {
         // SAVE THE USER DETAILS
         SharedPrefs.saveUserId(getApplicationContext(), userId);
 
-        String userUrlPicture = (Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl() != null) ? Objects.requireNonNull(this.getCurrentUser().getPhotoUrl()).toString() : null;
+        String userUrlPicture =
+                (Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl() != null)
+                        ? Objects.requireNonNull(this.getCurrentUser().getPhotoUrl()).toString()
+                        : null;
         String userName = this.getCurrentUser().getDisplayName();
         String userMail = this.getCurrentUser().getEmail();
 
-                UserHelper.createUser(userId, userName, userUrlPicture, userMail)
-                        .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
+
+        UserHelper.getUser(userId)
+                .addOnSuccessListener(documentUserSnapshot -> {
+                    // if the user is not in database, we create it
+                    if (!documentUserSnapshot.exists()) {
+                        UserHelper.createUser(userId, userName, userUrlPicture, userMail)
+                                .addOnFailureListener(e ->
+                                        Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show());
+                    }
+                });
 
         startMainActivity();
     }
