@@ -3,13 +3,13 @@ package com.edescamp.go4lunch.util;
 import android.view.View;
 import android.widget.ImageView;
 
-import static com.edescamp.go4lunch.activity.MainActivity.RATING_MAX;
-import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIDDLE;
-import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIN;
-
 public class RatingUtil {
 
     public static void showRating(Float rating, ImageView star1, ImageView star2, ImageView star3) {
+        double RATING_MAX = 4.5;
+        double RATING_MIDDLE = 2.5;
+        double RATING_MIN = 1;
+
         if (rating == null) {
         } else if (rating >= RATING_MAX) {
             star1.setVisibility(View.VISIBLE);

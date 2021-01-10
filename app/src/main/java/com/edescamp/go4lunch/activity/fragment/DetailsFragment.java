@@ -37,9 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.edescamp.go4lunch.activity.MainActivity.RATING_MAX;
-import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIDDLE;
-import static com.edescamp.go4lunch.activity.MainActivity.RATING_MIN;
 import static com.edescamp.go4lunch.activity.MainActivity.uid;
 
 public class DetailsFragment extends Fragment {
@@ -81,7 +78,7 @@ public class DetailsFragment extends Fragment {
         setPicture(view);
 
         restaurantChoiceLayout();
-//        showRating();
+
         RatingUtil.showRating(resultAPIDetails.getRating(), star1, star2, star3);
         populateWorkmates();
 
@@ -164,29 +161,7 @@ public class DetailsFragment extends Fragment {
 
         });
     }
-
-    // Handles Rating calculation
-    private void showRating() {
-        if (resultAPIDetails.getRating() == null) {
-        } else if (resultAPIDetails.getRating() >= RATING_MAX) {
-            star1.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.VISIBLE);
-            star3.setVisibility(View.VISIBLE);
-        } else if (resultAPIDetails.getRating() >= RATING_MIDDLE && resultAPIDetails.getRating() < RATING_MAX) {
-            star1.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.VISIBLE);
-            star3.setVisibility(View.INVISIBLE);
-        } else if (resultAPIDetails.getRating() >= RATING_MIN && resultAPIDetails.getRating() < RATING_MIDDLE) {
-            star1.setVisibility(View.VISIBLE);
-            star2.setVisibility(View.INVISIBLE);
-            star3.setVisibility(View.INVISIBLE);
-        } else {
-            star1.setVisibility(View.INVISIBLE);
-            star2.setVisibility(View.INVISIBLE);
-            star3.setVisibility(View.INVISIBLE);
-        }
-    }
-
+    
     // Populates Workmates who choose this restaurant
     private void populateWorkmates() {
         UserHelper.getUsersWhoChoseThisRestaurant(resultAPIDetails.getPlaceId()).addOnSuccessListener(queryDocumentSnapshots -> {
