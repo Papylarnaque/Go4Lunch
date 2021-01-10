@@ -102,11 +102,6 @@ public class NotificationHelper {
                         for (DocumentSnapshot workmate : queryDocumentSnapshots.getDocuments()) {
                             users.add(workmate.toObject(User.class));
                         }
-                        try {
-                            wait(2);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         messageBody = setUpMessageWithUsersData(users);
 
                         sendNotification();
@@ -144,24 +139,23 @@ public class NotificationHelper {
 
     private String setUpMessageWithUsersData(ArrayList<User> users) {
 
+        ArrayList<User> usersWithoutCurrentUser = new ArrayList<>();
 
         String userId = SharedPrefs.getUserId(context);
-        User currentUser;
-        for (User user : users) {
-            if (user.getUid().equals(userId)) {
-                currentUser = user;
-                users.remove(currentUser);
-            }
-        }
-
         String chosenRestaurantId = SharedPrefs.getRestaurantId(context);
         String chosenRestaurantName = SharedPrefs.getRestaurantName(context);
         String chosenRestaurantAddress = SharedPrefs.getRestaurantAddress(context);
 
+        for (User user : users) {
+            if (!user.getUid().equals(userId)) {
+                usersWithoutCurrentUser.add(user);
+            }
+        }
+
         if (chosenRestaurantName.equals("")) {
             return context.getString(R.string.notification_no_lunch_chosen);
         } else {
-            ArrayList<String> lunchWorkmates = getWorkmates(users, chosenRestaurantId);
+            ArrayList<String> lunchWorkmates = getWorkmates(usersWithoutCurrentUser, chosenRestaurantId);
 
             if (lunchWorkmates.size() > 0) {
                 // At least one another workmate lunching with currentUser
