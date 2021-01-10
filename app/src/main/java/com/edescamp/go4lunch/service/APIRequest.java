@@ -19,6 +19,12 @@ public interface APIRequest {
             @Query("key") String key
     );
 
+    @GET("place/nearbysearch/json")
+    Call<ResultsAPIMap> getNearbyPlacesNextPage(
+            @Query("pagetoken") String pagetoken,
+            @Query("key") String key
+    );
+
 
     @GET("place/details/json")
     Call<ResultsAPIDetails> getPlaceDetails(

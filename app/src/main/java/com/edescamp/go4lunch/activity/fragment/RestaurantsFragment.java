@@ -25,7 +25,6 @@ import com.edescamp.go4lunch.util.SortRestaurantsUtil;
 
 import java.util.List;
 
-import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_INIT;
 import static com.edescamp.go4lunch.service.NearByPlacesService.nearbyPlacesResults;
 
 public class RestaurantsFragment extends Fragment {
@@ -49,7 +48,7 @@ public class RestaurantsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
 
         noRestaurants = view.findViewById(R.id.restaurant_List_no_restaurants_to_show);
-        progressBar = view.findViewById(R.id.signin_progress_bar);
+        progressBar = view.findViewById(R.id.restaurants_progress_bar);
 
         // Add the following lines to create RecyclerView
         recyclerView = view.findViewById(R.id.restaurants_recyclerview);
@@ -58,27 +57,30 @@ public class RestaurantsFragment extends Fragment {
         // Show the progressBar
         progressBar.setVisibility(View.VISIBLE);
 
-        if (nearbyPlacesResults == null) {
-            // Check Location permission
+        getRestaurants();
+
+        return view;
+    }
+
+    private void getRestaurants() {
             LocationService locationService = new LocationService(requireActivity());
             if (!locationService.getLocationPermission()) {
                 locationDenied();
             }
 
-            NearByPlacesService.listenNearbyPlacesResults.observe(requireActivity(), changedNearbyPlacesResults -> {
-                if (changedNearbyPlacesResults != null) {
-                    // send changed value to the view through adapter
-                    sendResultsToAdapter(changedNearbyPlacesResults);
-                } else {
-                    noRestaurantsToShow();
-                }
-            });
-        } else {  // nearbyPlacesResults not null
-            sendResultsToAdapter(nearbyPlacesResults.getValue());
+            NearByPlacesService.listenNearbyPlacesResults.observe(
+                    requireActivity(),
+                    changedNearbyPlacesResults -> {
+                        if (changedNearbyPlacesResults != null) {
+                            // send changed value to the view through adapter
+                            sendResultsToAdapter(changedNearbyPlacesResults);
+                        } else {
+                            noRestaurantsToShow();
+                        }
+                    });
         }
 
-        return view;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -156,7 +158,7 @@ public class RestaurantsFragment extends Fragment {
 
     private void noRestaurantsToShow() {
         progressBar.setVisibility(View.GONE);
-        noRestaurants.setText(getString(R.string.restaurant_list_no_restaurants_to_show, RADIUS_INIT));
+        noRestaurants.setText(R.string.restaurant_list_no_restaurants_to_show);
         noRestaurants.setVisibility(View.VISIBLE);
     }
 

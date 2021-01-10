@@ -11,6 +11,9 @@ public class ResultsAPIMap {
     @SerializedName("status")
     private String status;
 
+    @SerializedName("next_page_token")
+    private String next_page_token;
+
     @SerializedName("results")
     private List<ResultAPIMap> results;
 
@@ -18,10 +21,12 @@ public class ResultsAPIMap {
         return this.status;
     }
 
+    public String getNext_page_token() {
+        return next_page_token;
+    }
+
     public List<ResultAPIMap> getResults() {
         return this.results;
     }
-
-    public void setResults(List<ResultAPIMap> results) {
-        this.results = results;}
+    
 }

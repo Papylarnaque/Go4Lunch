@@ -57,7 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_map);
         if (mMapFragment == null) {
@@ -69,7 +69,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         mMapFragment.getMapAsync(this);
 
-        return v;
+        return view;
     }
 
 
@@ -96,14 +96,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 changedNearbyPlacesResults -> {
                     //Do something with the changed value
                     if (changedNearbyPlacesResults != null) {
-                        addMarkerResult(changedNearbyPlacesResults);
-                        if (mMap != null && userLatLng != null) {
-                            MapFragment.this.zoomOnCurrentPosition(mMap);
+                        if (changedNearbyPlacesResults.isEmpty()) {
+                            extendRadiusDialog();
+                        } else {
+                            addMarkerResult(changedNearbyPlacesResults);
+                            if (mMap != null && userLatLng != null) {
+                                MapFragment.this.zoomOnCurrentPosition(mMap);
+                            }
                         }
                     } else {
                         extendRadiusDialog();
                     }
                 });
+
 
         // Handle click on marker info
         mMapSetUpClickListener();
@@ -228,6 +233,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             ex.printStackTrace();
         }
     }
-
 
 }
