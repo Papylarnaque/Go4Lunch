@@ -11,9 +11,4 @@ public class TextAPIAutocomplete {
         return main_text;
     }
 
-    public void setMain_text(String main_text) {
-        this.main_text = main_text;
-    }
-
-
 }

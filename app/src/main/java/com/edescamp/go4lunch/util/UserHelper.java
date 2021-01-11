@@ -68,9 +68,6 @@ public class UserHelper {
 
 
     // --- UPDATE ---
-    public static Task<Void> updateUsername(String username, String uid) {
-        return UserHelper.getUsersCollection().document(uid).update("username", username);
-    }
 
     public static Task<Void> updateRestaurantChoice(String placeId, String restaurantName, String restaurantAddress, String uid) {
         Map<String, Object> userToUpdateWithRestaurantChoice = new HashMap<>();
@@ -93,11 +90,5 @@ public class UserHelper {
         likes.remove(placeId);
         return UserHelper.getUsersCollection().document(uid).update("likes", likes);
     }
-
-    // --- DELETE ---
-    public static Task<Void> deleteUser(String uid) {
-        return UserHelper.getUsersCollection().document(uid).delete();
-    }
-
 
 }

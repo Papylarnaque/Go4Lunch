@@ -26,7 +26,6 @@ import static com.edescamp.go4lunch.R.string.notifications_no_internet_connectio
 
 public class NotificationHelper {
 
-    private static final String TAG = "NOTIFICATION";
     private final Context context;
 
     private final static AtomicInteger c = new AtomicInteger(0);

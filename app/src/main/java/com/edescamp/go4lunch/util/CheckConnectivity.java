@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 
+@SuppressWarnings("ALL")
 public class CheckConnectivity {
 
     public static boolean isConnected(Context context) {

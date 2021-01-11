@@ -29,8 +29,6 @@ import static com.edescamp.go4lunch.service.NearByPlacesService.nearbyPlacesResu
 
 public class RestaurantsFragment extends Fragment {
 
-    private static final String TAG = "RestaurantFragment";
-
     public static final int RESTAURANT_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private RecyclerView recyclerView;
 

@@ -23,8 +23,6 @@ import static com.edescamp.go4lunch.activity.MainActivity.RADIUS_MAX;
 
 public class SettingsFragment extends Fragment {
 
-    private static final String TAG = "SettingsFragment";
-
     private TextView textRadius;
     private Slider sliderRadius;
     private ImageButton buttonBackPress;

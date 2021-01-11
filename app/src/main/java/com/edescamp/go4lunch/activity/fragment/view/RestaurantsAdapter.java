@@ -26,11 +26,9 @@ import static com.edescamp.go4lunch.util.SortRestaurantsUtil.workmatesCountHashM
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHolder> {
 
-    private static final String TAG = "RestaurantAdapter";
     private final List<ResultAPIMap> results;
     private final Location userLocation;
     private final FragmentActivity activity;
-    private int distance;
     private Integer workmatesCount;
 
     public RestaurantsAdapter(List<ResultAPIMap> results, Location userLocation, FragmentActivity activity) {
@@ -57,7 +55,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
     public void onBindViewHolder(@NonNull RestaurantsViewHolder holder, int position) {
         String placeId = results.get(position).getPlaceId();
         setUpClickFunctionality(holder, position);
-        String API_KEY = holder.itemView.getContext().getResources().getString(R.string.google_api_key);
 
         if (!placeDetailsResultHashmap.containsKey(Objects.requireNonNull(results.get(position).getPlaceId()))) {
             // If place details is not already stored in hashmap we query it from api Details
@@ -66,7 +63,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsViewHold
             // If we already got place details, we retrieve them from cache
             getWorkmatesCount(position);
 
-            distance = getStraightDistance(results.get(position));
+            int distance = getStraightDistance(results.get(position));
 
             holder.updateRestaurantsWithDetails(Objects.requireNonNull(placeDetailsResultHashmap.get(placeId)));
 

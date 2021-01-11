@@ -8,7 +8,7 @@
     android:elevation="10dp"
     android:minHeight="?attr/actionBarSize"
     android:theme="@style/AppTheme"
-    android:background="?attr/colorPrimary"
+    android:background="@color/colorPrimary"
     app:titleTextAppearance="@style/TextAppearance.AppCompat.Title">
 
 
