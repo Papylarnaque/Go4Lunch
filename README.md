@@ -21,7 +21,7 @@ App is coded in JAVA
 
 
 ## Status
-Project is:  _WIP_ Tests to implement
+Project is:  Finished
 
 
 
