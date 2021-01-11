@@ -1,5 +1,6 @@
 package com.edescamp.go4lunch;
 
+import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -12,8 +13,13 @@ import org.junit.Test;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.DrawerMatchers.isClosed;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public class NavigationsFragmentTest {
 
@@ -23,9 +29,9 @@ public class NavigationsFragmentTest {
 
 
     @Test
-    public void clickOnFavorite_shouldShowRestaurantsList() {
+    public void clickOnRestaurantsMenu_shouldShowRestaurantsList() {
 
-        SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testId");
+        SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), "userId");
         activityScenarioRule.launchActivity(null);
 
         // Open Restaurants
@@ -37,9 +43,9 @@ public class NavigationsFragmentTest {
     }
 
     @Test
-    public void clickOnFavorite_shouldShowWorkmatesList() {
+    public void clickOnWorkmatesMenu_shouldShowWorkmatesList() {
 
-        SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testId");
+        SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), "userId");
         activityScenarioRule.launchActivity(null);
 
         // Open Workmates
@@ -51,9 +57,9 @@ public class NavigationsFragmentTest {
     }
 
     @Test
-    public void clickOnFavorite_shouldShowMap() {
+    public void launchApp_withUserId_shouldShowMap() {
 
-        SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testId");
+        SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), "userId");
         activityScenarioRule.launchActivity(null);
 
         onView(withId(R.id.fragment_map)).check(matches(isDisplayed()));
@@ -62,16 +68,34 @@ public class NavigationsFragmentTest {
 
 
     @Test
-    public void clickOnFavorite_shouldShowSignIn() {
+    public void launchApp_withoutUserId_shouldShowSignIn() {
 
         SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), null);
         activityScenarioRule.launchActivity(null);
 
         onView(withId(R.id.login_button_google)).check(matches(isDisplayed()));
-
     }
 
+    @Test
+    public void clickOnYourLunch_withoutRestaurantChosen_shouldShowDetailsRestaurant() {
 
+        SharedPrefs.saveUserId(InstrumentationRegistry.getInstrumentation().getTargetContext(), "userId");
+        activityScenarioRule.launchActivity(null);
+
+        // Open Drawer
+        onView(withId(R.id.activity_main_drawer_layout))
+                .check(matches(isClosed())) // Left Drawer should be closed.
+                .perform(DrawerActions.open()); // Open Drawer
+
+        // Your Lunch
+        onView(withId(R.id.activity_main_drawer_lunch))
+                .perform(click());
+
+        // Check Toast is Displayed
+        onView(withText(R.string.main_activity_lunch_no_restaurant_chosen))
+                .inRoot(withDecorView(not(is(activityScenarioRule.getActivity().getWindow().getDecorView()))))
+                .check(matches(isDisplayed()));
+    }
 
 
 }

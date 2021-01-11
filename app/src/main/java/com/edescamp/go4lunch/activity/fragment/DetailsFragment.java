@@ -135,12 +135,11 @@ public class DetailsFragment extends Fragment {
         }
     }
 
-
+    @SuppressWarnings("unchecked")
     // Handles DetailsFragment custom user choices layout
     private void restaurantChoiceLayout() {
         UserHelper.getUser(uid).addOnSuccessListener(documentUserSnapshot -> {
             // Handles buttonRestaurantChoice layout
-
             chosenRestaurantId = (String) documentUserSnapshot.get("chosenRestaurantId");
             if (Objects.equals(chosenRestaurantId, resultAPIDetails.getPlaceId())) {
                 buttonRestaurantChoice.setImageResource(R.drawable.ic_baseline_check_circle_30);
@@ -149,7 +148,6 @@ public class DetailsFragment extends Fragment {
             }
 
             // Handles buttonLike layout
-
             likesChoice = (List<String>) documentUserSnapshot.get("likes");
             if (likesChoice != null) {
                 if (likesChoice.contains(resultAPIDetails.getPlaceId())) {
@@ -161,7 +159,7 @@ public class DetailsFragment extends Fragment {
 
         });
     }
-    
+
     // Populates Workmates who choose this restaurant
     private void populateWorkmates() {
         UserHelper.getUsersWhoChoseThisRestaurant(resultAPIDetails.getPlaceId()).addOnSuccessListener(queryDocumentSnapshots -> {
