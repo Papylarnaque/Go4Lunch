@@ -152,7 +152,9 @@ public class NotificationHelper {
             }
         }
 
-        if (chosenRestaurantName.equals("")) {
+        if (chosenRestaurantName == null||chosenRestaurantName.equals("")) {
+            // in case no restaurant is chosen
+            // OR if user logged out but did not chose another restaurant after login
             return context.getString(R.string.notification_no_lunch_chosen);
         } else {
             ArrayList<String> lunchWorkmates = getWorkmates(usersWithoutCurrentUser, chosenRestaurantId);
