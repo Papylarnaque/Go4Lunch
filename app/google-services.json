@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "1016570097725-8r9fi4oi6i9jvrlqa2ecd3uikrot9lao.apps.googleusercontent.com",
+          "client_id": "1016570097725-5buhb9u877ocnjocfgikequjahi2g91j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.edescamp.go4lunch",
@@ -23,43 +23,11 @@
           }
         },
         {
-          "client_id": "1016570097725-1kjidd6df3n0nj96udarnm5i2fg88ahl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC3-5W15MAO4NyFil2nzyOfnfvdvLEuRA0"
-        },
-        {
-          "current_key": "AIzaSyBr-vowwD_JcVHBCjtUhqWDnML_jLQ-P4s"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1016570097725-1kjidd6df3n0nj96udarnm5i2fg88ahl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1016570097725:android:bb5efbfb7940db3e9dba54",
-        "android_client_info": {
-          "package_name": "com.oc.go4lunch"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1016570097725-in84ivbkjpckq8isfcvujtnlrrhdk3cm.apps.googleusercontent.com",
+          "client_id": "1016570097725-8r9fi4oi6i9jvrlqa2ecd3uikrot9lao.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.oc.go4lunch",
-            "certificate_hash": "4140087151ef1c6c5a18e295bd9d078e418391d1"
+            "package_name": "com.edescamp.go4lunch",
+            "certificate_hash": "3441e942c55de6446925dd8a745c152b7d147026"
           }
         },
         {
@@ -69,10 +37,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC3-5W15MAO4NyFil2nzyOfnfvdvLEuRA0"
-        },
-        {
-          "current_key": "AIzaSyBr-vowwD_JcVHBCjtUhqWDnML_jLQ-P4s"
+          "current_key": "AIzaSyAMUtR3g-xJYbypG20-JeTl37un43bI5oc"
         }
       ],
       "services": {

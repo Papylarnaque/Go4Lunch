@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.edescamp.go4lunch"
@@ -19,20 +19,18 @@ android {
         release {
             minifyEnabled false
             buildConfigField "String", "GOOGLE_MAPS_KEY", GOOGLE_MAPS_KEY
-            manifestPlaceholders = [ GOOGLE_MAPS_KEY:GOOGLE_MAPS_KEY]
             resValue  "string", "FACEBOOK_APP_ID", FACEBOOK_APP_ID
             resValue  "string", "FB_LOGIN_PROTOCOL_SCHEME", FB_LOGIN_PROTOCOL_SCHEME
-
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             buildConfigField "String", "GOOGLE_MAPS_KEY", GOOGLE_MAPS_KEY
-            manifestPlaceholders = [ GOOGLE_MAPS_KEY:GOOGLE_MAPS_KEY]
             resValue  "string", "FACEBOOK_APP_ID", FACEBOOK_APP_ID
             resValue  "string", "FB_LOGIN_PROTOCOL_SCHEME", FB_LOGIN_PROTOCOL_SCHEME
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
