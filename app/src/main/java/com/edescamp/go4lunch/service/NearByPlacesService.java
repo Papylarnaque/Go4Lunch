@@ -40,7 +40,6 @@ public class NearByPlacesService {
                 userLocationStr,
                 RADIUS_INIT,
                 Resources.getSystem().getConfiguration().locale.getLanguage(),
-//                Locale.getDefault().getLanguage(),
                 API_MAP_KEYWORD,
                 BuildConfig.GOOGLE_MAPS_KEY);
 

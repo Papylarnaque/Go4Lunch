@@ -31,7 +31,6 @@ public class PlaceDetailsService {
                 placeId,
                 API_MAP_FIELDS,
                 Resources.getSystem().getConfiguration().locale.getLanguage(),
-//                Locale.getDefault().getLanguage(),
                 BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
@@ -65,7 +64,6 @@ public class PlaceDetailsService {
                 placeId,
                 API_MAP_FIELDS,
                 Resources.getSystem().getConfiguration().locale.getLanguage(),
-//                Locale.getDefault().getLanguage(),
                 BuildConfig.GOOGLE_MAPS_KEY);
 
         placeDetails.enqueue(new Callback<ResultsAPIDetails>() {
